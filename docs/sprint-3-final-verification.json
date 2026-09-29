@@ -1,0 +1,35 @@
+{
+  "verified_at": "2026-09-28T21:31:38.598681+00:00",
+  "scope": "Final Sprint 3 notebook content, fresh local environment, verified incoming Sprint 2 source",
+  "external_provider_calls": 0,
+  "notebook_sha256": "d1217dbce2e26a5c3d573e7b1c7fc7659826cff96990a30c45d863f34569d41f",
+  "runs": [
+    {
+      "variant": "starter",
+      "run": 1,
+      "code_cells": 17,
+      "errors": 0
+    },
+    {
+      "variant": "starter",
+      "run": 2,
+      "code_cells": 17,
+      "errors": 0
+    },
+    {
+      "variant": "reference",
+      "run": 1,
+      "code_cells": 17,
+      "errors": 0
+    },
+    {
+      "variant": "reference",
+      "run": 2,
+      "code_cells": 17,
+      "errors": 0
+    }
+  ],
+  "pip_check": "No broken requirements found.",
+  "status": "historical: superseded by the current all-sprint verification",
+  "superseded_by": "local-verification.json"
+}

@@ -1,0 +1,504 @@
+{
+  "source": "Module B Campus and Live course-design PDF exports; reviewed schedule snapshot",
+  "sprints": {
+    "1": "Sprint 1 — From Application to Service",
+    "2": "Sprint 2 — Securing and Limiting an AI Service",
+    "3": "Sprint 3 — Streaming and Observability",
+    "4": "Sprint 4 — Project: AI Service with Companion UI"
+  },
+  "campus": [
+    {
+      "id": "B-C01",
+      "sprint": 1,
+      "order": 1,
+      "title": "What an AI Service Is",
+      "sublesson": "Application vs service",
+      "outcome": "Distinguish an AI application (used directly) from an AI service (called by other systems) and explain why the difference matters for design choices.",
+      "type": "Concept Note",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-C02",
+      "sprint": 1,
+      "order": 2,
+      "title": "What an AI Service Is",
+      "sublesson": "REST in plain language",
+      "outcome": "Explain REST endpoints, HTTP methods, and status codes at the level needed to understand and configure an AI service — not to design an API from scratch.",
+      "type": "Concept Note",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-C03",
+      "sprint": 1,
+      "order": 3,
+      "title": "Working with a Service Scaffold",
+      "sublesson": "Touring the provided FastAPI service",
+      "outcome": "Tour the provided FastAPI scaffold that wraps a Module A-style application; identify the routes, inputs, outputs, and where the model is called.",
+      "type": "Practical Walkthrough",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-C04",
+      "sprint": 1,
+      "order": 4,
+      "title": "Working with a Service Scaffold",
+      "sublesson": "Extending the scaffold for a new use case",
+      "outcome": "Extend the provided scaffold by adding a new endpoint that calls the model with a different prompt — focused on configuration, not authoring from scratch.",
+      "type": "Independent Practice",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-C05",
+      "sprint": 1,
+      "order": 5,
+      "title": "Input and Output Contracts",
+      "sublesson": "Why contracts matter for AI services",
+      "outcome": "Explain why downstream systems need predictable inputs and outputs and how validation prevents whole categories of failure.",
+      "type": "Concept Note",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-C06",
+      "sprint": 1,
+      "order": 6,
+      "title": "Versioning AI Endpoints",
+      "sublesson": "Why and how to version AI endpoints",
+      "outcome": "Apply endpoint versioning (/v1, /v2) so model and prompt changes can be deployed and deprecated independently.",
+      "type": "Concept Note",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-C07",
+      "sprint": 1,
+      "order": 7,
+      "title": "Sprint 1 Assessment",
+      "sublesson": "Service scaffold checkpoint",
+      "outcome": "Extend the provided service scaffold with one new endpoint, define its input/output contract, and version the route.",
+      "type": "Assessment Lesson",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-C08",
+      "sprint": 2,
+      "order": 1,
+      "title": "Authenticating an AI Service",
+      "sublesson": "API keys in plain language",
+      "outcome": "Explain what API key authentication does, why AI services need it, and where the keys live.",
+      "type": "Concept Note",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-C09",
+      "sprint": 2,
+      "order": 2,
+      "title": "Authenticating an AI Service",
+      "sublesson": "Adding API key auth to the scaffold",
+      "outcome": "Apply API key authentication to the provided service scaffold using a provided pattern.",
+      "type": "Practical Walkthrough",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-C10",
+      "sprint": 2,
+      "order": 3,
+      "title": "Secrets Management",
+      "sublesson": "What is a secret and where it should live",
+      "outcome": "Define which values count as secrets, where they should and should not live, and the most common ways they get leaked — including logs, prompts, and version control.",
+      "type": "Concept Note",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-C11",
+      "sprint": 2,
+      "order": 4,
+      "title": "Rate Limiting",
+      "sublesson": "Why AI services need rate limits",
+      "outcome": "Explain why AI services need rate limits — cost, abuse, fairness — and the common patterns (per-key, per-endpoint, per-IP).",
+      "type": "Concept Note",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-C12",
+      "sprint": 2,
+      "order": 5,
+      "title": "Rate Limiting",
+      "sublesson": "Applying per-key rate limits",
+      "outcome": "Apply per-key rate limiting on the service scaffold and observe behavior under burst traffic.",
+      "type": "Independent Practice",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-C13",
+      "sprint": 2,
+      "order": 6,
+      "title": "Sprint 2 Assessment",
+      "sublesson": "Secured service checkpoint",
+      "outcome": "Apply API key auth, environment-based secrets, and per-key rate limiting to the project service.",
+      "type": "Assessment Lesson",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-C14",
+      "sprint": 3,
+      "order": 1,
+      "title": "Streaming Responses",
+      "sublesson": "When streaming helps",
+      "outcome": "Explain when streaming improves user experience for AI endpoints and when it is unnecessary complexity.",
+      "type": "Concept Note",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-C15",
+      "sprint": 3,
+      "order": 2,
+      "title": "Streaming Responses",
+      "sublesson": "Enabling streaming on the scaffold",
+      "outcome": "Enable streaming on the provided service scaffold and observe the difference from the client side.",
+      "type": "Practical Walkthrough",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-C16",
+      "sprint": 3,
+      "order": 3,
+      "title": "Observability for AI Services",
+      "sublesson": "What to log and why",
+      "outcome": "Identify the signals worth logging — request IDs, model used, tokens, latency, errors — and why each matters for debugging and cost tracking.",
+      "type": "Concept Note",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-C17",
+      "sprint": 3,
+      "order": 4,
+      "title": "Observability for AI Services",
+      "sublesson": "What NOT to log",
+      "outcome": "Identify content that should not be logged (personal data, sensitive prompts, full secrets) and apply provided redaction patterns.",
+      "type": "Concept Note",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-C18",
+      "sprint": 3,
+      "order": 5,
+      "title": "Service Logs as Evaluation Feedback",
+      "sublesson": "Closing the loop with existing evaluation",
+      "outcome": "Use service logs as a feedback signal into the evaluation framework introduced in Module A — extending existing eval work rather than building a new framework.",
+      "type": "Concept Note",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-C19",
+      "sprint": 3,
+      "order": 6,
+      "title": "Sprint 3 Assessment",
+      "sublesson": "Observable streaming service checkpoint",
+      "outcome": "Enable streaming, add structured logging with redaction, and connect logs back into the existing evaluation framework from Module A.",
+      "type": "Assessment Lesson",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-C20",
+      "sprint": 4,
+      "order": 1,
+      "title": "Companion UI via Vibe Coding",
+      "sublesson": "Scoped companion UI using Lovable + Supabase",
+      "outcome": "Use a vibe coding tool (Lovable or Bolt.new) to build a minimal companion UI on top of the project service. Lovable uses Supabase as its built-in backend — no separate Supabase setup required. Required scope: one input form, one response display, one logged interaction. Auth and streaming use provided patterns; richer dashboards are explicit extension tasks, not required for credit.",
+      "type": "Practical Walkthrough",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-C21",
+      "sprint": 4,
+      "order": 2,
+      "title": "Companion UI via Vibe Coding",
+      "sublesson": "Connecting the UI to the service",
+      "outcome": "Wire the scoped vibe-coded UI to the project service endpoints using provided auth and streaming patterns.",
+      "type": "Independent Practice",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-C22",
+      "sprint": 4,
+      "order": 3,
+      "title": "End-to-End Testing",
+      "sublesson": "Manual end-to-end tests",
+      "outcome": "Run manual end-to-end tests across the UI → service → model path and document integration failures.",
+      "type": "Independent Practice",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-C23",
+      "sprint": 4,
+      "order": 4,
+      "title": "Documentation",
+      "sublesson": "README and API docs",
+      "outcome": "Write a README and basic API documentation so another team member could call and understand the service.",
+      "type": "Independent Practice",
+      "pdf_source": {
+        "document": "Campus",
+        "page": 3
+      }
+    }
+  ],
+  "live": [
+    {
+      "id": "B-LS01",
+      "sprint": 1,
+      "order": 1,
+      "title": "LS 1 — Application vs service and REST orientation",
+      "sublesson": "60 min: framing + scaffold walkthrough",
+      "outcome": "Distinguish an AI application from an AI service; tour the provided FastAPI scaffold and identify routes, inputs, outputs, and model call.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-LS02",
+      "sprint": 1,
+      "order": 2,
+      "title": "LS 2 — Extending the scaffold",
+      "sublesson": "60 min: extension workshop",
+      "outcome": "Extend the provided scaffold with a new endpoint, define its input/output contract, and version the route.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-LS03",
+      "sprint": 1,
+      "order": 3,
+      "title": "LS 3 — Input/output contracts and versioning",
+      "sublesson": "60 min: contract and versioning workshop",
+      "outcome": "Define clear input/output contracts for service endpoints and apply /v1, /v2 versioning to model and prompt changes.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-LS04",
+      "sprint": 1,
+      "order": 4,
+      "title": "LS 4 — Sprint 1 checkpoint",
+      "sublesson": "60 min: scaffold review",
+      "outcome": "Demo a new endpoint added to the scaffold with a clean contract and a versioned route.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-LS05",
+      "sprint": 2,
+      "order": 1,
+      "title": "LS 5 — API key auth and secrets management",
+      "sublesson": "60 min: auth and secrets workshop",
+      "outcome": "Apply API key authentication and safe secret handling to the project service.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-LS06",
+      "sprint": 2,
+      "order": 2,
+      "title": "LS 6 — Rate limiting AI endpoints",
+      "sublesson": "60 min: rate limit workshop",
+      "outcome": "Apply per-key rate limiting to the project service and observe behavior under burst traffic.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-LS07",
+      "sprint": 2,
+      "order": 3,
+      "title": "LS 7 — Secrets safety in practice",
+      "sublesson": "60 min: secret-leak workshop",
+      "outcome": "Walk through the most common ways secrets leak (logs, prompts, repos) and apply patterns to prevent each.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-LS08",
+      "sprint": 2,
+      "order": 4,
+      "title": "LS 8 — Sprint 2 checkpoint",
+      "sublesson": "60 min: secured service review",
+      "outcome": "Demo the project service with API key auth, secret handling, and per-key rate limiting in place.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-LS09",
+      "sprint": 3,
+      "order": 1,
+      "title": "LS 9 — Enabling streaming on the scaffold",
+      "sublesson": "60 min: streaming workshop",
+      "outcome": "Enable streaming on the project service and observe the difference from the client side.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-LS10",
+      "sprint": 3,
+      "order": 2,
+      "title": "LS 10 — Structured logging for AI services",
+      "sublesson": "60 min: logging workshop",
+      "outcome": "Add structured logging that captures request ID, model, tokens, latency, and errors — with redaction for personal data and sensitive prompts.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-LS11",
+      "sprint": 3,
+      "order": 3,
+      "title": "LS 11 — Logs feeding back into evaluation",
+      "sublesson": "60 min: eval feedback loop",
+      "outcome": "Connect service logs back into the evaluation framework from Module A — no new eval framework built.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 1
+      }
+    },
+    {
+      "id": "B-LS12",
+      "sprint": 3,
+      "order": 4,
+      "title": "LS 12 — Sprint 3 checkpoint",
+      "sublesson": "60 min: observability review",
+      "outcome": "Demo the streaming service with structured logging, redaction, and the eval feedback hook.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-LS13",
+      "sprint": 4,
+      "order": 1,
+      "title": "LS 13 — Scoped vibe-coded companion UI with Lovable",
+      "sublesson": "60 min: companion UI build (scoped)",
+      "outcome": "Build a scoped companion UI using Lovable (Supabase backend built in — no separate setup): one input form, one response display, one logged interaction. Richer dashboards are extension tasks, not required for credit.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-LS14",
+      "sprint": 4,
+      "order": 2,
+      "title": "LS 14 — End-to-end integration and documentation",
+      "sublesson": "60 min: integration and docs",
+      "outcome": "Run end-to-end tests across UI → service → model and write the README and API documentation.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-LS15",
+      "sprint": 4,
+      "order": 3,
+      "title": "LS 15 — Presentation Day",
+      "sublesson": "60 min: project demos",
+      "outcome": "Present the AI service and companion UI; defend auth, observability, streaming, and integration decisions.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 2
+      }
+    },
+    {
+      "id": "B-LS16",
+      "sprint": 4,
+      "order": 4,
+      "title": "LS 16 — Code Clinic",
+      "sublesson": "60 min: group review",
+      "outcome": "Group review focused on contracts, auth/secrets, observability, streaming, and UI integration across learner projects.",
+      "pdf_source": {
+        "document": "Live",
+        "page": 2
+      }
+    }
+  ]
+}

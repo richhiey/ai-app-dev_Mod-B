@@ -1,0 +1,68 @@
+[
+  {
+    "doc_id": "DOC-FC-TS-001",
+    "title": "Overheating Triage for HX Series Units",
+    "doc_type": "troubleshooting",
+    "version": "3.2",
+    "effective_date": "2026-04-15",
+    "supersedes": [
+      "DOC-FC-LEG-2019"
+    ],
+    "applies_to_models": [
+      "HX-200",
+      "HX-220"
+    ],
+    "topics": [
+      "overheating",
+      "airflow",
+      "filters",
+      "thermal cutoff"
+    ],
+    "safety_level": "standard",
+    "current": true,
+    "text": "HX-200 and HX-220 units that overheat shortly after filter work should be handled as an airflow and seating problem before replacing electronics. Confirm that the installed filter is approved for the model, that the airflow arrow points toward the blower, that the gasket is flush on all four edges, and that the access panel latch is fully seated.\n\nRun the HX airflow checks in this order: intake screen, return vent clearance, plenum pressure, blower speed setting, and cabinet seal. For HX models, measured airflow below 68 percent of nominal is enough to cause E-117 thermal cutoff under load. Do not replace thermal sensors until obstruction, filter selection, filter orientation, and cabinet seating have been ruled out.\n\nIf E-117 repeats after a corrected filter installation and airflow is at or above 68 percent, compare both thermal sensor readings after a 20 minute stabilized run. A drift greater than 4 C between paired sensors points to the temperature sensor drift workflow in DOC-FC-TS-009.\n\nIf the site reports burning smell, scorching, melted insulation, breaker trips, or visible smoke, stop routine troubleshooting and follow DOC-FC-SAF-001. Safety escalation overrides normal warranty and maintenance discussion."
+  },
+  {
+    "doc_id": "DOC-FC-MP-014",
+    "title": "Filter Replacement and Seating Procedure",
+    "doc_type": "maintenance_procedure",
+    "version": "2.8",
+    "effective_date": "2026-03-01",
+    "supersedes": [],
+    "applies_to_models": [
+      "HX-200",
+      "HX-220"
+    ],
+    "topics": [
+      "filter replacement",
+      "airflow",
+      "approved parts"
+    ],
+    "safety_level": "standard",
+    "current": true,
+    "text": "HX Series filter replacement is complete only after the technician verifies the part number, orientation, gasket contact, and post-service airflow reading. The HX-200 accepts FLT-HX-M11 as the default MERV-11 filter. The HX-220 accepts FLT-HX-M11 or FLT-HX-DUST at high-dust sites. Do not substitute MERV-13 filters unless Engineering has issued a site-specific deviation.\n\nA filter can appear installed while still bypassing air or starving the blower. Check that the arrow printed on the filter frame points toward the blower, the top edge sits behind the retaining rail, and the side latch is locked. A loose side latch can create intermittent overheating only after the cabinet warms under load.\n\nAfter replacement, record plenum pressure and airflow percentage in the service note. If airflow is below the model threshold, treat the visit as unresolved and continue the airflow restriction diagnostic before closing the ticket."
+  },
+  {
+    "doc_id": "DOC-FC-SAF-001",
+    "title": "Electrical and Thermal Safety Escalation Rules",
+    "doc_type": "safety",
+    "version": "5.4",
+    "effective_date": "2026-06-01",
+    "supersedes": [],
+    "applies_to_models": [
+      "HX-200",
+      "HX-220",
+      "VX-500",
+      "AX-90"
+    ],
+    "topics": [
+      "safety",
+      "burning smell",
+      "electrical",
+      "escalation"
+    ],
+    "safety_level": "critical",
+    "current": true,
+    "text": "Burning smell, visible smoke, scorched wiring, melted insulation, repeated breaker trips, or heat damage near the control cabinet are safety indicators. When any of these indicators are present, stop remote troubleshooting. Tell the technician to make the area safe according to site procedure and route the ticket to Safety Engineering.\n\nSafety escalation overrides routine diagnostic sequencing, warranty discussion, and repair-cost guidance. The first response should not promise coverage, instruct the customer to keep running the unit, or ask the technician to bypass a safety interlock.\n\nFor FieldCare responses, the safe behavior is to abstain from repair instructions beyond immediate safety handling, cite the safety rule, and escalate to the safety owner with the ticket and equipment identifiers if available."
+  }
+]
