@@ -4,12 +4,12 @@ Two Colab notebooks per sprint: one Campus notebook for all Campus lessons and o
 
 ## Start here
 
-- [Sprint 1 Campus — service foundations](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/408233164adf5a36701db3ccceb8e7d584c773d8/notebooks/sprint_1/sprint_1_service_foundations.ipynb): HTTP, FastAPI tracing, prompts, contracts, independent versions and the supervisor assessment.
-- [Sprint 2 Campus — secure the service](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/408233164adf5a36701db3ccceb8e7d584c773d8/notebooks/sprint_2/sprint_2_secure_service.ipynb): authentication, secret boundaries, rate limits, independent practice and the weekend assessment.
-- [Sprint 3 Campus — observable service](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/408233164adf5a36701db3ccceb8e7d584c773d8/notebooks/sprint_3/sprint_3_observable_service.ipynb): streaming, safe logging, minimization and original Module A evaluation.
-- [Sprint 1 Live — four workshops](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/408233164adf5a36701db3ccceb8e7d584c773d8/notebooks/sprint_1/sprint_1_live_workshops.ipynb).
-- [Sprint 2 Live — four workshops](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/408233164adf5a36701db3ccceb8e7d584c773d8/notebooks/sprint_2/sprint_2_live_workshops.ipynb).
-- [Sprint 3 Live — four workshops](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/408233164adf5a36701db3ccceb8e7d584c773d8/notebooks/sprint_3/sprint_3_live_workshops.ipynb).
+- [Sprint 1 Campus — service foundations](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/48e7a62a549dcc25e4f2674cfa35655cb7e0381b/notebooks/sprint_1/sprint_1_service_foundations.ipynb): HTTP, FastAPI tracing, prompts, contracts, independent versions and the supervisor assessment.
+- [Sprint 2 Campus — secure the service](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/48e7a62a549dcc25e4f2674cfa35655cb7e0381b/notebooks/sprint_2/sprint_2_secure_service.ipynb): authentication, secret boundaries, rate limits, independent practice and the weekend assessment.
+- [Sprint 3 Campus — observable service](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/48e7a62a549dcc25e4f2674cfa35655cb7e0381b/notebooks/sprint_3/sprint_3_observable_service.ipynb): streaming, safe logging, minimization and original Module A evaluation.
+- [Sprint 1 Live — four workshops](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/48e7a62a549dcc25e4f2674cfa35655cb7e0381b/notebooks/sprint_1/sprint_1_live_workshops.ipynb).
+- [Sprint 2 Live — four workshops](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/48e7a62a549dcc25e4f2674cfa35655cb7e0381b/notebooks/sprint_2/sprint_2_live_workshops.ipynb).
+- [Sprint 3 Live — four workshops](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/48e7a62a549dcc25e4f2674cfa35655cb7e0381b/notebooks/sprint_3/sprint_3_live_workshops.ipynb).
 - [Colab/local setup and saving progress](docs/colab-setup.md).
 - [Curriculum](docs/curriculum.md), [helper API](docs/helpers.md), [control policy](docs/sprint-2-control-policy.md) and [verification evidence](docs/local-verification.json).
 
