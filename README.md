@@ -4,12 +4,12 @@ Two Colab notebooks per sprint: one Campus notebook for all Campus lessons and o
 
 ## Start here
 
-- [Sprint 1 Campus — service foundations](notebooks/sprint_1/sprint_1_service_foundations.ipynb): HTTP, FastAPI tracing, prompts, contracts, independent versions and the supervisor assessment.
-- [Sprint 2 Campus — secure the service](notebooks/sprint_2/sprint_2_secure_service.ipynb): authentication, secret boundaries, rate limits, independent practice and the weekend assessment.
-- [Sprint 3 Campus — observable service](notebooks/sprint_3/sprint_3_observable_service.ipynb): streaming, safe logging, minimization and original Module A evaluation.
-- [Sprint 1 Live — four workshops](notebooks/sprint_1/sprint_1_live_workshops.ipynb).
-- [Sprint 2 Live — four workshops](notebooks/sprint_2/sprint_2_live_workshops.ipynb).
-- [Sprint 3 Live — four workshops](notebooks/sprint_3/sprint_3_live_workshops.ipynb).
+- [Sprint 1 Campus — service foundations](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/408233164adf5a36701db3ccceb8e7d584c773d8/notebooks/sprint_1/sprint_1_service_foundations.ipynb): HTTP, FastAPI tracing, prompts, contracts, independent versions and the supervisor assessment.
+- [Sprint 2 Campus — secure the service](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/408233164adf5a36701db3ccceb8e7d584c773d8/notebooks/sprint_2/sprint_2_secure_service.ipynb): authentication, secret boundaries, rate limits, independent practice and the weekend assessment.
+- [Sprint 3 Campus — observable service](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/408233164adf5a36701db3ccceb8e7d584c773d8/notebooks/sprint_3/sprint_3_observable_service.ipynb): streaming, safe logging, minimization and original Module A evaluation.
+- [Sprint 1 Live — four workshops](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/408233164adf5a36701db3ccceb8e7d584c773d8/notebooks/sprint_1/sprint_1_live_workshops.ipynb).
+- [Sprint 2 Live — four workshops](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/408233164adf5a36701db3ccceb8e7d584c773d8/notebooks/sprint_2/sprint_2_live_workshops.ipynb).
+- [Sprint 3 Live — four workshops](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/408233164adf5a36701db3ccceb8e7d584c773d8/notebooks/sprint_3/sprint_3_live_workshops.ipynb).
 - [Colab/local setup and saving progress](docs/colab-setup.md).
 - [Curriculum](docs/curriculum.md), [helper API](docs/helpers.md), [control policy](docs/sprint-2-control-policy.md) and [verification evidence](docs/local-verification.json).
 
@@ -59,6 +59,6 @@ The exporter includes allowed source/data/fixtures and excludes environment file
 
 ## Version and release status
 
-Current local source version is `0.8.1`. Earlier Git checkpoints remain historical; the final notebooks load shared source from a configured GitHub release tag or full commit SHA. The six Colab notebooks load reviewed helpers from the pinned commit. This repository is published for review. Hosted Colab checks and human review are tracked separately in the review index. The fresh local execution report records tested behavior; hosted Colab and human walkthrough review remain separate checks.
+Current local source version is `0.8.1`. Earlier Git checkpoints remain historical; the final notebooks load shared source from a configured GitHub release tag or full commit SHA. The six Colab notebooks load reviewed helpers from the pinned commit. This repository is published for review. Earlier review revisions of all six notebooks reached their final exports on hosted Colab CPU runtimes. Further browser checks were skipped at the author’s request; the final Sprint 2 Live restore fix is verified locally. See [hosted verification](docs/hosted-colab-verification.json) for the tested revisions and limits, and [the Notion review index](https://app.notion.com/p/3ea5a55972ad81559d42e06081867781) for the full lesson and guide package. Human walkthrough review and instructor rehearsal remain separate approval steps.
 
 The original FieldCare repository remains historical provenance; see [provenance](docs/provenance.md). New work uses this module repository. Future capabilities, including companion-UI integration, remain governed by the exact curriculum and their actual dependencies.
