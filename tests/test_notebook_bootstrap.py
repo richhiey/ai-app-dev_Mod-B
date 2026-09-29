@@ -64,7 +64,7 @@ def test_clone_pinned_revision_and_preserve_rerun(tmp_path,monkeypatch,ref_kind)
 
 def test_unpublished_repository_reports_configuration_without_downloading(tmp_path,monkeypatch):
     monkeypatch.chdir(tmp_path);monkeypatch.setenv('MODULE_B_REPO',str(tmp_path/'checkout'))
-    monkeypatch.delenv('MODULE_B_REPO_URL',raising=False);monkeypatch.delenv('MODULE_B_REPO_REF',raising=False)
+    monkeypatch.setenv('MODULE_B_REPO_URL','');monkeypatch.setenv('MODULE_B_REPO_REF','')
     def no_run(*args,**kwargs):raise AssertionError('Missing config must not start a command.')
     monkeypatch.setattr(subprocess,'run',no_run)
     with pytest.raises(RuntimeError,match='author must set GITHUB_REPO'):

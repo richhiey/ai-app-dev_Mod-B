@@ -59,6 +59,6 @@ The exporter includes allowed source/data/fixtures and excludes environment file
 
 ## Version and release status
 
-Current local source version is `0.8.1`. Earlier Git checkpoints remain historical; the final notebooks load shared source from a configured GitHub release tag or full commit SHA. The repository URL and release revision will be filled in when published; this checkout currently has no Git remote. No remote release or hosted-Colab session is claimed. The fresh local execution report records tested behavior; hosted Colab and human walkthrough review remain separate checks.
+Current local source version is `0.8.1`. Earlier Git checkpoints remain historical; the final notebooks load shared source from a configured GitHub release tag or full commit SHA. The six Colab notebooks load reviewed helpers from the pinned commit. This repository is published for review. Hosted Colab checks and human review are tracked separately in the review index. The fresh local execution report records tested behavior; hosted Colab and human walkthrough review remain separate checks.
 
 The original FieldCare repository remains historical provenance; see [provenance](docs/provenance.md). New work uses this module repository. Future capabilities, including companion-UI integration, remain governed by the exact curriculum and their actual dependencies.
