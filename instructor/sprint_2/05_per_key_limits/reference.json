@@ -1,0 +1,98 @@
+{
+  "caller_env": {
+    "dispatch": "FIELDCARE_DISPATCH_KEY",
+    "partner": "FIELDCARE_PARTNER_KEY"
+  },
+  "settings_source": "from module_b.security import LimitPolicy\nCALLER_ENV = {'dispatch': 'FIELDCARE_DISPATCH_KEY', 'partner': 'FIELDCARE_PARTNER_KEY'}\nPOLICY = LimitPolicy(allowance=3, window_seconds=60)\n",
+  "sequence": [
+    {
+      "caller": "missing",
+      "path": "/v1/diagnose",
+      "at": 0
+    },
+    {
+      "caller": "wrong",
+      "path": "/v1/diagnose",
+      "at": 0
+    },
+    {
+      "caller": "dispatch",
+      "path": "/v1/diagnose",
+      "at": 0,
+      "payload": {}
+    },
+    {
+      "caller": "dispatch",
+      "path": "/v2/diagnose",
+      "at": 0
+    },
+    {
+      "caller": "dispatch",
+      "path": "/v1/diagnose",
+      "at": 0
+    },
+    {
+      "caller": "dispatch",
+      "path": "/v1/diagnose",
+      "at": 1
+    },
+    {
+      "caller": "partner",
+      "path": "/v1/diagnose",
+      "at": 10
+    },
+    {
+      "caller": "dispatch",
+      "path": "/v1/diagnose",
+      "at": 60
+    },
+    {
+      "caller": "partner",
+      "path": "/v2/diagnose",
+      "at": 60
+    },
+    {
+      "caller": "partner",
+      "path": "/v2/diagnose",
+      "at": 60
+    },
+    {
+      "caller": "partner",
+      "path": "/v1/diagnose",
+      "at": 60
+    },
+    {
+      "caller": "partner",
+      "path": "/v1/diagnose",
+      "at": 70
+    }
+  ],
+  "expected_statuses": [
+    401,
+    401,
+    422,
+    200,
+    200,
+    429,
+    200,
+    200,
+    200,
+    200,
+    429,
+    200
+  ],
+  "http_callers": [
+    "dispatch",
+    "dispatch",
+    "dispatch",
+    "dispatch",
+    "partner"
+  ],
+  "expected_http": [
+    200,
+    200,
+    200,
+    429,
+    200
+  ]
+}

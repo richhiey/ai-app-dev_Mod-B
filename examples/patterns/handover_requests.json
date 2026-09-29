@@ -1,0 +1,14 @@
+{
+  "filter_fit": {
+    "question": "Which filter orientation and seating checks are documented for this equipment?",
+    "equipment_id": "EQ-FC-1002"
+  },
+  "airflow_reading": {
+    "question": "Which airflow checks and measurements should the technician record for this equipment?",
+    "equipment_id": "EQ-FC-1002"
+  },
+  "runs_hot": {
+    "question": "The unit runs hot after filter service. Which documented checks should the technician verify?",
+    "equipment_id": "EQ-FC-1002"
+  }
+}

@@ -1,0 +1,7 @@
+
+import os
+from module_b.observability import ObservationMiddleware
+from app.log_settings import LOG_FIELDS
+app.add_middleware(ObservationMiddleware,
+    path=os.environ['FIELDCARE_LOG_PATH'], routes=protected_post_paths(app),
+    fields=LOG_FIELDS, approved_models=(os.environ.get('OPENROUTER_MODEL',''),))

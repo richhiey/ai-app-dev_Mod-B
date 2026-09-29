@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 660" width="1440" height="660" role="img" aria-labelledby="title desc">
+ <title id="title">Ein Service, zwei Aufgaben</title><desc id="desc">Gemeinsame Verarbeitung behalten. Route und Prompt ändern.</desc>
+ <defs><marker id="arrow-forest" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto-start-reverse"><path d="M0 0 L6 3 L0 6 Z" fill="#17482E"/></marker></defs>
+ <rect width="1440" height="660" fill="#ECEBE4"/>
+ <g fill="none" stroke="#17482E" stroke-width="3" stroke-linejoin="round">
+ <path d="M620 240 L710 240 L710 360"/>
+ <path d="M620 450 L710 450 L710 360"/>
+ <path d="M710 360 L790 360" marker-end="url(#arrow-forest)"/>
+ <path d="M1035 360 L1120 360" marker-end="url(#arrow-forest)"/>
+ </g>
+ <circle cx="710" cy="360" r="6" fill="#17482E"/>
+ <rect x="60" y="160" width="560" height="160" rx="12" fill="#FFFFFF" stroke="#27784C" stroke-width="1.5"/>
+ <rect x="60" y="370" width="560" height="160" rx="12" fill="#E8FFBB" stroke="#17482E" stroke-width="2.5"/>
+ <rect x="80" y="139" width="210" height="34" rx="17" fill="#D0D0C4"/>
+ <rect x="80" y="349" width="240" height="34" rx="17" fill="#D7FF94"/>
+ <rect x="790" y="285" width="245" height="155" rx="12" fill="#FFFFFF" stroke="#27784C" stroke-width="1.5"/>
+ <rect x="1120" y="285" width="260" height="155" rx="12" fill="#FFFFFF" stroke="#17482E" stroke-width="1.5"/>
+ <g fill="none" stroke="#27784C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+ <circle cx="130" cy="222" r="20"/><path d="M94 275 L94 266 L108 252 L152 252 L166 266 L166 275"/>
+ <path d="M106 220 L106 210 L118 198 L142 198 L154 210 L154 220 M99 220 L161 220"/>
+ <circle cx="130" cy="432" r="20"/><path d="M94 485 L94 476 L108 462 L152 462 L166 476 L166 485 M103 437 L103 425 L115 412 L145 412 L157 425 L157 444 L145 451 L135 451"/>
+ <rect x="883" y="308" width="60" height="42" rx="4"/><path d="M894 320 L932 320 M894 331 L924 331 M894 342 L916 342"/>
+ <rect x="1229" y="306" width="42" height="42" rx="4"/><path d="M1240 298 L1240 306 M1260 298 L1260 306 M1240 348 L1240 356 M1260 348 L1260 356 M1221 317 L1229 317 M1221 337 L1229 337 M1271 317 L1279 317 M1271 337 L1279 337"/>
+ <rect x="1240" y="317" width="20" height="20" rx="2"/>
+ </g>
+ <path d="M60 578 L1380 578" stroke="#D0D0C4" stroke-width="2"/>
+ <g font-family="sans-serif" fill="#0A0A0A">
+<text x="60" y="62" font-size="40" font-weight="700" fill="#0A0A0A">Ein Service, zwei Aufgaben</text>
+<text x="60" y="105" font-size="24" font-weight="400" fill="#27784C">Gemeinsame Verarbeitung behalten. Route und Prompt ändern.</text>
+<text x="185" y="162" font-size="18" font-weight="700" fill="#0A0A0A" text-anchor="middle">Bereits vorhanden</text>
+<text x="200" y="372" font-size="18" font-weight="700" fill="#0A0A0A" text-anchor="middle">Deine Erweiterung</text>
+<text x="200" y="205" font-size="22" font-weight="700" fill="#27784C">Techniker:in</text>
+<text x="200" y="249" font-size="26" font-weight="700" fill="#0A0A0A">/v1/diagnose</text>
+<text x="200" y="287" font-size="22" font-weight="400" fill="#0A0A0A">Technik-Prompt</text>
+<text x="200" y="415" font-size="22" font-weight="700" fill="#27784C">Disposition</text>
+<text x="200" y="459" font-size="26" font-weight="700" fill="#0A0A0A">/v1/dispatch-handover</text>
+<text x="200" y="497" font-size="22" font-weight="400" fill="#0A0A0A">Dein Übergabe-Prompt</text>
+<text x="912.5" y="389" font-size="21" font-weight="700" fill="#0A0A0A" text-anchor="middle">Gemeinsamer Service</text>
+<text x="912.5" y="420" font-size="20" font-weight="400" fill="#27784C" text-anchor="middle">run_diagnosis()</text>
+<text x="1250" y="389" font-size="23" font-weight="700" fill="#0A0A0A" text-anchor="middle">Modelladapter</text>
+<text x="1250" y="420" font-size="20" font-weight="400" fill="#27784C" text-anchor="middle">generate_answer()</text>
+<text x="60" y="620" font-size="22" font-weight="400" fill="#0A0A0A">Unterstützte Eingaben folgen diesem Pfad. Rückfragen werden vor dem Modellaufruf behandelt.</text>
+</g></svg>

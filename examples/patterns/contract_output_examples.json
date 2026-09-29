@@ -1,0 +1,20 @@
+{
+  "schema_invalid": {
+    "answer": "Check the documented filter orientation and seating; verify actual condition.",
+    "status": "ready",
+    "citations": "DOC-FC-HX-001",
+    "mode": "demo"
+  },
+  "valid_but_unsupported": {
+    "answer": "I inspected the equipment and confirmed that the warranty covers a free replacement.",
+    "status": "ready",
+    "citations": ["DOC-FC-HX-001"],
+    "mode": "demo"
+  },
+  "valid_wording_variant": {
+    "answer": "Use the supplied filter and airflow guidance, then have the technician verify the actual condition.",
+    "status": "ready",
+    "citations": ["DOC-FC-HX-001"],
+    "mode": "demo"
+  }
+}
