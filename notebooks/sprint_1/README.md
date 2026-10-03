@@ -1,6 +1,6 @@
 # Sprint 1 Colab notebooks
 
-- [Campus notebook](sprint_1_service_foundations.ipynb): follow the service from health and diagnostic requests through route/schema inspection, a new dispatch route, caller contracts, versioning, and an independent supervisor endpoint.
-- [Live notebook](sprint_1_live_workshops.ipynb): four short sessions on calling and tracing a service, reviewing a route contract, checking version compatibility, and presenting evidence.
+- [Campus notebook source](sprint_1_service_foundations.ipynb) · [Open in Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/6126be6517df89230f20b17cf845f464b1457140/notebooks/sprint_1/sprint_1_service_foundations.ipynb): follow the service from health and diagnostic requests through route/schema inspection, a new dispatch route, caller contracts, versioning, and an independent supervisor endpoint.
+- [Live notebook source](sprint_1_live_workshops.ipynb) · [Open in Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/6126be6517df89230f20b17cf845f464b1457140/notebooks/sprint_1/sprint_1_live_workshops.ipynb): four short sessions on calling and tracing a service, reviewing a route contract, checking version compatibility, and presenting evidence.
 
 Each notebook has one setup cell and one final source/data ZIP export. Keep separate saved Drive copies for Campus and Live. Edit the actual files in Colab's Files panel; the notebooks do not copy source code into output. Supported requests call the real Module A OpenRouter/Chroma/LangGraph path. The setup loads `OPENROUTER_API_KEY` from Colab Secrets or a hidden prompt. The first Chroma index and admitted model requests use provider credits; invalid or out-of-scope requests stop before generation.

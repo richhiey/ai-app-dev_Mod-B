@@ -2,9 +2,9 @@
 
 There are exactly two notebooks for the sprint:
 
-- [Campus source](sprint_2_secure_service.ipynb) is reused across C08–C13.
-- [Live source](sprint_2_live_workshops.ipynb) is reused across LS05–LS08.
+- [Campus source](sprint_2_secure_service.ipynb) is reused across C08–C13 · [Open in Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/6126be6517df89230f20b17cf845f464b1457140/notebooks/sprint_2/sprint_2_secure_service.ipynb).
+- [Live source](sprint_2_live_workshops.ipynb) is reused across LS05–LS08 · [Open in Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/6126be6517df89230f20b17cf845f464b1457140/notebooks/sprint_2/sprint_2_live_workshops.ipynb).
 
 Each has one setup and one final checkpoint export. Campus owns the cumulative project. Live imports into an isolated workspace; apply a chosen improvement back to Campus explicitly. Do not replace the Campus workspace with a Live example.
 
-The source notebooks are ready for local review. Colab launch links should be added only after the Module B repository has a reviewed release revision containing these files. See [setup](../../docs/colab-setup.md).
+See [Colab setup and work-saving guidance](../../docs/colab-setup.md). The notebook links are pinned to the reviewed delivery; each setup cell installs the current Module B `main` branch.

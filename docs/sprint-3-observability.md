@@ -18,6 +18,6 @@ A runtime request ID correlates one client attempt with its terminal metadata. E
 
 The bundled Module A functions run against the saved pipeline design and original data. The notebook shows actual returned evaluation results for selected cases. These criteria concern retrieved documents, tool calls and response flags; they do not grade the generated answer’s prose or streaming performance. Keep evaluation evidence separate from provider response review and delivery observations.
 
-## Release status
+## Delivery and verification boundary
 
-The local notebook/helper source has not been published at a new approved revision. The old GitHub pin describes an older implementation. Fresh hosted Colab execution and live-provider review remain release steps.
+The six Campus and Live notebooks are published in the Module B GitHub repository. Each setup cell shallow-clones `main`; Colab launch links open the reviewed notebook source revision. Static checks and local HTTP/provider-contract checks do not claim that a fresh hosted Colab run or a live provider request was performed. Review current provider availability in Colab when preparing a delivery.

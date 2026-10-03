@@ -4,14 +4,14 @@
 
 - `examples/fieldcare` is the editable FastAPI service and its synthetic data.
 - `notebooks/sprint_1` contains one Campus notebook and one Live notebook. Their code cells make direct `TestClient` requests and show the returned status and body.
-- `notebooks/sprint_2` and `notebooks/sprint_3` contain later-sprint notebooks. They use shared utilities for repeated setup, workspace, and checkpoint mechanics.
+- `notebooks/sprint_2` and `notebooks/sprint_3` contain later-sprint notebooks. They keep service changes, requests, and observations in visible cells and import only reusable runtime/security/observability/evaluation mechanics.
 - `examples/patterns` contains small worked source examples. Assessment reference implementations live in instructor-only material.
 
-Students inspect and edit service code in their workspace. Notebook helpers may support file handling and repeated operations, but must not substitute printed source or a generated summary for the real computation being taught.
+Students inspect and edit service code in their workspace. Helpers must not substitute printed source or a generated summary for the real computation being taught.
 
 ## Shared package
 
-`src/module_b` supports multiple sprints. `workspace`, `runtime`, `data`, and `edits` provide reusable file/process mechanics. The notebook, security, secret-workshop, streaming, observability, and evaluation modules serve active Sprint 2/3 workflows. The copied `_module_a` package supports the Sprint 3 evaluation exercise. See [helper responsibilities](helpers.md) for active use.
+`src/module_b` supports the three authored sprints. `openrouter` provides provider setup; `runtime` manages the local service process; `security`, `observability`, and `evaluation` support explicit student operations; `retrieval` and `streaming` are called by FieldCare. The copied `_module_a` package preserves the Sprint 3 evaluation exercise. Small `workspace`, `checkpoints`, `edits`, and `data` utilities support safe checkpoint handling but are not imported directly by the six notebooks. See [helper responsibilities](helpers.md) for the map.
 
 Sprint 1 does not depend on helper functions to display source or synthesize route observations. The Campus and Live notebooks call the supplied FastAPI app directly. Their `TestClient` calls execute in-process; they do not claim a TCP server or provider response.
 
