@@ -2,8 +2,8 @@
 
 There are exactly two notebooks for the sprint:
 
-- [Campus source](sprint_3_observable_service.ipynb) is reused across C14–C19 · [Open in Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/6126be6517df89230f20b17cf845f464b1457140/notebooks/sprint_3/sprint_3_observable_service.ipynb).
-- [Live source](sprint_3_live_workshops.ipynb) is reused across LS09–LS12 · [Open in Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/6126be6517df89230f20b17cf845f464b1457140/notebooks/sprint_3/sprint_3_live_workshops.ipynb).
+- [Campus source](sprint_3_observable_service.ipynb) is reused across C14–C19 · [Open in Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/main/notebooks/sprint_3/sprint_3_observable_service.ipynb).
+- [Live source](sprint_3_live_workshops.ipynb) is reused across LS09–LS12 · [Open in Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/main/notebooks/sprint_3/sprint_3_live_workshops.ipynb).
 
 Each has one setup and one final checkpoint export. Campus imports the secured Sprint 2 project when available. Live uses a separate workspace; apply a chosen improvement back to Campus explicitly.
 
