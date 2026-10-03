@@ -45,3 +45,4 @@ def test_one_clean_campus_and_one_clean_live_notebook_per_sprint():
             if cell['cell_type']=='code':
                 assert cell['execution_count'] is None and cell['outputs']==[]
                 compile(''.join(cell['source']),cell['id'],'exec')
+
