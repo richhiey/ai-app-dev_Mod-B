@@ -560,5 +560,18 @@
   "supplement": {
     "path": "sprint-2-live-verification.json",
     "reason": "Sprint 2 Live resume fix; seven fresh local runs include both saved stages. Earlier five notebook hashes remain unchanged."
+  },
+  "latest_local_audit": {
+    "date": "2026-10-03",
+    "python": "3.12",
+    "command": ".venv/bin/python -m pytest -o addopts='' -q",
+    "result": "82 passed, 2 warnings, 35 subtests passed",
+    "warnings": [
+      "Starlette reports that httpx with starlette.testclient is deprecated.",
+      "Starlette reports that anyio.abc.BlockingPortal is deprecated."
+    ],
+    "notebook_bootstrap": "All six notebooks shallow-clone the Module B main branch, install the checkout with requirements.lock, and request an OpenRouter key at runtime.",
+    "notebook_outputs": "All six notebooks are output-free and have one setup and one checkpoint export cell.",
+    "hosted_colab_run": "not performed in this audit"
   }
 }

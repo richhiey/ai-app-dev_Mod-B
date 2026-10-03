@@ -1,19 +1,19 @@
 # Use the Colab notebooks
 
-Each sprint has exactly one Campus notebook and one Live notebook. Keep one saved copy of each for that sprint. Campus is the cumulative student project; Live is a separate workshop workspace.
+There is one Campus notebook and one Live notebook per sprint. Keep a saved Drive copy of each notebook you use. Campus holds the cumulative student project; Live has a separate workshop workspace.
 
-## Setup and model access
+## Open and set up
 
-The first notebook cell loads this separate Module B repository and installs its pinned requirements. Use the repository revision selected for the course release. The current local revision has not been published, so the old GitHub notebook links and pins do not represent these changes yet.
+Open the notebook from its sprint README and choose **File → Save a copy in Drive**. The first setup cell clones the separate Module B repository from the current `main` branch with a shallow clone and installs it once using `requirements.lock`. It reuses that checkout for the rest of the runtime. The notebook source link is pinned to the reviewed delivery commit; the helper and example code it installs comes from `main`.
 
-Colab reads `OPENROUTER_API_KEY` from Secrets when present and otherwise uses a hidden prompt. Keep the key out of cells, source files, outputs, and notes. The first ChromaDB index build embeds the supplied service documents, and each admitted supported request can use OpenRouter quota for question embeddings and generation. Deterministic validation, authentication/rate-limit rejection, safety handling, and missing-context clarification stop before generation.
+Setup reads `OPENROUTER_API_KEY` from Colab Secrets or a hidden prompt. Keep the key out of cells, source files, outputs, screenshots, and notes. The first ChromaDB index build embeds the supplied service documents through OpenRouter. Each admitted supported request can also use provider quota for embeddings and generation. Schema rejection, authentication/rate-limit rejection, safety handling, and missing-context clarification stop before generation.
 
-## Read and work with the service
+## Work with the service
 
-Inspect source files in Colab’s Files panel and use the notebook cells to run the actual computations and HTTP requests. The cells keep request code and observed responses visible; they do not print source files as a substitute for opening them. Campus and Live each have one final checkpoint export. Save the notebook separately because its notes are not included in the ZIP.
+Inspect and edit the real files in Colab’s Files panel. Notebook cells show the actual computations, HTTP requests, and results; they do not print source files as a substitute for opening them. Campus and Live each have one final source/data checkpoint export. Save the notebook separately because the ZIP does not contain notebook notes.
 
-Sprint 2 imports an optional Sprint 1 source checkpoint. Sprint 3 imports an optional secured Sprint 2 checkpoint. When a checkpoint is absent, the notebook labels the supplied starter as recovery and does not claim earlier student changes were carried over. Live remains isolated; apply a chosen change back to Campus deliberately.
+Sprint 2 can import a Sprint 1 Campus source checkpoint. Sprint 3 can import a secured Sprint 2 checkpoint. When a checkpoint is not supplied, the notebook uses the starter project; it does not claim prior student edits were carried forward. Live stays isolated from Campus. Apply a chosen Live change to Campus deliberately.
 
-## Verification boundary
+## What has and has not been verified
 
-Local source inspection and static notebook checks do not establish fresh Colab execution or provider availability. Those checks remain release steps after the current Module B source is published at an approved revision.
+Local source inspection and static notebook checks do not establish a fresh hosted Colab run or current provider availability. Confirm those in Colab when preparing a delivery. A provider error is an observed error; do not replace it with authored answer text.

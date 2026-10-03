@@ -16,4 +16,4 @@ Maintain exactly two canonical `.ipynb` files per authored sprint: one Campus no
 
 ## GitHub source delivery
 
-Load shared source directly from the configured GitHub repository at a reviewed release tag or full commit SHA. Do not generate or ask students to upload a supporting course-source ZIP. Keep personal checkpoint exports for saving student edits/evidence and carrying work between sprints. Before publication, set the real repository URL and revision in all authored notebook setup cells; never invent a published remote.
+The six learner notebooks clone the separate Module B repository with `git clone --depth 1 --branch main` and install that checkout with the repository's `requirements.lock`. Do not add a pinned commit checkout, separate source ZIP, or repeated package setup to student notebooks. The Colab launch links may reference the reviewed delivery commit so students open the intended notebook, while setup intentionally installs the current `main` branch. Keep personal project checkpoint exports for learner work and carrying changes between sprints.
