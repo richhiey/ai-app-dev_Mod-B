@@ -13,7 +13,7 @@ CHAT_MODELS = {
     "google/gemini-2.5-flash",
     "google/gemini-3.1-flash-lite",
 }
-DEFAULT_CHAT_MODEL = "google/gemini-2.5-flash-lite"
+DEFAULT_CHAT_MODEL = "google/gemini-3.1-flash-lite"
 EMBEDDING_MODEL = "google/gemini-embedding-001"
 BASE_URL = "https://openrouter.ai/api/v1"
 
