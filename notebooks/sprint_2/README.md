@@ -1,8 +1,10 @@
-# Sprint 2 — Campus and Live Colab notebooks
+# Sprint 2 — Campus and Live notebooks
 
-- [Campus notebook](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/48e7a62a549dcc25e4f2674cfa35655cb7e0381b/notebooks/sprint_2/sprint_2_secure_service.ipynb): use the same saved copy across every Campus lesson. Guided practice, independent tasks and the assessment stay here.
-- [Live notebook](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/48e7a62a549dcc25e4f2674cfa35655cb7e0381b/notebooks/sprint_2/sprint_2_live_workshops.ipynb): use the same saved copy across all four live sessions. Each session has a named section.
+There are exactly two notebooks for the sprint:
 
-Each notebook has one setup and one final checkpoint export. Save its Drive copy and download its source/evidence ZIP separately. Campus owns your cumulative project. Live imports its checkpoint into an isolated workspace; apply chosen improvements back to Campus explicitly and repeat the affected checks before export. Never replace your Campus project with a worked Live example.
+- [Campus source](sprint_2_secure_service.ipynb) is reused across C08–C13.
+- [Live source](sprint_2_live_workshops.ipynb) is reused across LS05–LS08.
 
-Untouched decisions stay pending. Private assessment solutions are not in the public notebook. See [setup](../../docs/colab-setup.md).
+Each has one setup and one final checkpoint export. Campus owns the cumulative project. Live imports into an isolated workspace; apply a chosen improvement back to Campus explicitly. Do not replace the Campus workspace with a Live example.
+
+The source notebooks are ready for local review. Colab launch links should be added only after the Module B repository has a reviewed release revision containing these files. See [setup](../../docs/colab-setup.md).
