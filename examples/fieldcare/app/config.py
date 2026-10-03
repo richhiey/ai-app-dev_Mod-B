@@ -1,19 +1,19 @@
-"""Read settings; never print credentials or silently switch live mode to demo."""
+"""Configuration for the live FieldCare service."""
+
 import os
-from typing import Literal
 
-Mode = Literal["demo", "live"]
+from module_b.openrouter import CHAT_MODELS, DEFAULT_CHAT_MODEL
 
 
-def get_mode() -> Mode:
-    mode = os.getenv("FIELDCARE_MODE", "demo").strip()
-    if mode not in ("demo", "live"):
-        raise RuntimeError("FIELDCARE_MODE must be demo or live.")
-    return mode
+def openrouter_model() -> str:
+    """Return the course-approved chat model configured for this service."""
+    model = os.getenv("OPENROUTER_MODEL", DEFAULT_CHAT_MODEL).strip()
+    if model not in CHAT_MODELS:
+        raise RuntimeError("OPENROUTER_MODEL must use a course-approved model ID.")
+    return model
 
 
 def validate_configuration() -> None:
-    if get_mode() == "live":
-        required = ("OPENROUTER_API_KEY", "OPENROUTER_MODEL")
-        if any(not os.getenv(name, "").strip() for name in required):
-            raise RuntimeError("Live mode requires OPENROUTER_API_KEY and OPENROUTER_MODEL.")
+    if not os.getenv("OPENROUTER_API_KEY", "").strip():
+        raise RuntimeError("Set OPENROUTER_API_KEY before starting FieldCare.")
+    openrouter_model()

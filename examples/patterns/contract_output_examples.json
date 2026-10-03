@@ -1,20 +1,10 @@
 {
-  "schema_invalid": {
-    "answer": "Check the documented filter orientation and seating; verify actual condition.",
-    "status": "ready",
-    "citations": "DOC-FC-HX-001",
-    "mode": "demo"
+  "purpose": "schema_shape_reference_only_not_a_service_response",
+  "required_fields": {
+    "answer": "string returned by the configured provider or deterministic clarification branch",
+    "status": "ready | needs_clarification",
+    "citations": "list of document IDs",
+    "mode": "live"
   },
-  "valid_but_unsupported": {
-    "answer": "I inspected the equipment and confirmed that the warranty covers a free replacement.",
-    "status": "ready",
-    "citations": ["DOC-FC-HX-001"],
-    "mode": "demo"
-  },
-  "valid_wording_variant": {
-    "answer": "Use the supplied filter and airflow guidance, then have the technician verify the actual condition.",
-    "status": "ready",
-    "citations": ["DOC-FC-HX-001"],
-    "mode": "demo"
-  }
+  "validation_note": "Validate observed HTTP response bodies against DiagnosticResponse. Do not treat this schema reference as generated output."
 }

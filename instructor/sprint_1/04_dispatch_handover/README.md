@@ -1,9 +1,7 @@
-# Facilitator reference — dispatch handover
+# Dispatch handover facilitator reference
 
-Keep this separate from the independent learner task. `handover_routes.py` contains one acceptable prompt and the supplied handler pattern. `main.py` preserves the baseline application and adds only the router import and registration. To prepare a reference workspace, use `prepare_example` in a fresh destination, then copy these two files to its `app/` directory.
+This folder contains a reference implementation for facilitator use. Keep it out of the learner checkpoint and do not paste the completed route into the independent-practice notebook.
 
-The new handler reuses `run_diagnosis`, `DiagnosticRequest`, `DiagnosticResponse`, `MODEL_NAME` and the original safe provider-error response. It changes audience and prompt, not evidence or validation. The three-bullet format is an example; an equally concise alternative can meet the brief.
+The Sprint 1 Campus notebook runs the actual FastAPI app. To review this reference, copy its route and entry-point files into a separate example workspace, set the OpenRouter key in the runtime environment, and send the requests in `examples/patterns/handover_requests.json` to both `/v1/diagnose` and `/v1/dispatch-handover`. Supported requests use the route prompt, Chroma retrieval, LangGraph, and a real OpenRouter call.
 
-Run the demo HTTP checks and `inspect_route_bindings` for `/v1/diagnose: app.routes` and `/v1/dispatch-handover: app.handover_routes`. `python scripts/verify_notebooks.py` executes the untouched starters. The author workspace's private reference runner passes cell edits through `--reference-config` to execute completed variants in memory. Learner notebook files stay blank and output-free.
-
-Generated wording is not supplied or invented. A course-approved OpenRouter model and provider access are required for the notebook's live comparison. Automated checks use no external provider, and cannot establish output quality. Reference tests also cover unsupported context and restoration of a completed source checkpoint.
+Demo mode checks route and application behavior with fixed output. It does not test generated wording. The notebook’s optional provider section makes real calls only after a learner enters an approved model and hidden key.

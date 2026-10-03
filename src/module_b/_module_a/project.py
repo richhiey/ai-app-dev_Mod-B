@@ -1,4 +1,3 @@
-"""Module A course helpers. Evaluation logic unchanged; see provenance.json."""
 from __future__ import annotations
 
 import copy
@@ -12,14 +11,12 @@ from getpass import getpass
 from io import StringIO
 from pathlib import Path
 from typing import Any, Callable, Optional
-from urllib.error import URLError
-from urllib.request import Request, urlopen
 
 import pandas as pd
 from IPython.display import JSON, Markdown, display
 
 try:
-    from openrouter import OpenRouterClient
+    from .openrouter import OpenRouterClient
 except Exception:
     OpenRouterClient = None
 
@@ -37,7 +34,7 @@ else:
 
 
 SIMULATED_CURRENT_DATE = "2026-09-09"
-FIELDCARE_RAW_BASE_URL = "https://raw.githubusercontent.com/richhiey/ai-app-dev_Mod-A/main/data/fieldcare"
+SNAPSHOT_DATA = Path(__file__).resolve().parent / "data"
 ASSET_FILES = [
     "fieldcare_manifest.json",
     "service_docs.jsonl",
@@ -96,22 +93,18 @@ def load_openrouter_key(required: bool = False) -> Optional[str]:
 
 
 def candidate_asset_dirs() -> list[Path]:
-    """Return local folders where the FieldCare data may exist before trying GitHub."""
-    return [
-        Path("fieldcare"),
-        Path("assets/fieldcare"),
-        Path("data/fieldcare"),
-        Path("/content/fieldcare"),
-        Path("/content/data/fieldcare"),
-        Path("lessons/ml-app-dev/module-a/campus/sprint-4/assets/fieldcare"),
-    ]
+    """Return the frozen assets packaged with the Module B evaluation adapter."""
+    return [SNAPSHOT_DATA]
 
 
 def read_asset_text(filename: str) -> tuple[str, str]:
-    path = Path(__file__).with_name("data") / filename
-    if filename not in ASSET_FILES:
-        raise ValueError("Unknown course asset")
-    return path.read_text(encoding="utf-8"), str(path)
+    """Read one bundled evaluation asset without reaching into another repository."""
+    for directory in candidate_asset_dirs():
+        path = directory / filename
+        if path.exists():
+            return path.read_text(encoding="utf-8"), str(path)
+
+    raise FileNotFoundError(f"The bundled evaluation asset is missing: {filename}")
 
 
 def load_json_asset(filename: str) -> tuple[dict[str, Any], str]:
@@ -1715,4 +1708,3 @@ def build_edge_case_log_template(env: dict[str, Any], eval_ids: list[str]) -> pd
             }
         )
     return pd.DataFrame(rows)
-

@@ -1,7 +1,7 @@
 {
   "course_source": "module-a/campus/sprint-4/assets/sprint-4-fieldcare-project__colab_source.py",
   "course_source_sha256": "09fc4fe69b82b17882149d69905bd051fb4e6668da23874441d96ba727b59efb",
-  "extraction": "Hidden setup cell, imports made relative, read_asset_text restricted to bundled snapshot. Application and evaluator function bodies unchanged. No live-client dependency in deterministic path.",
+  "extraction": "Evaluator functions and their support definitions were extracted from the exact course-source snapshot. Notebook execution cells and provider-key probing were omitted. Imports now resolve to the vendored, pinned helper-core snapshot. Runtime asset loading is restricted to the bundled Module B data.",
   "helper_source": "https://github.com/richhiey/ai-app-dev_Mod-A",
   "helper_commit": "7c94ef2bd90ab92865ba4f155889e22044ffaf98",
   "files": {
@@ -19,7 +19,9 @@
     "data/user_requests.jsonl": "5c0c7c239f4388e65c72c91f92663446f000872e98d36acef3800be7a1d65990",
     "documents.py": "f0ac96bb608fa6b06c12e17309355e0e11f18b151b2e696867d0ea359f4e15a1",
     "keyword_search.py": "4326c6605d11584bc1162577178b0e1ecd70decbcaba8384faa477530b43fe0e",
-    "project.py": "2c5929e209884d1d394816cbdd831732cad4b39e7a0aa20f76a05b51d7d4f0e5",
+    "models.py": "921f108a90f517440366c171b760d305e5e2c4aeb1d4de00e197bca5a67e1f7b",
+    "openrouter.py": "83616685ae073be50ad717e3f40a04f3f0979a5de08f051f194bab1b27cd01e2",
+    "project.py": "96379c9ee2c419dee16bfa5d7537cac11bea65aeb6293ede0a1e16c7896441c0",
     "tools.py": "7d93678c370166911fb694614f2e60a4845940ae2ff9768c8cd72549ad30a81d"
   }
 }

@@ -1,9 +1,0 @@
-{
-  "answer": "DEMO: No model was called. The supplied HX documents describe checking approved filter selection, orientation, gasket contact and panel seating, then recording the airflow reading. These are document-based checks, not a diagnosis of this unit. A qualified technician must verify the actual condition.",
-  "status": "ready",
-  "citations": [
-    "DOC-FC-TS-001",
-    "DOC-FC-MP-014"
-  ],
-  "mode": "demo"
-}
