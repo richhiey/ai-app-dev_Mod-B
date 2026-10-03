@@ -49,6 +49,13 @@ async def diagnose_stream(payload: DiagnosticRequest, request: Request):
     async def events():
         first_content = True
         try:
+            yield encode_event({
+                "type": "metadata",
+                "status": "ready",
+                "citations": [document["doc_id"] for document in documents],
+                "mode": "live",
+                "request_id": request_id,
+            })
             async for event in provider_events(
                 context,
                 model=request.app.state.model_name,
