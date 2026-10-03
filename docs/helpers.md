@@ -23,9 +23,7 @@ The notebooks keep requests, service changes, and observed results visible. Shar
 
 Notebook cells call the application and inspect its HTTP responses. Test-only controlled-clock and failure-injection probes are under `tests/support`; they are not installed with `module_b` or imported by learner notebooks. Their outputs are not model responses or learner HTTP evidence.
 
-## Internal checkpoint utilities
-
-`workspace`, `checkpoints`, `edits`, and `data` support safe file/checkpoint handling and are not imported directly by the six current learner notebooks. Keep those utilities small and update this page if a notebook begins to use them. The unused `notebook` source-writing/display wrapper and its `live_sessions` recorder were removed; learner-facing route edits and observations belong in the actual app and notebook cells.
+The installed package contains only reusable mechanics used by the current course examples. Checkpoint import/export and learner source edits stay in the notebooks, where students can inspect and understand those operations. Do not add a helper solely to wrap a single notebook cell.
 
 ## Notebook rule
 

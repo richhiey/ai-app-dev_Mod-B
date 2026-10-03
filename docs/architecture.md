@@ -11,7 +11,7 @@ Students inspect and edit service code in their workspace. Helpers must not subs
 
 ## Shared package
 
-`src/module_b` supports the three authored sprints. `openrouter` provides provider setup; `runtime` manages the local service process; `security`, `observability`, and `evaluation` support explicit student operations; `retrieval` and `streaming` are called by FieldCare. The copied `_module_a` package preserves the Sprint 3 evaluation exercise. Small `workspace`, `checkpoints`, `edits`, and `data` utilities support safe checkpoint handling but are not imported directly by the six notebooks. See [helper responsibilities](helpers.md) for the map.
+`src/module_b` supports the four sprints. `openrouter` provides provider setup; `runtime` manages the local service process; `security`, `observability`, and `evaluation` support explicit learner operations; `retrieval` and `streaming` are called by FieldCare. The copied `_module_a` package preserves the Sprint 3 evaluation exercise. Notebook setup, source edits, and checkpoint import/export remain visible in the eight learner notebooks. See [helper responsibilities](helpers.md) for the map.
 
 Sprint 1 does not depend on helper functions to display source or synthesize route observations. The Campus and Live notebooks call the supplied FastAPI app directly. Their `TestClient` calls execute in-process; they do not claim a TCP server or provider response.
 
