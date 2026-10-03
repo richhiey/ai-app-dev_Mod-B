@@ -12,8 +12,11 @@ This repository contains the shared examples and Colab notebooks for Module B. S
 
 - Sprint 2: [Campus Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/6126be6517df89230f20b17cf845f464b1457140/notebooks/sprint_2/sprint_2_secure_service.ipynb) · [Live Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/6126be6517df89230f20b17cf845f464b1457140/notebooks/sprint_2/sprint_2_live_workshops.ipynb) · [Sources](notebooks/sprint_2/README.md)
 - Sprint 3: [Campus Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/6126be6517df89230f20b17cf845f464b1457140/notebooks/sprint_3/sprint_3_observable_service.ipynb) · [Live Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/6126be6517df89230f20b17cf845f464b1457140/notebooks/sprint_3/sprint_3_live_workshops.ipynb) · [Sources](notebooks/sprint_3/README.md)
+- Sprint 4: [Campus Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/main/notebooks/sprint_4/sprint_4_fieldcare_campus.ipynb) · [Live Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/main/notebooks/sprint_4/sprint_4_fieldcare_live.ipynb) · [Sources](notebooks/sprint_4/README.md)
 
-The notebooks call the actual FastAPI application. Read and edit the real files in Colab's Files panel. Supported service requests use the Module A stack: OpenRouter embeddings index current service documents in Chroma, LangGraph coordinates retrieval and generation, and the OpenRouter client sends the approved model request. Colab loads `OPENROUTER_API_KEY` from Secrets or a hidden prompt; generated wording varies. Schema rejection, safety boundaries and missing-context clarification remain deterministic application decisions. The first index build and each admitted model request use provider credits.
+Sprints 1–3 run the actual FastAPI application in Colab. Supported requests use the Module A stack: OpenRouter embeddings index the current service documents in ChromaDB, LangGraph coordinates retrieval and generation, and OpenRouter supplies the model response. Those project notebooks load `OPENROUTER_API_KEY` from Secrets or a hidden prompt; model wording varies.
+
+Sprint 4 notebooks call the course-provisioned reachable service as a separate HTTP caller. They use Colab Secrets for `FIELDCARE_SERVICE_URL` and `FIELDCARE_CALLER_KEY`, not the OpenRouter key. They inspect real API/stream responses; they do not impersonate the Lovable UI. Validate the UI path from the actual Lovable preview and correlated service request ID. Provider, validation, authentication, quota and clarification outcomes are reported as observed.
 
 ## Repository layout
 
@@ -24,6 +27,7 @@ examples/patterns/     Worked source examples
 notebooks/sprint_1/    Sprint 1 Campus and Live notebooks
 notebooks/sprint_2/    Sprint 2 Campus and Live notebooks
 notebooks/sprint_3/    Sprint 3 Campus and Live notebooks
+notebooks/sprint_4/    Sprint 4 Campus and Live API integration notebooks
 instructor/            Facilitator reference material
 scripts/               Notebook and source maintenance utilities
 ```
@@ -34,4 +38,4 @@ Shared code supports provider access, process lifecycle, security, safe checkpoi
 
 Use Python 3.11+ on Linux or macOS. Install the package and development dependencies from `pyproject.toml`; use the notebook guidance when opening a notebook locally. Structural changes to notebooks should retain readable markdown, actual executable examples, and a single setup/export path.
 
-The notebook source links open the reviewed delivery revision; each notebook setup cell shallow-clones the current Module B `main` branch for shared code. A local static check does not claim that a new hosted Colab run, live provider response, or instructor rehearsal has taken place.
+Sprint 1–3 source links open the reviewed delivery revision; those setup cells shallow-clone the current Module B `main` branch for shared code. Sprint 4 uses one setup cell for the course-provisioned API secrets and Colab’s existing `requests` package. A local static check does not claim that a new hosted Colab run, live provider response, or instructor rehearsal has taken place.
