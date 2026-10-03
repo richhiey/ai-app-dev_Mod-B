@@ -23,7 +23,7 @@ Provision the connection once in the provided Lovable Cloud starter so students 
 1. Enable anonymous sign-in in the project’s Auth settings. The UI does not need a login form; the client obtains a user JWT so the Edge Function can require `auth: "user"`.
 2. Add `FIELDCARE_SERVICE_URL` and `FIELDCARE_CALLER_KEY` as backend secrets. The first value is the reachable HTTPS origin only; the second is the service caller credential. Keep `OPENROUTER_API_KEY` in the FieldCare service environment.
 3. Add the Edge Function from `supabase/functions/fieldcare-proxy/index.ts` and leave JWT verification enabled. Its handler also requires an authenticated user. Do not change the function to public access.
-4. Add `fieldcareClient.ts` to the UI project and call `diagnoseWithFieldCare(supabase, { question, equipment_id })` from the submit action.
+4. Add `fieldcareClient.ts` to the UI project and call it from the submit action with the existing Supabase client, project URL, publishable key, and request body.
 5. Check one supported request and one request without optional equipment context in the actual Lovable preview. Confirm actual service events and the matching `X-Request-ID` before using the starter in class.
 
 The function fixes its upstream path to `/v1/diagnose-stream`; the browser cannot supply a URL. The configured service must be reachable over HTTPS from the function runtime. CORS only controls which browser origins may read a response; the user JWT check is the function's caller authentication. Anonymous sign-in is convenient for this classroom UI but is not an abuse-prevention or production identity policy.
@@ -31,10 +31,17 @@ The function fixes its upstream path to `/v1/diagnose-stream`; the browser canno
 ## Calling the client
 
 ```ts
-for await (const event of diagnoseWithFieldCare(supabase, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+const input = {
   question,
   ...(equipmentId ? { equipment_id: equipmentId } : {}),
-})) {
+};
+
+for await (const event of diagnoseWithFieldCare(
+  supabase,
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY,
+  input,
+)) {
   if (event.type === "metadata") setStatus(event.status);
   if (event.type === "delta") setAnswer((current) => current + event.text);
   if (event.type === "response") setClarification(event.response);
