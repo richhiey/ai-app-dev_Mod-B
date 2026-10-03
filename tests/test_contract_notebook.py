@@ -1,17 +1,41 @@
-"""A worked cell must not silently discard a student's changed source."""
+"""Contract behavior taught in the Sprint 1 notebook matches the service models."""
 import json
+import sys
 from pathlib import Path
-import pytest
-from module_b.edits import write_source
-from module_b.notebook import register_source
-ROOT=Path(__file__).resolve().parents[1]
 
-@pytest.mark.parametrize('filename',['contract_schemas.py','contract_routes.py'])
-def test_worked_contract_preserves_edits(tmp_path,filename):
-    lab=tmp_path/'lab'; (lab/'app').mkdir(parents=True)
-    target=lab/'app'/filename; target.write_text('# student edit\n')
-    notebook=json.loads((ROOT/'notebooks/sprint_1/sprint_1_service_foundations.ipynb').read_text())
-    source=''.join(next(c['source'] for c in notebook['cells'] if c['id']=='contract-schema'))
-    with pytest.raises(FileExistsError):
-        exec(source,{'lab':lab,'REPO':ROOT,'write_source':write_source,'register_source':register_source})
-    assert target.read_text()=='# student edit\n'
+import pytest
+from pydantic import ValidationError
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "examples" / "fieldcare"))
+from app.schemas import DiagnosticRequest, DiagnosticResponse
+
+
+def test_notebook_contract_cell_uses_the_current_request_and_response_models():
+    notebook = json.loads((ROOT / "notebooks/sprint_1/sprint_1_service_foundations.ipynb").read_text())
+    cell = next(cell for cell in notebook["cells"] if cell["id"] == "contract-schema")
+    source = "".join(cell["source"])
+    assert "DiagnosticRequest.model_validate" in source
+    assert "DiagnosticResponse.model_validate" in source
+
+
+def test_request_contract_accepts_optional_context_and_rejects_invalid_shapes():
+    assert DiagnosticRequest.model_validate({"question": "Airflow"}).equipment_id is None
+    assert DiagnosticRequest.model_validate({"question": " Airflow "}).question == "Airflow"
+    for payload in ({}, {"question": "   "}, {"question": "Airflow", "unknown": True}):
+        with pytest.raises(ValidationError):
+            DiagnosticRequest.model_validate(payload)
+
+
+def test_response_contract_requires_declared_status_and_citations_shape():
+    response = DiagnosticResponse.model_validate({
+        "answer": "Check the intake filter.",
+        "status": "ready",
+        "citations": ["DOC-FC-TS-001"],
+        "mode": "live",
+    })
+    assert response.citations == ["DOC-FC-TS-001"]
+    for changes in ({"status": "finished"}, {"citations": "DOC-FC-TS-001"}):
+        payload = response.model_dump() | changes
+        with pytest.raises(ValidationError):
+            DiagnosticResponse.model_validate(payload)

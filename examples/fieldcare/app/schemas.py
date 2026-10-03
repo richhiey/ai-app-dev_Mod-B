@@ -17,4 +17,4 @@ class DiagnosticResponse(BaseModel):
     answer: str = Field(min_length=1)
     status: Literal["ready", "needs_clarification"]
     citations: list[str]
-    mode: Literal["demo", "live"]
+    mode: Literal["live"]

@@ -10,7 +10,7 @@ from pathlib import Path
 FIELDS=('request_id','route','status_code','outcome','source','model','tokens','latency_ms','first_content_ms','error_category','case_id')
 OUTCOMES={'completed','failed','rejected','cancelled'}
 ERRORS={'none','unauthorized','rate_limited','invalid_request','provider_interrupted','provider_incomplete','provider_not_configured','provider_rejected','provider_unavailable','internal_error','client_disconnected'}
-SOURCES={'none','transport_fixture','live_provider','module_a_deterministic'}
+SOURCES={'none','live_provider'}
 
 
 def safe_record(values, *, fields=FIELDS, routes=()):
@@ -51,7 +51,7 @@ class ObservationMiddleware:
     """
     def __init__(self,app,*,path,routes,fields=FIELDS,approved_models=()):
         self.app=app;self.path=Path(path);self.routes=tuple(routes);self.fields=tuple(fields)
-        self.approved_models=('transport-fixture','module-a-rules',*approved_models)
+        self.approved_models=tuple(approved_models)
 
     async def __call__(self,scope,receive,send):
         if scope['type']!='http' or scope['method']!='POST':return await self.app(scope,receive,send)

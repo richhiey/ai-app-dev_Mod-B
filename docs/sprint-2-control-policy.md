@@ -24,7 +24,7 @@ This record owns the teaching semantics for B-C08–B-C13 and their asynchronous
 
 ## Reproducible evidence
 
-`demo_runtime` starts an actual owned Uvicorn service on loopback. `observe_security` starts NEW isolated in-process demo requests, records status/adapter counts and injects test time. It disables external network connections in that process and suppresses application prints. It is a checker for trusted course code, not a security sandbox. The probe must not be used as a live-provider, hosted-Colab or load/performance claim.
+`ServiceProcess` starts an actual owned Uvicorn service on loopback for HTTP observations. The internal `tests/support/security_lab.py` checker starts separate isolated in-process requests, records status/adapter counts, and injects test time. It disables external network connections in that process and suppresses application prints. It is trusted course-code QA, not a security sandbox, and its probe is not live-provider, hosted-Colab, load, or performance evidence.
 
 `runtime_keys` returns values in memory. `ServiceProcess` passes them as environment variables to the child, without a source file or terminal command-line value. It does not automatically load `.env`. Public example files contain variable names and placeholders. Workspace ZIP export excludes secret-bearing environment files by path; inspect allowed Python/JSON for values before sharing.
 

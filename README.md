@@ -1,64 +1,32 @@
 # AI App Development — Module B
 
-Two Colab notebooks per sprint: one Campus notebook for all Campus lessons and one Live notebook for all four live sessions. Six notebooks cover Sprints 1–3, using the same shared Python helpers and FieldCare service. Keep a personal copy of each notebook and use its table of contents throughout the sprint.
+This repository contains the shared examples and Colab notebooks for Module B. Sprint 1 teaches the basic FastAPI service scaffold through one Campus notebook and one Live notebook. Later sprint materials are organized under their matching folders.
 
-## Start here
+## Sprint 1 notebooks
 
-- [Sprint 1 Campus — service foundations](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/48e7a62a549dcc25e4f2674cfa35655cb7e0381b/notebooks/sprint_1/sprint_1_service_foundations.ipynb): HTTP, FastAPI tracing, prompts, contracts, independent versions and the supervisor assessment.
-- [Sprint 2 Campus — secure the service](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/48e7a62a549dcc25e4f2674cfa35655cb7e0381b/notebooks/sprint_2/sprint_2_secure_service.ipynb): authentication, secret boundaries, rate limits, independent practice and the weekend assessment.
-- [Sprint 3 Campus — observable service](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/48e7a62a549dcc25e4f2674cfa35655cb7e0381b/notebooks/sprint_3/sprint_3_observable_service.ipynb): streaming, safe logging, minimization and original Module A evaluation.
-- [Sprint 1 Live — four workshops](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/48e7a62a549dcc25e4f2674cfa35655cb7e0381b/notebooks/sprint_1/sprint_1_live_workshops.ipynb).
-- [Sprint 2 Live — four workshops](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/48e7a62a549dcc25e4f2674cfa35655cb7e0381b/notebooks/sprint_2/sprint_2_live_workshops.ipynb).
-- [Sprint 3 Live — four workshops](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/48e7a62a549dcc25e4f2674cfa35655cb7e0381b/notebooks/sprint_3/sprint_3_live_workshops.ipynb).
-- [Colab/local setup and saving progress](docs/colab-setup.md).
-- [Curriculum](docs/curriculum.md), [helper API](docs/helpers.md), [control policy](docs/sprint-2-control-policy.md) and [verification evidence](docs/local-verification.json).
+- [Campus](notebooks/sprint_1/sprint_1_service_foundations.ipynb) follows actual requests through the supplied FastAPI service, then guides route extension, contract validation, endpoint versioning, and an independent endpoint assessment.
+- [Live](notebooks/sprint_1/sprint_1_live_workshops.ipynb) contains four focused request/response workshops.
+- [Colab setup and saving work](docs/colab-setup.md) explains the single setup step and one final source/data checkpoint export.
 
-Each notebook has one setup, a table of contents, complete worked examples, blank independent decisions, checks, troubleshooting and one final export. Run all executes demonstrations but leaves untouched exercises pending. Source, evidence and notebook notes are separate: save the notebook and download its one final checkpoint ZIP. The Campus notebook owns the cumulative project: Sprint 2 accepts its Sprint 1 checkpoint, and Sprint 3 accepts its Sprint 2 checkpoint. Live notebooks import into separate workspaces and export formative evidence. Apply chosen Live changes back to Campus deliberately and rerun its checks before the next Campus export.
+The notebooks call the actual FastAPI application. Read and edit the real files in Colab's Files panel. Supported service requests use the Module A stack: OpenRouter embeddings index current service documents in Chroma, LangGraph coordinates retrieval and generation, and the OpenRouter client sends the approved model request. Colab loads `OPENROUTER_API_KEY` from Secrets or a hidden prompt; generated wording varies. Schema rejection, safety boundaries and missing-context clarification remain deterministic application decisions. The first index build and each admitted model request use provider credits.
 
 ## Repository layout
 
 ```text
-src/module_b/          Shared setup, process, observation, preservation and export helpers
-examples/fieldcare/    Editable teaching service, synthetic data, fixtures and tests
-examples/patterns/     Analogous worked source patterns
-notebooks/sprint_1/    One Campus and one Live Colab notebook
-notebooks/sprint_2/    One Campus and one Live Colab notebook
-notebooks/sprint_3/    One Campus and one Live Colab notebook
-notebooks/sprint_4/    Future Campus/Live notebook plan
-instructor/           Formative reference source only
-scripts/              Fresh-environment execution and packaging
-work/                 Ignored student stages; preparation preserves edits
-artifacts/            Student checkpoint exports; no course source ZIP or executed notebooks
+src/module_b/          Shared mechanics used by later sprint notebooks
+examples/fieldcare/    Editable FastAPI service and synthetic data
+examples/patterns/     Worked source examples
+notebooks/sprint_1/    Sprint 1 Campus and Live notebooks
+notebooks/sprint_2/    Sprint 2 Campus and Live notebooks
+notebooks/sprint_3/    Sprint 3 Campus and Live notebooks
+instructor/            Facilitator reference material
+scripts/               Notebook and source maintenance utilities
 ```
 
-## Local review
+Shared code supports repeated setup, process lifecycle, file safety, and later-sprint checkpoint work. Route behavior, schemas, prompts, provider settings, and caller requests remain in the application or notebook cells where learners can inspect them. See [active helper responsibilities](docs/helpers.md).
 
-Use Python 3.11+ on Linux/macOS. Colab uses Linux. The owned-server runtime uses POSIX sockets; native Windows execution is not supported.
+## Local development
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -e '.[dev]' -c requirements.lock
-python -m pytest
-python scripts/verify_notebooks.py
-```
+Use Python 3.11+ on Linux or macOS. Install the package and development dependencies from `pyproject.toml`; use the notebook guidance when opening a notebook locally. Structural changes to notebooks should retain readable markdown, actual executable examples, and a single setup/export path.
 
-The verifier creates a fresh isolated checkout/environment, runs shared and service tests, and executes all six untouched notebooks twice in new kernels while retaining stage files between runs. It saves JSON evidence, never extra notebooks. `--reference-config` accepts private cell edits for author review; the author's combined reference runner lives outside this repository and tests completed Sprint 1-to-2-to-3 transfer. Private assessment implementations are kept outside the learner repository.
-
-## Shared helpers, visible learning
-
-Routes, schemas, prompt/model choices, caller mappings, guard registration, policies and HTTP requests remain visible in cells or in the student's editable source. Helpers own repeated mechanics: process lifecycle, files, isolated probes, source/data fingerprints and checkpoint export.
-
-Actual loopback HTTP, separate in-process observations, mocked provider bindings and actual real-provider output are labelled distinctly. Sprint 1 generated-answer comparison is required for C04/C07 completion but off by default and requests a key through hidden input only when explicitly enabled. Sprint 2 requires no provider calls. Structural checks never establish generated-answer quality or award a grade.
-
-## Preserve student work
-
-Worked writes refuse unexpected changes. Student dictionaries apply the source the student explicitly supplies; keep them synchronized with file-editor changes. Registration blocks append once. Each stage records its incoming state once and checks inherited source/data/route preservation. Evidence freshness includes current source and chosen requests/experiments. Existing stage directories are retained; change `RUN_NAME` only for a deliberate new attempt.
-
-The exporter includes allowed source/data/fixtures and excludes environment files. Review outgoing files: a secret pasted into allowed Python or JSON would still be exported. A notebook saved to Drive does not preserve edited service files; download the final ZIP too.
-
-## Version and release status
-
-Current local source version is `0.8.1`. Earlier Git checkpoints remain historical; the final notebooks load shared source from a configured GitHub release tag or full commit SHA. The six Colab notebooks load reviewed helpers from the pinned commit. This repository is published for review. Earlier review revisions of all six notebooks reached their final exports on hosted Colab CPU runtimes. Further browser checks were skipped at the author’s request; the final Sprint 2 Live restore fix is verified locally. See [hosted verification](docs/hosted-colab-verification.json) for the tested revisions and limits, and [the Notion review index](https://app.notion.com/p/3ea5a55972ad81559d42e06081867781) for the full lesson and guide package. Human walkthrough review and instructor rehearsal remain separate approval steps.
-
-The original FieldCare repository remains historical provenance; see [provenance](docs/provenance.md). New work uses this module repository. Future capabilities, including companion-UI integration, remain governed by the exact curriculum and their actual dependencies.
+The repository working tree may include in-progress material. A file's presence or an earlier verification record does not mean that its current version has passed hosted Colab, instructor rehearsal, or publication review.

@@ -1,45 +1,49 @@
-"""The visible boundary between FieldCare and an external model provider."""
+"""The OpenRouter boundary used by the FieldCare generation node."""
+
 import json
-import os
 
-import httpx
-
-from app.config import Mode
+from module_b.openrouter import OpenRouterClient, OpenRouterError
 
 
 class ModelUnavailable(Exception):
-    """A safe category; do not expose provider response bodies or credentials."""
+    """A safe error category for callers; provider details stay server-side."""
 
 
 def generate_answer(
-    question: str, evidence: dict, *, system_prompt: str, model_name: str, mode: Mode
-) -> str:
-    if mode == "demo":
-        return (
-            "DEMO: No model was called. The supplied HX documents describe checking approved "
-            "filter selection, orientation, gasket contact and panel seating, then recording "
-            "the airflow reading. These are document-based checks, not a diagnosis of this unit. "
-            "A qualified technician must verify the actual condition."
-        )
-
-    messages = [
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": json.dumps({"question": question, "evidence": evidence})},
-    ]
+    question: str,
+    equipment: dict,
+    documents: list[dict],
+    *,
+    system_prompt: str,
+    model_name: str,
+    client: OpenRouterClient,
+) -> tuple[str, dict | None]:
+    evidence = {
+        "equipment": equipment,
+        "documents": [
+            {"doc_id": row["doc_id"], "title": row["title"], "text": row["text"]}
+            for row in documents
+        ],
+    }
     try:
-        response = httpx.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers={"Authorization": f"Bearer {os.environ['OPENROUTER_API_KEY']}"},
-            json={"model": model_name, "messages": messages, "temperature": 0.2, "max_tokens": 350},
-            timeout=30.0,
+        response = client.chat(
+            [
+                {"role": "system", "content": system_prompt},
+                {
+                    "role": "user",
+                    "content": "Question:\n"
+                    + question
+                    + "\n\nEquipment record and retrieved service evidence:\n"
+                    + json.dumps(evidence, ensure_ascii=False),
+                },
+            ],
+            model=model_name,
+            temperature=0.2,
+            max_tokens=350,
         )
-        response.raise_for_status()
-        payload = response.json()
-        if payload["choices"][0].get("finish_reason") != "stop":
-            raise ModelUnavailable("The provider did not return a complete answer.")
-        answer = payload["choices"][0]["message"]["content"]
-        if not isinstance(answer, str) or not answer.strip():
-            raise ModelUnavailable("The provider did not return text.")
-        return answer.strip()
-    except (httpx.HTTPError, KeyError, ValueError, IndexError, TypeError):
-        raise ModelUnavailable("The provider call failed.") from None
+    except OpenRouterError:
+        raise ModelUnavailable from None
+
+    if response.finish_reason != "stop" or not (response.content or "").strip():
+        raise ModelUnavailable
+    return response.content.strip(), response.usage

@@ -1,27 +1,19 @@
-"""Assemble evidence, apply simple boundaries, call the model, shape the output."""
-from app.config import get_mode
-from app.evidence import get_documents, get_equipment_record
-from app.model import generate_answer
+"""Apply deterministic request boundaries before LangGraph runs retrieval and generation."""
+from app.evidence import get_equipment_record, get_safety_citations
 from app.schemas import DiagnosticRequest, DiagnosticResponse
 
 
-def run_diagnosis(
-    request: DiagnosticRequest, *, system_prompt: str, model_name: str
-) -> DiagnosticResponse:
-    mode = get_mode()
-
+def clarification_for(request: DiagnosticRequest) -> DiagnosticResponse | None:
     def clarify(answer: str, citations: list[str] | None = None) -> DiagnosticResponse:
-        return DiagnosticResponse(
-            answer=answer, status="needs_clarification", citations=citations or [], mode=mode
-        )
-
+        return DiagnosticResponse(answer=answer, status="needs_clarification",
+                                  citations=citations or [], mode="live")
     question = request.question.lower()
     safety_terms = ("smoke", "burning", "scorch", "melted", "breaker", "fire", "sparks", "shock")
     if any(term in question for term in safety_terms):
         return clarify(
             "Stop routine troubleshooting and obtain a qualified safety review under "
             "DOC-FC-SAF-001. This starter does not assess the hazard or provide a repair procedure.",
-            [doc["doc_id"] for doc in get_documents(safety=True)],
+            get_safety_citations(),
         )
     if request.equipment_id is None:
         return clarify("Please provide the equipment_id and recent service details before model-specific guidance.")
@@ -40,14 +32,26 @@ def run_diagnosis(
         )
     if not any(term in question for term in ("filter", "airflow", "runs hot", "overheat")):
         return clarify("This starter covers HX filter and airflow questions only. Clarify that scope or seek qualified support.")
-    documents = get_documents()
-    evidence = {"equipment": equipment, "documents": documents}
-    answer = generate_answer(
-        request.question, evidence, system_prompt=system_prompt, model_name=model_name, mode=mode
-    )
+    return None
+
+
+def run_diagnosis(request: DiagnosticRequest, *, graph) -> DiagnosticResponse:
+    clarification = clarification_for(request)
+    if clarification is not None:
+        return clarification
+    equipment = get_equipment_record(request.equipment_id)
+    if equipment is None:
+        raise RuntimeError("Equipment lookup changed after request validation.")
+    state = graph.invoke({"question": request.question, "equipment": equipment})
+    documents = state["retrieved"]
+    if not documents:
+        return DiagnosticResponse(
+            answer="No current service document matched this equipment model and question.",
+            status="needs_clarification", citations=[], mode="live",
+        )
     return DiagnosticResponse(
-        answer=answer,
+        answer=state["answer"],
         status="ready",
         citations=[doc["doc_id"] for doc in documents],
-        mode=mode,
+        mode="live",
     )

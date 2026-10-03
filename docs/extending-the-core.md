@@ -26,18 +26,7 @@ This illustrative import path must exist in your example. The tests exercise a s
 
 With `inherit_env=True` (the default), supplied values override inherited settings and `None` removes a named setting. With `False`, only explicit settings are passed; supply any OS settings your particular app requires. Uvicorn process-control variables are always stripped so inherited settings cannot change the helper's owned process or load a hidden env file.
 
-FieldCare notebooks use `module_b.fieldcare.demo_service(project)` to explicitly select demo mode and remove its provider credentials. Live or other provider configurations use the generic runner with explicit settings. This keeps application policy out of the core.
-
-## Inspect another layout
-
-```python
-from module_b.source import source_excerpt, source_text
-
-print(source_excerpt(project, "src/catalog/api.py", "create_app", roots=("src",)))
-print(source_text(project, "web/client.ts", roots=("web",), suffixes=(".ts",)))
-```
-
-The existing `app/` default remains compatible. Python definitions are selected with AST inspection, including decorators; no inspected code runs. Other languages are displayed as whole text files under explicit roots/extensions. Symlinks, traversal and private/cache paths are refused.
+Notebook lessons should keep the operation being taught in an ordinary code cell. Students can inspect the actual project files in Colab’s Files panel; copied file dumps and source-display helpers are not part of the learning path.
 
 ## Read different data shapes
 
@@ -49,7 +38,7 @@ settings = load_json(project, "config/public-settings.json")
 events = load_jsonl(project, "events/sanitized.jsonl")
 ```
 
-JSON readers preserve objects, arrays and scalar values; they do not assume the diagnostic request schema. JSONL parsing reports a bad line number without echoing its payload. Loading records is not an evaluation framework or a redaction guarantee. The future evaluation lesson must still invoke the authentic Module A evaluator.
+JSON readers preserve objects, arrays and scalar values. JSONL parsing reports a bad line number without echoing its payload. Loading records is not an evaluation framework or a redaction guarantee. The evaluation lesson invokes the authentic Module A evaluator.
 
 ## Preserve new component types
 

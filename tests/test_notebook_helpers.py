@@ -45,22 +45,3 @@ def test_one_clean_campus_and_one_clean_live_notebook_per_sprint():
             if cell['cell_type']=='code':
                 assert cell['execution_count'] is None and cell['outputs']==[]
                 compile(''.join(cell['source']),cell['id'],'exec')
-
-
-@pytest.mark.parametrize('sprint,cell_id,report_name,workspace_name,result_name',[
-    (1,'version-prepare','handover_report','project','version_base'),
-    (1,'assessment-prepare','version_report','project','assessment_base'),
-    (2,'assessment-prepare','practice_report','practice','assessment_base'),
-])
-def test_stage_preparation_rejects_passed_but_stale_source(tmp_path,sprint,cell_id,report_name,workspace_name,result_name):
-    project=prepare_example(destination=tmp_path/'service',repo_root=ROOT)
-    report={'passed':True,'source_revision':revision(project)}
-    file=project/'app/routes.py'; file.write_text(file.read_text()+'\n# later learner edit\n')
-    notebook=json.loads(next(p for p in (ROOT/f'notebooks/sprint_{sprint}').glob('*.ipynb') if 'live_workshops' not in p.name).read_text())
-    source=''.join(next(c for c in notebook['cells'] if c['id']==cell_id)['source'])
-    def forbidden(*args,**kwargs):
-        pytest.fail('Stale evidence must not prepare or freeze a later stage.')
-    namespace={report_name:report,workspace_name:project,'fresh':fresh,
-               'baseline':forbidden,'demo_service':forbidden,'prepare_security_workspace':forbidden}
-    exec(compile(source,cell_id,'exec'),namespace)
-    assert namespace[result_name] is None
