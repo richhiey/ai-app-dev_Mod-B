@@ -3,7 +3,7 @@
 Campus students use [the local streaming and observation guide](sprint-3.md) with `service/fieldcare/` and `clients/`. The rules below describe the supplied mechanics; any notebook-specific verification describes the separate Live workflow or historical evidence.
 
 
-The single Campus notebook adds a real stream route to the learner’s secured Sprint 2 service. The single Live notebook supports four separate sessions in its own workspace. Both use the same Module B OpenRouter client, ChromaDB retrieval, and LangGraph orchestration.
+The local Campus project adds a real stream route to the learner’s secured service. The Live notebook supports four instructor sessions in its own workspace. Both use the supplied Module B OpenRouter client and ChromaDB/LangGraph mechanics. See the [handoff guide](live-handoff.md) before moving between environments.
 
 ## Delivery path
 
@@ -13,14 +13,14 @@ Validation, authentication and rate limiting happen before generation. The deter
 
 ## Retained metadata
 
-Observation middleware retains an explicit allowlist such as request ID, route, status, outcome, source, model, provider-reported usage, latency and safe error category. It excludes request/response text, credentials, headers, and exception details. The notebook’s synthetic marker computation checks that the allowlist excludes a marker; it is a local privacy exercise and not model output.
+Observation middleware retains an explicit allowlist such as request ID, route, status, outcome, source, model, provider-reported usage, latency and safe error category. It excludes request/response text, credentials, headers, and exception details. The local synthetic privacy computation checks that the allowlist excludes a marker; it is a local privacy exercise and not model output.
 
 A runtime request ID correlates one client attempt with its terminal metadata. Equipment and evaluation IDs have different roles and do not identify a unique execution.
 
 ## Original Module A evaluation
 
-The bundled Module A functions run against the saved pipeline design and original data. The notebook shows actual returned evaluation results for selected cases. These criteria concern retrieved documents, tool calls and response flags; they do not grade the generated answer’s prose or streaming performance. Keep evaluation evidence separate from provider response review and delivery observations.
+The bundled Module A functions run against the saved pipeline design and original data. The evaluation client prints actual returned results for selected cases. These criteria concern retrieved documents, tool calls and response flags; they do not grade the generated answer’s prose or streaming performance. Keep evaluation evidence separate from provider response review and delivery observations.
 
 ## Delivery and verification boundary
 
-The six Campus and Live notebooks are published in the Module B GitHub repository. Each setup cell shallow-clones `main`; Colab launch links open the reviewed notebook source revision. Static checks and local HTTP/provider-contract checks do not claim that a fresh hosted Colab run or a live provider request was performed. Review current provider availability in Colab when preparing a delivery.
+Local Campus learners launch Uvicorn explicitly and prepare the document index separately. Clone repository `main` and preserve your source edits. Automated tests check the application and published attachment patterns on Windows/macOS; provider-boundary doubles do not establish live model availability. Keep actual supported generation and complete stream evidence separate from deterministic checks.

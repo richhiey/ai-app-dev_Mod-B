@@ -1,6 +1,6 @@
 # Module B curriculum map
 
-Current delivery: Sprint 1 Campus uses Colab; Sprint 2–3 Campus use VS Code and local terminals on Windows/macOS. Live sessions retain their own notebooks. The course outcomes and lesson types below are unchanged. See [local setup](local-development.md), [Sprint 2](sprint-2.md), and [Sprint 3](sprint-3.md) for current instructions. Earlier implementation status prose in the map is historical.
+Current delivery: Sprint 1 Campus uses Colab; Sprint 2–3 Campus use VS Code and local terminals on Windows/macOS. Live sessions retain their own notebooks. The course outcomes and lesson types below are unchanged. See [local setup](local-development.md), [Sprint 2](sprint-2.md), and [Sprint 3](sprint-3.md) for current instructions.
 
 ## Sprint 1 — From Application to Service
 
@@ -22,7 +22,7 @@ Service/process lifecycle, fixtures, source inspection and trace probes are impl
 
 ## Sprint 2 — Securing and Limiting an AI Service
 
-Planned: secret loading, identity/guard patterns, two-caller burst/reset experiments and rejected-before-model evidence. Auth/limit attachment stays visible.
+Learners configure private local caller values, attach the guard, design two-caller request timelines and inspect rejection boundaries. Authentication and limit attachment remain visible in their source.
 
 | ID | Lesson/session | Type/format | Learning outcome |
 |---|---|---|---|
@@ -39,7 +39,7 @@ Planned: secret loading, identity/guard patterns, two-caller burst/reset experim
 
 ## Sprint 3 — Streaming and Observability
 
-Planned: stream/completion/error observation, structured event inspection, incremental filtering and original Module A evaluator adapter. Do not substitute a new scorer.
+Learners attach streaming and safe observation, inspect terminal events, and select original Module A cases to investigate a service concern. The evaluator runs the saved reference design; it does not score live generated prose.
 
 | ID | Lesson/session | Type/format | Learning outcome |
 |---|---|---|---|
@@ -72,7 +72,7 @@ Planned: trusted connector, diagnostic stream renderer, correlated interaction e
 ## Release dependencies
 
 - B-C03 is a guided execution tour; C04 receives the separate analogous fixed-schema route rehearsal. Do not include the assessed dispatcher solution in helpers.
-- C18/C19 and LS11/12 require authentic `evaluate_case`, `evaluate_fieldcare_pipeline` and `run_eval_case` semantics bound to the served application configuration. The current bounded starter does not supply that pipeline.
+- C18/C19 and LS11/12 preserve authentic `evaluate_case`, `evaluate_fieldcare_pipeline` and `run_eval_case` semantics. Evaluation runs the saved reference design, which is distinct from the served OpenRouter graph; learners must explain that boundary.
 - Runtime request IDs, fixture request IDs and evaluation IDs remain separate. Select a case and relevant companion case using sanitized metadata; logging does not prove answer quality.
 - C20–21/LS13–14 use a human-facing diagnostic stream while retaining the buffered machine handover. Supply a trusted credential boundary and reachable service; do not expose service keys in browser code.
-- All notebook source and boilerplate are shared, but lesson-type differences remain: worked steps for walkthroughs, constrained tasks/hints for practice, unseen variants for assessment, and diagnosis/comparison for live sessions.
+- Supplied source is shared, but lesson-type differences remain: worked steps for walkthroughs, constrained tasks/hints for practice, unseen variants for assessment, and diagnosis/comparison for live sessions.
