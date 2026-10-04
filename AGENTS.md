@@ -17,3 +17,7 @@ Maintain exactly two canonical `.ipynb` files per authored sprint: one Campus no
 ## GitHub source delivery
 
 The six learner notebooks clone the separate Module B repository with `git clone --depth 1 --branch main` and install that checkout with the repository's `requirements.lock`. Do not add a pinned commit checkout, separate source ZIP, or repeated package setup to student notebooks. The Colab launch links may reference the reviewed delivery commit so students open the intended notebook, while setup intentionally installs the current `main` branch. Keep personal project checkpoint exports for learner work and carrying changes between sprints.
+
+## Campus instructor demonstrations — 4 October 2026
+
+For Campus sprints 1–3, keep the same three canonical notebook paths. Supply Python modules and JSON fixtures in the repository; never generate, append, patch, or AST-rewrite source from notebook cells. Separate runnable `DEMO` source from cumulative learner `PROJECT`. Keep real requests, predictions and interpretation visible. Walkthroughs model execution; independent practice and assessment retain learner choices. Setup may copy/restore reviewed files without overwriting work; service logs and a final checkpoint export have explicit artifact purposes. Keep cell IDs stable where lessons link to them and audit all Campus/Notion references after changes.

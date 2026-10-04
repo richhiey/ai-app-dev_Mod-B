@@ -55,6 +55,22 @@ def test_observation_middleware_records_safe_http_metadata(tmp_path):
     assert marker not in json.dumps(record)
 
 
+def test_existing_request_id_header_is_not_duplicated(tmp_path):
+    from fastapi import Request
+    from fastapi.responses import JSONResponse
+    app = FastAPI()
+    app.add_middleware(ObservationMiddleware, path=tmp_path / 'requests.jsonl', routes=('/stream',))
+
+    @app.post('/stream')
+    def stream(request: Request):
+        return JSONResponse({'ok': True}, headers={'X-Request-ID': request.state.request_id})
+
+    with TestClient(app) as client:
+        response = client.post('/stream')
+    record = json.loads((tmp_path / 'requests.jsonl').read_text())
+    assert response.headers.get_list('x-request-id') == [record['request_id']]
+
+
 def test_provider_event_parser_accepts_complete_real_protocol_shape(monkeypatch):
     monkeypatch.setenv("OPENROUTER_API_KEY", "SYNTHETIC-TEST-KEY")
     monkeypatch.setenv("OPENROUTER_MODEL", "approved")

@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-04",
+  "tests": {
+    "passed": 82,
+    "subtests_passed": 35
+  },
+  "notebook_execution": [
+    {
+      "sprint": 1,
+      "notebook": "notebooks/sprint_1/sprint_1_service_foundations.ipynb",
+      "sha256": "7b6a4f2835713809e5ad71c7aa7f8ff2efac01012e2a8d50c3c39f3a6e8bce9b",
+      "code_cells": 10,
+      "errors": 0,
+      "provider": "mocked boundary; real FastAPI/Chroma/LangGraph and loopback processes",
+      "hosted_colab": false,
+      "source_cells_changed_for_qa": [
+        "setup paths and skip already-completed pip installation"
+      ]
+    },
+    {
+      "sprint": 2,
+      "notebook": "notebooks/sprint_2/sprint_2_secure_service.ipynb",
+      "sha256": "04552fe980449c54e097350b63dd443f4ffe883cec1a9ef898ce013eebda39e8",
+      "code_cells": 10,
+      "errors": 0,
+      "provider": "mocked boundary; real FastAPI/Chroma/LangGraph and loopback processes",
+      "hosted_colab": false,
+      "source_cells_changed_for_qa": [
+        "setup paths and skip already-completed pip installation"
+      ]
+    },
+    {
+      "sprint": 3,
+      "notebook": "notebooks/sprint_3/sprint_3_observable_service.ipynb",
+      "sha256": "e7eca763a7b22926fc1995cec38d87f2c8438d5b6aece8fb54a0894a29d5f580",
+      "code_cells": 11,
+      "errors": 0,
+      "provider": "mocked boundary; real FastAPI/Chroma/LangGraph and loopback processes",
+      "hosted_colab": false,
+      "source_cells_changed_for_qa": [
+        "setup paths and skip already-completed pip installation"
+      ]
+    }
+  ],
+  "hosted_colab": "pending",
+  "provider_evidence": "local mocks only so far"
+}

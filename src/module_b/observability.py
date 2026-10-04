@@ -68,7 +68,12 @@ class ObservationMiddleware:
             nonlocal status,complete
             if message['type']=='http.response.start':
                 status=message['status']
-                message={**message,'headers':list(message.get('headers',[]))+[(b'x-request-id',state['request_id'].encode())]}
+                # A streaming route can already set this header. Emit one
+                # authoritative value, otherwise clients join duplicates with a
+                # comma and no longer match the terminal record's UUID.
+                headers=[(key,value) for key,value in message.get('headers',[])
+                         if key.lower()!=b'x-request-id']
+                message={**message,'headers':headers+[(b'x-request-id',state['request_id'].encode())]}
             if message['type']=='http.response.body' and not message.get('more_body',False):complete=True
             await send(message)
         try:await self.app(scope,safe_receive,safe_send)

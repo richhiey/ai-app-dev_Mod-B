@@ -18,6 +18,12 @@ Sprints 1–3 run the actual FastAPI application in Colab. Supported requests us
 
 Sprint 4 notebooks call the course-provisioned reachable service as a separate HTTP caller. They use Colab Secrets for `FIELDCARE_SERVICE_URL` and `FIELDCARE_CALLER_KEY`, not the OpenRouter key. They inspect real API/stream responses; they do not impersonate the Lovable UI. Validate the UI path from the actual Lovable preview and correlated service request ID. Provider, validation, authentication, quota and clarification outcomes are reported as observed.
 
+## Campus demonstrations
+
+The three Campus notebooks for Sprints 1–3 are instructor demonstrations with a lesson map, predictions, short request experiments and interpretation. Supplied Python modules live in the repository; notebook cells do not generate or patch them. `DEMO` and learner `PROJECT` folders keep worked examples separate from your own service. Optional project runners support independent practice and checkpoints without completing them for you.
+
+The Sprint 3 evaluator runs the preserved Module A deterministic reference pipeline; its supplied design does not automatically configure the live OpenRouter service or score generated wording.
+
 ## Repository layout
 
 ```text
@@ -38,4 +44,4 @@ Shared code supports provider access, process lifecycle, security, safe checkpoi
 
 Use Python 3.11+ on Linux or macOS. Install the package and development dependencies from `pyproject.toml`; use the notebook guidance when opening a notebook locally. Structural changes to notebooks should retain readable markdown, actual executable examples, and a single setup/export path.
 
-Sprint 1–3 source links open the reviewed delivery revision; those setup cells shallow-clone the current Module B `main` branch for shared code. Sprint 4 uses one setup cell for the course-provisioned API secrets and Colab’s existing `requests` package. A local static check does not claim that a new hosted Colab run, live provider response, or instructor rehearsal has taken place.
+Sprint 1–3 canonical notebook links open `main`; their setup cells shallow-clone the same branch for shared code. Sprint 4 uses one setup cell for the course-provisioned API secrets and Colab’s existing `requests` package. A local static check does not claim that a new hosted Colab run, live provider response, or instructor rehearsal has taken place.

@@ -4,7 +4,9 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-NOTEBOOKS = sorted((ROOT / "notebooks").rglob("*.ipynb"))
+ALL_NOTEBOOKS = sorted((ROOT / "notebooks").rglob("*.ipynb"))
+# Sprint 4 uses a separate UI notebook format; these bootstrap checks cover 1–3.
+NOTEBOOKS = [p for p in ALL_NOTEBOOKS if p.parent.name in {"sprint_1", "sprint_2", "sprint_3"}]
 
 
 def setup_source(file):
@@ -12,7 +14,8 @@ def setup_source(file):
     return "".join(next(cell["source"] for cell in notebook["cells"] if cell["id"] == "setup"))
 
 
-def test_all_six_notebooks_clone_main_and_install_the_real_live_provider():
+def test_sprints_1_to_3_notebooks_clone_main_and_install_the_real_live_provider():
+    assert len(ALL_NOTEBOOKS) == 8
     assert len(NOTEBOOKS) == 6
     sources = [setup_source(file) for file in NOTEBOOKS]
     repositories = {re.search(r'^REPOSITORY = "([^"]+)"', source, re.M).group(1) for source in sources}

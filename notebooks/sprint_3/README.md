@@ -9,4 +9,6 @@ Each has one setup and one final checkpoint export. Campus imports the secured S
 
 Supported requests use the real OpenRouter stream, ChromaDB retrieval, and LangGraph orchestration. The observation exercise uses a synthetic marker locally, and the evaluation cell calls the preserved Module A evaluator. They are distinct computations with distinct evidence.
 
-See [Colab setup and work-saving guidance](../../docs/colab-setup.md). The notebook links are pinned to the reviewed delivery; each setup cell installs the current Module B `main` branch.
+See [Colab setup and work-saving guidance](../../docs/colab-setup.md). The same canonical links load the current `main` notebooks; setup installs the current `main` source.
+
+Campus uses a supplied `DEMO` and a separate learner `PROJECT`. Run the default demonstrations without first completing exercises. Apply source changes in `PROJECT` when the lesson asks; enable the optional project runner to test your work. No cell generates Python source. Save one Drive copy for notes and export your project at the end. See the notebook’s lesson map for exact section names.
