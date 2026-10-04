@@ -1,0 +1,93 @@
+{
+  "rerank_config": {
+    "prefer_current_docs": true,
+    "model_match_boost": 0.12,
+    "model_mismatch_penalty": 0.35,
+    "product_note_model_boost": 0.2,
+    "model_conflict_note_boost": 0.35,
+    "topic_match_boost": 0.04,
+    "safety_override_boost": 0.12,
+    "warranty_policy_boost": 0.24,
+    "filter_procedure_boost": 0.18,
+    "overheat_triage_boost": 0.16,
+    "sensor_workflow_boost": 0.18,
+    "repeat_fault_policy_boost": 0.2,
+    "superseded_current_doc_boost": 0.35,
+    "legacy_penalty": 0.45
+  },
+  "tool_plan_by_request_type": {
+    "troubleshooting_plus_warranty": [
+      "get_equipment_record",
+      "get_maintenance_history",
+      "get_warranty_status",
+      "get_ticket_status",
+      "recommend_escalation_path"
+    ],
+    "retrieval_only_airflow": [],
+    "warranty_only": [
+      "get_equipment_record",
+      "get_warranty_status",
+      "get_ticket_status"
+    ],
+    "sensor_plus_warranty": [
+      "get_equipment_record",
+      "get_maintenance_history",
+      "get_warranty_status"
+    ],
+    "expired_warranty": [
+      "get_equipment_record",
+      "get_warranty_status",
+      "get_maintenance_history"
+    ],
+    "tool_unavailable": [
+      "get_equipment_record",
+      "get_warranty_status",
+      "get_ticket_status",
+      "recommend_escalation_path"
+    ],
+    "conflicting_documentation": [
+      "get_equipment_record",
+      "get_ticket_status"
+    ],
+    "reranking_distractor": [
+      "get_equipment_record",
+      "get_ticket_status"
+    ],
+    "ticket_status_only": [
+      "get_ticket_status"
+    ],
+    "repeat_fault_escalation": [
+      "get_equipment_record",
+      "get_maintenance_history",
+      "get_ticket_status",
+      "recommend_escalation_path"
+    ],
+    "safety_escalation": [
+      "get_equipment_record",
+      "get_ticket_status",
+      "recommend_escalation_path"
+    ],
+    "unsupported_model": [
+      "get_equipment_record",
+      "get_ticket_status",
+      "recommend_escalation_path"
+    ],
+    "unsupported_business_promise": [
+      "get_warranty_status"
+    ]
+  },
+  "retrieval_required_by_request_type": {
+    "incomplete_request": false,
+    "insufficient_information": false,
+    "ticket_status_only": false,
+    "unsupported_model": false
+  },
+  "response_policy": {
+    "cite_evidence_when_available": true,
+    "ask_before_model_specific_guidance_when_ids_missing": true,
+    "abstain_on_safety": true,
+    "abstain_on_unsupported_model": true,
+    "route_when_warranty_unavailable": true,
+    "route_repeat_faults": true
+  }
+}

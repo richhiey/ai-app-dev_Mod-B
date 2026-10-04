@@ -25,3 +25,7 @@ For Campus sprints 1–3, keep the same three canonical notebook paths. Supply P
 ## Campus rerun safety — 5 October 2026
 
 Each Campus setup clones main into a fresh source folder and uses `campus_bootstrap.py` for housekeeping. Preserve PROJECT; prepare a new DEMO folder on each setup. Chroma persistence paths must be absolute and have existing parent directories. Never reuse a relative-path Chroma system across notebook directories or delete a learner database to hide an error. Failed TestClient startup must be safe to retry.
+
+## Local Campus development — 5 October 2026
+
+Sprint 1 Campus remains Colab. Sprint 2 and 3 Campus use VS Code and terminals on Windows and macOS, one cumulative service under service/fieldcare. Retire their two Campus notebooks after updating references; preserve Live notebooks and Sprint 4. Clone main, use the tested lock, and never reset learner edits. Keep local server execution visible, separate index preparation from startup, and keep client requests readable. Local lessons use supplied patterns without pre-completing the assessed work. Windows/macOS command verification and real-provider evidence must be reported honestly.

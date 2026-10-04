@@ -1,30 +1,15 @@
-# Shared code used by the lessons
+# Understand the supplied code
 
-The notebooks keep requests, service changes, and observed results visible. Shared code is limited to reusable provider, process, security, streaming, and evaluation mechanics.
+You own the application under `service/fieldcare/` and the experiments under `clients/`. These helpers supply reusable mechanics so the lessons can focus on service behavior.
 
-## Imported by notebook cells
+| Module | Supplied responsibility | Your visible decision |
+|---|---|---|
+| `security` | Constant-time caller comparison, static POST inventory, fixed-window counting | Caller mapping, guard placement, allowance and request sequence |
+| `streaming` | Parse OpenRouter SSE and forward validated events | Route registration, client delivery choice and completion handling |
+| `observability` | Correlate attempts and retain allowlisted metadata | Attachment order, useful fields and evidence interpretation |
+| `openrouter`, `retrieval` | Provider HTTP calls and Chroma indexing/querying | Explicit preparation, route prompt and supported request |
+| `evaluation`, `_module_a` | Preserve original Module A cases and evaluator | Concern, selected cases, design change and bounded conclusion |
 
-| Module | Student-facing responsibility |
-|---|---|
-| `openrouter` | Read `OPENROUTER_API_KEY` safely and configure the course model. |
-| `runtime` | Start and stop the local Uvicorn process used for actual HTTP requests in Sprint 2 and Sprint 3. |
-| `security` | Authenticate configured callers and apply per-key request limits. |
-| `observability` | Retain allowlisted request metadata and redact content. |
-| `evaluation` and `_module_a` | Run the preserved Module A evaluator against its original data and criteria. |
-| `secret_workshop` | Create disposable synthetic inputs for the secrets workshop; it does not read student or private repositories. |
+Read the function's docstring and call site together. The local application uses ordinary Uvicorn commands; it does not use `ServiceProcess`.
 
-## Called by the FieldCare service
-
-| Module | Service responsibility |
-|---|---|
-| `retrieval` | Build and query the ChromaDB store using provider embeddings. |
-| `streaming` | Forward actual OpenRouter stream events to the streaming route. |
-| `security` | Apply the middleware attached to protected routes. |
-
-Notebook cells call the application and inspect its HTTP responses. Test-only controlled-clock and failure-injection probes are under `tests/support`; they are not installed with `module_b` or imported by learner notebooks. Their outputs are not model responses or learner HTTP evidence.
-
-The installed package contains only reusable mechanics used by the current course examples. Checkpoint import/export and learner source edits stay in the notebooks, where students can inspect and understand those operations. Do not add a helper solely to wrap a single notebook cell.
-
-## Notebook rule
-
-Show the real operation where it happens. Keep HTTP method, path, request body, and observed response beside each request. Open source files in Colab’s Files panel; do not print copied source as a substitute for reading it.
+`runtime`, `campus`, `campus_bootstrap`, `workspace` and checkpoint utilities remain for Sprint 1/Live Colab compatibility and safe source transfer. They do not implement the local student workflow. Test-only time controls and provider doubles live under `tests/`; they do not establish real provider success.

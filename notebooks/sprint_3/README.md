@@ -1,14 +1,9 @@
-# Sprint 3 — Campus and Live notebooks
+# Sprint 3
 
-There are exactly two notebooks for the sprint:
+Campus work now happens in VS Code and a local terminal. Use the same local service across Sprints 2 and 3.
 
-- [Campus source](sprint_3_observable_service.ipynb) is reused across C14–C19 · [Open in Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/main/notebooks/sprint_3/sprint_3_observable_service.ipynb).
-- [Live source](sprint_3_live_workshops.ipynb) is reused across LS09–LS12 · [Open in Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/main/notebooks/sprint_3/sprint_3_live_workshops.ipynb).
+- [Campus development guide](../../docs/sprint-3.md)
+- [Local setup and Sprint 1 checkpoint transfer](../../docs/local-development.md)
+- [Instructor-led Live Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/main/notebooks/sprint_3/sprint_3_live_workshops.ipynb)
 
-Each has one setup and one final checkpoint export. Campus imports the secured Sprint 2 project when available. Live uses a separate workspace; apply a chosen improvement back to Campus explicitly.
-
-Supported requests use the real OpenRouter stream, ChromaDB retrieval, and LangGraph orchestration. The observation exercise uses a synthetic marker locally, and the evaluation cell calls the preserved Module A evaluator. They are distinct computations with distinct evidence.
-
-See [Colab setup and work-saving guidance](../../docs/colab-setup.md). The same canonical links load the current `main` notebooks; setup installs the current `main` source.
-
-Campus uses a supplied `DEMO` and a separate learner `PROJECT`. Run the default demonstrations without first completing exercises. Apply source changes in `PROJECT` when the lesson asks; enable the optional project runner to test your work. No cell generates Python source. Save one Drive copy for notes and export your project at the end. See the notebook’s lesson map for exact section names.
+The former Campus notebook is retired. Follow the development guide for current Campus tasks; use the Live notebook only when your session guide asks for it.

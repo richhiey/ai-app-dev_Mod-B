@@ -1,0 +1,12 @@
+[
+  {
+    "equipment_id": "EQ-FC-1001",
+    "model": "HX-200",
+    "known_attributes": "repeat overheating after filter service; airflow threshold 68 percent; sensor calibration deferred"
+  },
+  {
+    "equipment_id": "EQ-FC-1002",
+    "model": "HX-220",
+    "known_attributes": "A-09 history during summer dust spikes"
+  }
+]

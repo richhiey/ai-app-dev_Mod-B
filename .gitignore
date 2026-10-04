@@ -13,3 +13,8 @@ artifacts/*
 build/
 dist/
 .DS_Store
+
+# Local learner runtime files (source and selected evidence remain tracked).
+var/
+.checkpoint-imports/
+*.zip

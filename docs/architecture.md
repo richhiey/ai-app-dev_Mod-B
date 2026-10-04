@@ -1,20 +1,24 @@
-# Repository architecture
+# Follow one request
 
-## Student-facing material
+The local application lives in `service/fieldcare/`. Its server runs in terminal A; a client in terminal B sends an HTTP request to it.
 
-- `examples/fieldcare` is the editable FastAPI service and its synthetic data.
-- `notebooks/sprint_1` contains one Campus notebook and one Live notebook. Their code cells make direct `TestClient` requests and show the returned status and body.
-- `notebooks/sprint_2` and `notebooks/sprint_3` contain later-sprint notebooks. They keep service changes, requests, and observations in visible cells and import only reusable runtime/security/observability/evaluation mechanics.
-- `examples/patterns` contains small worked source examples. Assessment reference implementations live in instructor-only material.
+```text
+clients/request.py or clients/stream.py
+    → observation middleware (once attached)
+    → authentication and caller allowance (once attached)
+    → FastAPI input validation
+    → route and deterministic clarification
+    → prepared Chroma index + LangGraph + OpenRouter, when needed
+    → JSON response or incremental NDJSON events
+    → one minimized terminal record, when observation is attached
+```
 
-Students inspect and edit service code in their workspace. Helpers must not substitute printed source or a generated summary for the real computation being taught.
+`main.py` owns registration. Routers are registered before the guard inventories their paths. Observation is attached last so it surrounds authentication rejections as well as admitted requests.
 
-## Shared package
+Startup creates a resource manager, not embeddings. `python -m fieldcare.prepare_index` performs the explicit embedding preparation. A supported request opens the prepared index and calls the provider; deterministic clarification does neither. `/health` exposes preparation/configuration state without claiming that generation has succeeded.
 
-`src/module_b` supports the four sprints. `openrouter` provides provider setup; `runtime` manages the local service process; `security`, `observability`, and `evaluation` support explicit learner operations; `retrieval` and `streaming` are called by FieldCare. The copied `_module_a` package preserves the Sprint 3 evaluation exercise. Notebook setup, source edits, and checkpoint import/export remain visible in the eight learner notebooks. See [helper responsibilities](helpers.md) for the map.
+`var/` contains generated local state and is ignored by Git. `service/data/` contains supplied synthetic evidence. `evidence/` contains your selected, reviewed observations. These three folders serve different purposes.
 
-Sprint 1 does not depend on helper functions to display source or synthesize route observations. The Campus and Live notebooks call the supplied FastAPI app directly. Their `TestClient` calls execute in-process; they do not claim a TCP server or provider response.
+The Module A evaluator uses its original reference pipeline and the saved evaluation design. It is a separate source of behavioral evidence, not a scorer for a streamed paragraph.
 
-## Authoring rule
-
-Keep methods, paths, request bodies, schemas, prompts, route registration, and learner decisions in the visible service source or notebook cells. Reuse a helper only when it removes repeated setup or file mechanics without hiding the concept under instruction.
+The separate application in `examples/fieldcare/` supports the existing Sprint 1 and Live notebooks. It is not the local Campus editing location.
