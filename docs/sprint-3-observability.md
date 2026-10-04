@@ -1,4 +1,7 @@
-# Sprint 3 streaming and observability
+# Sprint 3 source reference
+
+Campus students use [the local streaming and observation guide](sprint-3.md) with `service/fieldcare/` and `clients/`. The rules below describe the supplied mechanics; any notebook-specific verification describes the separate Live workflow or historical evidence.
+
 
 The single Campus notebook adds a real stream route to the learner’s secured Sprint 2 service. The single Live notebook supports four separate sessions in its own workspace. Both use the same Module B OpenRouter client, ChromaDB retrieval, and LangGraph orchestration.
 

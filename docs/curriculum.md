@@ -1,6 +1,6 @@
-# Full Module B schedule and shared-code plan
+# Module B curriculum map
 
-All source outcomes and types below are preserved. Current notebooks implement B-C03, its guided configuration prerequisite and the B-C04 Independent Practice starter with a separate facilitator reference. B-C04 structural checks are local; its required real-provider comparison remains pending. B-C05 now has a Concept Note and separate contract-application rehearsal with a reduced-support requirement. The remaining rows describe planned support, not completed lessons.
+Current delivery: Sprint 1 Campus uses Colab; Sprint 2–3 Campus use VS Code and local terminals on Windows/macOS. Live sessions retain their own notebooks. The course outcomes and lesson types below are unchanged. See [local setup](local-development.md), [Sprint 2](sprint-2.md), and [Sprint 3](sprint-3.md) for current instructions. Earlier implementation status prose in the map is historical.
 
 ## Sprint 1 — From Application to Service
 

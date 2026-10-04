@@ -15,8 +15,8 @@ def setup_source(file):
 
 
 def test_sprints_1_to_3_notebooks_install_published_source_and_real_provider():
-    assert len(ALL_NOTEBOOKS) == 8
-    assert len(NOTEBOOKS) == 6
+    assert len(ALL_NOTEBOOKS) == 6
+    assert len(NOTEBOOKS) == 4
     sources = [setup_source(file) for file in NOTEBOOKS]
     repositories = {re.search(r'^REPOSITORY = "([^"]+)"', source, re.M).group(1) for source in sources}
     assert repositories == {"https://github.com/richhiey/ai-app-dev_Mod-B.git"}
@@ -34,9 +34,7 @@ def test_notebooks_are_clean_and_have_one_setup_and_export_per_sprint():
     expected = {
         "sprint_1_service_foundations.ipynb",
         "sprint_1_live_workshops.ipynb",
-        "sprint_2_secure_service.ipynb",
         "sprint_2_live_workshops.ipynb",
-        "sprint_3_observable_service.ipynb",
         "sprint_3_live_workshops.ipynb",
     }
     assert {path.name for path in NOTEBOOKS} == expected

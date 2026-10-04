@@ -24,9 +24,11 @@ This record owns the teaching semantics for B-C08–B-C13 and their asynchronous
 
 ## Reproducible evidence
 
-`ServiceProcess` starts an actual owned Uvicorn service on loopback for HTTP observations. The internal `tests/support/security_lab.py` checker starts separate isolated in-process requests, records status/adapter counts, and injects test time. It disables external network connections in that process and suppresses application prints. It is trusted course-code QA, not a security sandbox, and its probe is not live-provider, hosted-Colab, load, or performance evidence.
+Campus learners start Uvicorn directly in a terminal and send visible requests from `clients/`. The local service lives in `service/fieldcare/`. Configuration is loaded from a private local `.env`; the app must restart after edits. The setup guide explains Windows/macOS environments and safe checkpoint transfer. Live notebooks retain their separate `ServiceProcess` runner.
 
-`runtime_keys` returns values in memory. `ServiceProcess` passes them as environment variables to the child, without a source file or terminal command-line value. It does not automatically load `.env`. Public example files contain variable names and placeholders. Workspace ZIP export excludes secret-bearing environment files by path; inspect allowed Python/JSON for values before sharing.
+Students predict their own sequence, run it against one process, inspect actual statuses and `Retry-After`, and demonstrate renewal without a restart. Deterministic clarification/validation experiments do not need provider calls; generated-answer evidence requires explicit index preparation and a real provider response.
+
+Internal tests use controlled clocks and provider doubles where stated. Those checks establish mechanics, not hosted execution, throughput or live-provider success.
 
 ## Source grounding
 

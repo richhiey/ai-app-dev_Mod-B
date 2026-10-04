@@ -122,7 +122,7 @@ def test_legacy_checkpoint_is_supported_and_unsafe_paths_are_rejected(tmp_path):
 
 
 def test_delivered_campus_cells_do_not_generate_source_or_reveal_solutions():
-    for sprint, name in [(1, "service_foundations"), (2, "secure_service"), (3, "observable_service")]:
+    for sprint, name in [(1, "service_foundations")]:
         path = ROOT / f"notebooks/sprint_{sprint}/sprint_{sprint}_{name}.ipynb"
         notebook = json.loads(path.read_text())
         sources = ["".join(c["source"]) for c in notebook["cells"] if c["cell_type"] == "code"]
