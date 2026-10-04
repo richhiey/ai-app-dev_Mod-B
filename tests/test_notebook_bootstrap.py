@@ -21,14 +21,12 @@ def test_sprints_1_to_3_notebooks_install_published_source_and_real_provider():
     repositories = {re.search(r'^REPOSITORY = "([^"]+)"', source, re.M).group(1) for source in sources}
     assert repositories == {"https://github.com/richhiey/ai-app-dev_Mod-B.git"}
     for source in sources:
-        if "SOURCE_REVISION" in source:
-            assert '"fetch", "--depth", "1", REPOSITORY, SOURCE_REVISION' in source
-            assert 'actual_revision != SOURCE_REVISION' in source
-        else:
-            assert '"clone", "--depth", "1", "--branch", "main", REPOSITORY, str(REPO)' in source
+        assert '"clone", "--depth", "1", "--branch", "main", REPOSITORY, str(REPO)' in source
+        assert "SOURCE_REVISION" not in source
+        assert '"checkout"' not in source
         assert '"install", "-q", "-e", str(REPO)' in source
         assert 'str(REPO / "requirements.lock")' in source
-        assert "require_openrouter_key(prompt=True)" in source
+        assert "require_openrouter_key(prompt=True)" in source or "campus_bootstrap.py" in source
         assert "files.upload" not in source
 
 
@@ -59,28 +57,36 @@ def test_notebooks_are_clean_and_have_one_setup_and_export_per_sprint():
                 assert "trace_paths" not in source
 
 
-def test_campus_setup_recovers_stale_checkout_and_import_without_touching_project(tmp_path):
-    """Reproduce reopening Colab with an old source folder AND cached module_b."""
+def test_campus_setup_recovers_stale_import_and_failed_client_preserving_project(tmp_path):
+    """An old package and failed TestClient must not prevent retrying setup."""
     import subprocess
     import sys
-    source = setup_source(ROOT / "notebooks/sprint_1/sprint_1_service_foundations.ipynb")
-    source = source.split("from module_b.openrouter", 1)[0]
-    source = re.sub(r'^BASE = .*$', f"BASE = Path({str(tmp_path)!r})", source, flags=re.M)
-    source = re.sub(r'^REPOSITORY = .*$', f"REPOSITORY = {str(ROOT)!r}", source, flags=re.M)
-    source = "\n".join(line for line in source.splitlines() if not line.startswith('subprocess.run([sys.executable, "-m", "pip"'))
-    old = tmp_path / "ai-app-dev_Mod-B/src/module_b"
+    old = tmp_path / "old-source/module_b"
     old.mkdir(parents=True)
     (old / "__init__.py").write_text("STALE = True\n")
-    project = tmp_path / "fieldcare-campus-project-1"
-    project.mkdir()
-    (project / "my-work.py").write_text("# keep my unfinished work\n")
-    prelude = f"import sys; sys.path.insert(0, {str(old.parent)!r}); import module_b; assert module_b.STALE\n"
-    checks = """
+    source = f"""
+from pathlib import Path
+import os, sys, runpy
+os.environ["OPENROUTER_API_KEY"] = "synthetic-test-not-a-key"
+sys.path.insert(0, {str(old.parent)!r})
+import module_b
+assert module_b.STALE
+prepare = runpy.run_path({str(ROOT / 'src/module_b/campus_bootstrap.py')!r})["prepare_campus"]
+base = Path({str(tmp_path)!r})
+# Failed TestClient has no exit_stack; it must not have __exit__ called.
+class FailedClient:
+    def close(self): self.closed = True
+    def __exit__(self, *args): raise AssertionError("half-started client")
+failed = FailedClient()
+previous = {{"client": failed}}
+demo, project = prepare(repo={str(ROOT)!r}, base=base, sprint=2, project=base/'project', previous=previous)
+assert failed.closed and previous['client'] is None
+(project/'app/my_work.py').write_text('# keep this')
+second, same_project = prepare(repo={str(ROOT)!r}, base=base, sprint=2, project=project)
+assert second != demo and demo.exists()
+assert same_project == project and (project/'app/my_work.py').read_text() == '# keep this'
 from module_b.workspace import prepare_example
-from module_b.campus import prepare_project
-assert (PROJECT / "my-work.py").read_text() == "# keep my unfinished work\\n"
-assert (BASE / "ai-app-dev_Mod-B/src/module_b/__init__.py").read_text() == "STALE = True\\n"
-assert prepare_example.__module__ == "module_b.workspace"
+assert prepare_example.__module__ == 'module_b.workspace'
 """
-    result = subprocess.run([sys.executable, "-c", prelude + source + "\n" + checks], capture_output=True, text=True)
+    result = subprocess.run([sys.executable, "-c", source], capture_output=True, text=True)
     assert result.returncode == 0, result.stderr

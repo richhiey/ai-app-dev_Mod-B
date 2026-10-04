@@ -19,6 +19,25 @@ CAMPUS_POLICY = WorkspacePolicy(
 )
 
 
+def start_demo_client(app):
+    """Return a ready TestClient; never retain a half-started client on failure."""
+    from fastapi.testclient import TestClient
+    from .openrouter import OpenRouterError
+    from .retrieval import ChromaStorageError
+
+    client = TestClient(app)
+    try:
+        client.__enter__()
+    except (ChromaStorageError, OpenRouterError) as error:
+        client.close()
+        # These exception classes contain deliberately safe learner messages.
+        raise RuntimeError(str(error)) from None
+    except BaseException:
+        client.close()
+        raise
+    return client
+
+
 def prepare_project(repo, destination, checkpoint=""):
     """Prepare supplied source or restore a selected checkpoint into a NEW path.
 

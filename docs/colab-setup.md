@@ -4,9 +4,13 @@ There is one Campus notebook and one Live notebook per sprint. Keep a saved Driv
 
 ## Open and set up
 
-Open the notebook from its sprint README and choose **File → Save a copy in Drive**. Sprint 1–3 Campus links stay on `main`, while each notebook's setup fetches an exact tested source revision into a versioned directory. It installs with `requirements.lock`, refreshes a cached older `module_b` import, and keeps instructor example directories versioned too. An old checkout in the same runtime cannot silently supply missing or mismatched modules. Your `PROJECT` directory is retained. The separate Live notebooks keep their existing setup.
+Open the notebook from its sprint README and choose **File → Save a copy in Drive**. Every Campus setup clones the latest `main` into a fresh source folder and installs its dependencies with `requirements.lock`. There is no commit pin. A small repository helper closes earlier demo resources, refreshes stale imports, and prepares a fresh instructor workspace and document index. Your existing `PROJECT` files are retained.
 
-A personal Drive copy is independent. To receive an updated setup, reopen the canonical link and copy its **Set up once** code into your personal notebook, preserving any `PROJECT` and `CHECKPOINT` choices. Run setup and then the demonstrations in order; keep your notes and project export. The setup prints the teaching source revision so you can identify it without inspecting Git.
+Run setup and wait for **Ready**. Its three progress messages show downloading, workspace preparation and startup. Then run the section named by your lesson from top to bottom. Leave optional project checks off until you have made the lesson’s source changes.
+
+A personal Drive copy is independent. To receive an updated setup, reopen the canonical link and copy its **Set up once** code into your personal notebook, preserving any `PROJECT` and `CHECKPOINT` choices. Rerun setup, then the demonstration sections. Save your observations separately from the source export.
+
+If Chroma cannot open its database, rerun the current setup. It creates a fresh demo/database folder without deleting previous folders or your project. Database paths are resolved to absolute paths before Chroma opens them, so changing notebook folders cannot select another workspace’s cached relative-path database. For a learner project with filesystem problems, check its `.chroma` directory permissions. Setup failure does not count as a successful demonstration.
 
 For Sprints 1–3, setup reads `OPENROUTER_API_KEY` from Colab Secrets or a hidden prompt. Keep the key out of cells, source files, outputs, screenshots, and notes. The first ChromaDB index build embeds the supplied service documents through OpenRouter. Each admitted supported request can also use provider quota for embeddings and generation. Schema rejection, authentication/rate-limit rejection, safety handling, and missing-context clarification stop before generation.
 

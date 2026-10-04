@@ -6,6 +6,10 @@ from pathlib import Path
 from module_b.openrouter import OpenRouterClient
 
 
+class ChromaStorageError(RuntimeError):
+    """Actionable storage failure without exposing a native database traceback."""
+
+
 @dataclass(frozen=True)
 class RetrievedDocument:
     id: str
@@ -21,8 +25,22 @@ class ChromaStore:
         import chromadb
 
         self.client = client
-        self._db = chromadb.PersistentClient(path=str(path))
-        self._collection = self._db.get_or_create_collection(collection_name)
+        # Chroma caches systems by the path string. A relative string can select
+        # another notebook workspace's cached system after os.chdir(). Resolve
+        # before handing it to Chroma, and prepare the complete parent path.
+        self.path = Path(path).expanduser().resolve()
+        try:
+            self.path.mkdir(parents=True, exist_ok=True)
+            self._db = chromadb.PersistentClient(path=str(self.path))
+            self._collection = self._db.get_or_create_collection(collection_name)
+        except Exception as error:
+            if isinstance(error, OSError) or "unable to open database file" in str(error).lower():
+                raise ChromaStorageError(
+                    "Chroma could not open its local document index. Rerun the current "
+                    "Campus setup to prepare a fresh demo folder; your PROJECT is preserved. "
+                    "For your own service, check that its .chroma folder is writable."
+                ) from None
+            raise
 
     def all_ids(self) -> set[str]:
         return set(self._collection.get()["ids"])
