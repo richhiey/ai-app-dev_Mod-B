@@ -37,8 +37,10 @@ class ServiceProcess:
     ``health_status`` (default 200). Optional ``health_headers`` support protected
     health routes. It does not establish any downstream dependency's readiness.
     ``factory=True`` asks Uvicorn to call the supplied zero-argument app factory.
-    Child stdout/stderr are discarded (zero retained log bytes), so exceptions
-    never include application output, environment settings or credentials.
+    Child stdout/stderr are discarded. A separate bounded pipe carries only
+    fixed startup-diagnosis codes, never application output or credentials.
+    The child uses this helper's source tree and the selected project explicitly.
+    Applications must support the ASGI lifespan protocol (as FastAPI does).
     """
 
     def __init__(
@@ -132,7 +134,38 @@ class ServiceProcess:
         for name in list(child_env):
             if name.startswith("UVICORN_") or name == "WEB_CONCURRENCY":
                 child_env.pop(name)
+        # sys.path edits in a notebook do not propagate to a new interpreter.
+        # Select this exact package and the chosen project before stale paths.
+        paths = [str(Path(__file__).resolve().parents[1]), str(self.project_dir)]
+        if child_env.get("PYTHONPATH"):
+            paths.append(child_env["PYTHONPATH"])
+        child_env["PYTHONPATH"] = os.pathsep.join(paths)
         return child_env
+
+    @staticmethod
+    def _startup_failure(report_fd: int) -> str:
+        from module_b._startup_diagnostics import PROVIDER_FAILURES
+
+        try:
+            raw = os.read(report_fd, 256).decode("ascii")
+        except (OSError, UnicodeError):
+            raw = ""
+        stage, _, code = raw.partition(":")
+        stages = {"import": "loading the app", "factory": "creating the app", "startup": "starting the app"}
+        advice = {
+            "missing_module": "A required Python module is missing. Rerun setup to install the latest main dependencies; for PROJECT, check your imports too.",
+            "import_error": "An app import failed. Rerun setup; for PROJECT, check your imports and exported names.",
+            "syntax_error": "A Python source file has a syntax error. Check your recent PROJECT edits; for DEMO, rerun setup.",
+            "storage": "Chroma could not open its document index. Rerun setup for a fresh DEMO; your PROJECT is preserved. For PROJECT, check that its .chroma folder is writable.",
+            "permission": "The app cannot access a required file or folder. Check workspace permissions; rerun setup for a fresh DEMO.",
+            "missing_file": "The app could not find a required file. Rerun setup; for PROJECT, check its data files and paths.",
+            "configuration": "An app setting or factory argument is invalid. Check the preceding configuration cells and your PROJECT edits.",
+            "application_error": "The app raised an unexpected startup error. Rerun setup and the preceding configuration cells. If it repeats in DEMO, report this stage and the Source: main revision printed by setup.",
+            **PROVIDER_FAILURES,
+        }
+        if stage in stages and code in advice:
+            return f"The service failed while {stages[stage]}: {advice[code]}"
+        return "The server exited before readiness without a startup diagnosis. Rerun setup; if it repeats, report the Source: main revision printed by setup."
 
     def start(self) -> ServiceProcess:
         """Return this ready instance; a repeated start reuses its healthy child.
@@ -152,6 +185,7 @@ class ServiceProcess:
             if not self.project_dir.is_dir():
                 raise ValueError("project_dir must be an existing directory containing the application.")
             listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            report_read = report_write = None
             try:
                 listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                 try:
@@ -161,27 +195,29 @@ class ServiceProcess:
                     raise RuntimeError("Cannot reserve the requested loopback port. Choose port=0 or another unused port.") from None
                 port = listener.getsockname()[1]
                 self._base_url = f"http://127.0.0.1:{port}"
+                report_read, report_write = os.pipe()
+                os.set_blocking(report_read, False)
                 try:
                     self._process = subprocess.Popen(
-                        [sys.executable, "-m", "uvicorn", self.app,
-                         "--fd", str(listener.fileno()), "--host", "127.0.0.1",
-                         "--workers", "1", "--log-level", "warning", "--no-access-log",
-                         *(["--factory"] if self._factory else [])],
+                        [sys.executable, "-m", "module_b._service_runner", self.app,
+                         str(listener.fileno()), str(report_write), "1" if self._factory else "0"],
                         cwd=self.project_dir,
                         env=self._child_environment(),
-                        pass_fds=(listener.fileno(),),
+                        pass_fds=(listener.fileno(), report_write),
                         stdin=subprocess.DEVNULL,
                         stdout=subprocess.DEVNULL,
                         stderr=subprocess.DEVNULL,
                     )
                 except (OSError, ValueError, TypeError):
                     raise RuntimeError("Could not launch Uvicorn. Check the Python environment and application settings.") from None
+                os.close(report_write)
+                report_write = None
                 atexit.register(self.stop)
                 self._atexit_registered = True
                 deadline = time.monotonic() + self._startup_timeout
                 while time.monotonic() < deadline:
                     if not self.is_running:
-                        raise RuntimeError("Uvicorn exited before readiness. Check the app import, dependencies and startup settings.")
+                        raise RuntimeError(self._startup_failure(report_read))
                     remaining = deadline - time.monotonic()
                     if remaining > 0 and self._healthy(timeout=min(0.25, remaining)):
                         return self
@@ -194,6 +230,9 @@ class ServiceProcess:
                 # Uvicorn has its own inherited descriptor. The parent must not
                 # retain a listening socket once startup has completed or failed.
                 listener.close()
+                for fd in (report_read, report_write):
+                    if fd is not None:
+                        os.close(fd)
 
     def stop(self) -> None:
         """Terminate and reap only this object's child. Safe to call repeatedly."""

@@ -8,6 +8,8 @@ import os
 
 import httpx
 
+from module_b._startup_diagnostics import PROVIDER_FAILURES
+
 CHAT_MODELS = {
     "google/gemini-2.5-flash-lite",
     "google/gemini-2.5-flash",
@@ -20,6 +22,10 @@ BASE_URL = "https://openrouter.ai/api/v1"
 
 class OpenRouterError(RuntimeError):
     """Safe provider boundary error; never include credentials or raw payloads."""
+
+    def __init__(self, message: str, *, kind: str = "provider_error"):
+        super().__init__(message)
+        self.kind = kind if kind in PROVIDER_FAILURES else "provider_error"
 
 
 @dataclass(frozen=True)
@@ -110,8 +116,17 @@ class OpenRouterClient:
             )
             response.raise_for_status()
             result = response.json()
-        except (httpx.HTTPError, ValueError):
-            raise OpenRouterError("The OpenRouter request failed.") from None
+        except httpx.HTTPStatusError as exc:
+            status = exc.response.status_code
+            kind = {401: "provider_auth", 402: "provider_credit", 403: "provider_access",
+                    429: "provider_rate"}.get(status, "provider_unavailable" if status >= 500 else "provider_rejected")
+            raise OpenRouterError(PROVIDER_FAILURES[kind], kind=kind) from None
+        except httpx.TimeoutException:
+            raise OpenRouterError(PROVIDER_FAILURES["provider_timeout"], kind="provider_timeout") from None
+        except httpx.HTTPError:
+            raise OpenRouterError(PROVIDER_FAILURES["provider_network"], kind="provider_network") from None
+        except ValueError:
+            raise OpenRouterError(PROVIDER_FAILURES["provider_response"], kind="provider_response") from None
         if not isinstance(result, dict):
             raise OpenRouterError("OpenRouter returned an unreadable response.")
         return result

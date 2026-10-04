@@ -250,3 +250,47 @@ def test_failed_authenticated_health_never_exposes_header_values(factory_project
         process.start()
     assert "synthetic-private-wrong-token" not in str(error.value)
     assert not process.is_running and process.pid is None
+
+
+@pytest.mark.parametrize("failure, expected", [
+    ('import campus_nonexistent_dependency', 'required Python module is missing'),
+    ('raise OpenRouterError("private-response-secret", kind="provider_auth")', 'HTTP 401'),
+    ('raise OpenRouterError("private-response-secret", kind="provider_credit")', 'HTTP 402'),
+    ('raise OpenRouterError("private-response-secret", kind="provider_network")', 'connect to OpenRouter'),
+    ('raise ChromaStorageError("private-filesystem-secret")', 'Chroma could not open'),
+])
+def test_lifespan_failure_reports_safe_action_and_releases_child(project, failure, expected):
+    (project / "failing_startup.py").write_text('''
+from contextlib import asynccontextmanager
+from fastapi import FastAPI
+from module_b.openrouter import OpenRouterError
+from module_b.retrieval import ChromaStorageError
+@asynccontextmanager
+async def lifespan(app):
+    FAILURE
+    yield
+app = FastAPI(lifespan=lifespan)
+'''.replace('FAILURE', failure))
+    process = ServiceProcess("failing_startup:app", project_dir=project, startup_timeout=15)
+    with pytest.raises(RuntimeError) as error:
+        process.start()
+    assert expected in str(error.value)
+    assert "starting the app" in str(error.value)
+    assert "secret" not in str(error.value)
+    assert process.pid is None and not process.is_running
+
+
+def test_child_uses_current_source_even_when_inherited_pythonpath_is_stale(project, tmp_path):
+    stale = tmp_path / "stale-source"
+    package = stale / "module_b"
+    package.mkdir(parents=True)
+    (package / "__init__.py").write_text('raise RuntimeError("stale source must not load")\n')
+    with ServiceProcess("tiny_app:app", project_dir=project,
+                        env={"PYTHONPATH": str(stale)}) as process:
+        assert fetch(process.base_url + "/health")[0] == 200
+
+
+def test_missing_import_has_distinct_loading_stage(project):
+    (project / "broken_import.py").write_text('import campus_nonexistent_dependency\n')
+    with pytest.raises(RuntimeError, match="loading the app.*required Python module is missing"):
+        ServiceProcess("broken_import:app", project_dir=project).start()

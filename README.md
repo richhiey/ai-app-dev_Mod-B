@@ -40,6 +40,10 @@ scripts/               Notebook and source maintenance utilities
 
 Shared code supports provider access, process lifecycle, security, safe checkpoint handling, observability, and reuse of the Module A evaluator. Route behavior, schemas, prompts, provider settings, and caller requests remain in the application or notebook cells where learners can inspect them. See [which lesson uses each helper](docs/helpers.md).
 
+## If a Campus service will not start
+
+Rerun the setup cell to clone the latest `main`, then rerun the configuration and service cells in order. Setup preserves `PROJECT`. The server uses the same source checkout as the notebook and reports whether an import, app factory or startup operation failed. Its document index uses OpenRouter embeddings before the first lesson request: a provider `401` or `402` at this stage concerns the provider key or account allowance, not the caller-key checks in the lesson. Follow the displayed recovery instruction; never print keys or complete environment mappings.
+
 ## Local development
 
 Use Python 3.11+ on Linux or macOS. Install the package and development dependencies from `pyproject.toml`; use the notebook guidance when opening a notebook locally. Structural changes to notebooks should retain readable markdown, actual executable examples, and a single setup/export path.
