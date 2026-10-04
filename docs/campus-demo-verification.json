@@ -1,14 +1,14 @@
 {
   "date": "2026-10-04",
   "tests": {
-    "passed": 82,
+    "passed": 83,
     "subtests_passed": 35
   },
   "notebook_execution": [
     {
       "sprint": 1,
       "notebook": "notebooks/sprint_1/sprint_1_service_foundations.ipynb",
-      "sha256": "7b6a4f2835713809e5ad71c7aa7f8ff2efac01012e2a8d50c3c39f3a6e8bce9b",
+      "sha256": "7411a38ebb549683f246cd2507b4d13eef9581db97f3775b3105e4f147b16265",
       "code_cells": 10,
       "errors": 0,
       "provider": "mocked boundary; real FastAPI/Chroma/LangGraph and loopback processes",
@@ -20,7 +20,7 @@
     {
       "sprint": 2,
       "notebook": "notebooks/sprint_2/sprint_2_secure_service.ipynb",
-      "sha256": "04552fe980449c54e097350b63dd443f4ffe883cec1a9ef898ce013eebda39e8",
+      "sha256": "c738c2547c6050267968952d9dd8d65905cf227c2c4790e5f788966dde213798",
       "code_cells": 10,
       "errors": 0,
       "provider": "mocked boundary; real FastAPI/Chroma/LangGraph and loopback processes",
@@ -32,7 +32,7 @@
     {
       "sprint": 3,
       "notebook": "notebooks/sprint_3/sprint_3_observable_service.ipynb",
-      "sha256": "e7eca763a7b22926fc1995cec38d87f2c8438d5b6aece8fb54a0894a29d5f580",
+      "sha256": "4c5110a871131abdf8bf6cb4ed1d0e8cb28e62d2d87dd9ea8528c9b6cfefc3e6",
       "code_cells": 11,
       "errors": 0,
       "provider": "mocked boundary; real FastAPI/Chroma/LangGraph and loopback processes",
@@ -42,6 +42,7 @@
       ]
     }
   ],
-  "hosted_colab": "pending",
-  "provider_evidence": "local mocks only so far"
+  "hosted_colab": "User will perform hosted execution checks; explicitly excluded from remaining agent work.",
+  "provider_evidence": "Local boundary mocks only; no claim of live-provider execution.",
+  "bootstrap_regression": "Passed: stale source checkout and cached module_b import are replaced by versioned teaching source; learner project and old files remain untouched."
 }
