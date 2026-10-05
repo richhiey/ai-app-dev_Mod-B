@@ -1,24 +1,43 @@
-# FieldCare: build an AI service
+# FieldCare — build an AI service
 
-Welcome to FieldCare! In this module, you’ll turn a technician-support feature into a service that callers—and a Lovable-built interface—can use. You’ll build and run it on your computer, then grow the same project through authentication, limits, streaming, logging, evaluation, and UI integration.
+Welcome to FieldCare. You will turn a technician-support feature into a service that can answer equipment questions, protect its callers, show progress as it works, and support a small Lovable-built interface. You will grow the **same local project through Sprints 1–4**, so each new skill has a place in the application you already understand.
 
-## Start here
+## Start on your computer
 
-1. Install Git, Python 3.12, and VS Code, then [set up your local project](docs/local-development.md). The guide has a step-by-step path for Windows and macOS.
-2. Read the Campus lessons in order. The lesson pages link to the relevant parts of this repository.
-3. Keep working in the same clone through Sprints 1–4 so each new skill builds on the code you already understand. Update from `main` only when a lesson asks; never replace your project with a fresh clone.
-4. In Sprint 4, use Lovable to create your interface with the [Lovable student guide](docs/lovable-student-guide.md), then connect it to the local service with the [integration example](examples/lovable/README.md).
+1. Install **Git**, **Python 3.12**, and **VS Code** with Microsoft's Python extension. The [local development guide](docs/local-development.md) covers Windows PowerShell and macOS Terminal.
+2. Clone the course repository from `main` and open the folder in VS Code:
 
-Sprint 1 also has one [Colab checkpoint notebook](notebooks/sprint_1/sprint_1_service_foundations.ipynb) for the assessment. Colab is not the development environment for the other Campus lessons.
+   ```text
+   git clone --branch main https://github.com/richhiey/ai-app-dev_Mod-B.git
+   cd ai-app-dev_Mod-B
+   ```
 
-## Find your work
+3. Follow [Run FieldCare on your computer](docs/local-development.md) to create your virtual environment, set up private local configuration, start the service, and send your first request. The guide shows the results to expect and what to check when a command fails.
 
-- [`service/fieldcare/`](service/README.md) is the FastAPI application you will extend.
-- [`clients/`](clients/README.md) contains small callers for repeatable local experiments.
-- [`service/data/`](service/data/) contains synthetic equipment and service records.
-- [`evidence/`](evidence/README.md) explains how to keep useful, sanitized observations.
-- [`src/module_b/`](docs/helpers.md) contains shared mechanics used by the service.
+Keep this clone for every sprint. Save and review your changes before a lesson asks you to update from `main`; a fresh clone would leave your project work behind.
 
-## Keep the project safe and runnable
+## Follow the Campus sprint path
 
-Keep `.env` private. Never put provider or caller keys in source code, a browser variable, a screenshot, or a commit. Run the server in one VS Code terminal and requests in another. The [local development guide](docs/local-development.md) includes expected results and recovery steps for common errors.
+The Campus lessons set the learning task. Use the matching repository guide when you need file locations, commands, expected behavior, or a troubleshooting path.
+
+| Sprint | Lessons and working guide | What you will build |
+|---|---|---|
+| **1 — Service foundations** | [Campus lessons](https://app.notion.com/p/3cd5a55972ad81baad73caa0eeba6263) · [Local setup](docs/local-development.md) · [Checkpoint setup](docs/colab-setup.md) | Explore and extend the FastAPI service, then explain a versioned service contract. |
+| **2 — Secure the service** | [Campus lessons](https://app.notion.com/p/3ea5a55972ad81b89303c88816f5b3df) · [Sprint 2 guide](docs/sprint-2.md) | Recognize callers, protect credentials, and give each caller a fair request allowance. |
+| **3 — Streaming and observability** | [Campus lessons](https://app.notion.com/p/3ea5a55972ad81bfbf8dcb2d5d3b368e) · [Sprint 3 guide](docs/sprint-3.md) | Stream a real answer, record safe service signals, and connect an observation to evaluation. |
+| **4 — Companion UI** | [Campus lessons](https://app.notion.com/p/3ee5a55972ad81939263c0570bd4ab02) · [Lovable student guide](docs/lovable-student-guide.md) · [Integration example](examples/lovable/README.md) | Build a focused UI, connect it to your local service, test the full path, and write a handoff. |
+
+The [Sprint 1 Colab notebook](notebooks/sprint_1/sprint_1_service_foundations.ipynb) is for its checkpoint. The walkthrough and practice work happen in your local project. Sprints 2–4 continue in VS Code and the terminal.
+
+## Find what you need
+
+| Resource | Use it for |
+|---|---|
+| [Service source](service/README.md) | Find the FastAPI routes, contracts, provider call, and files you will extend. |
+| [Request clients](clients/README.md) | Send repeatable local requests and inspect responses, streams, logs, and evaluation cases. |
+| [Synthetic service data](service/data/) | Check equipment context and cited documents without using private customer data. |
+| [Architecture guide](docs/architecture.md) | See how the caller, service, retrieval, model, and UI fit together. |
+| [Shared helper guide](docs/helpers.md) | Understand the reusable mechanics behind the service. |
+| [Evidence guide](evidence/README.md) | Record useful, sanitized observations for practice and checkpoints. |
+
+Keep `.env` private. Put provider and caller keys in local configuration, never in source code, browser variables, screenshots, or commits. When you need to troubleshoot, the [local development guide](docs/local-development.md) starts with the common errors and their checks.
