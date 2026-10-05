@@ -69,4 +69,4 @@ For the assessment's new caller labels, update both `service/fieldcare/security_
 
 Use the [evidence template](../evidence/README.md). Your source, chosen request sequence, actual results and explanation must describe the same run. Include the protected route inventory and a limitation of this single-process limiter. A request-count allowance is not a spending cap or a distributed quota system.
 
-[Campus lessons in Notion](https://app.notion.com/p/3ea5a55972ad81b89303c88816f5b3df) · [Continue to streaming](sprint-3.md)
+[Continue to streaming](sprint-3.md)

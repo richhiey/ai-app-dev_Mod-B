@@ -18,14 +18,14 @@ Keep this clone for every sprint. Save and review your changes before a lesson a
 
 ## Follow the Campus sprint path
 
-The Campus lessons set the learning task. Use the matching repository guide when you need file locations, commands, expected behavior, or a troubleshooting path.
+Use the matching repository guide when you need file locations, commands, expected behavior, or a troubleshooting path during a Campus lesson.
 
-| Sprint | Lessons and working guide | What you will build |
+| Sprint | Repository guides | What you will build |
 |---|---|---|
-| **1 — Service foundations** | [Campus lessons](https://app.notion.com/p/3cd5a55972ad81baad73caa0eeba6263) · [Local setup](docs/local-development.md) · [Checkpoint setup](docs/colab-setup.md) | Explore and extend the FastAPI service, then explain a versioned service contract. |
-| **2 — Secure the service** | [Campus lessons](https://app.notion.com/p/3ea5a55972ad81b89303c88816f5b3df) · [Sprint 2 guide](docs/sprint-2.md) | Recognize callers, protect credentials, and give each caller a fair request allowance. |
-| **3 — Streaming and observability** | [Campus lessons](https://app.notion.com/p/3ea5a55972ad81bfbf8dcb2d5d3b368e) · [Sprint 3 guide](docs/sprint-3.md) | Stream a real answer, record safe service signals, and connect an observation to evaluation. |
-| **4 — Companion UI** | [Campus lessons](https://app.notion.com/p/3ee5a55972ad81939263c0570bd4ab02) · [Lovable student guide](docs/lovable-student-guide.md) · [Integration example](examples/lovable/README.md) | Build a focused UI, connect it to your local service, test the full path, and write a handoff. |
+| **1 — Service foundations** | [Local setup](docs/local-development.md) · [Checkpoint setup](docs/colab-setup.md) | Explore and extend the FastAPI service, then explain a versioned service contract. |
+| **2 — Secure the service** | [Sprint 2 guide](docs/sprint-2.md) | Recognize callers, protect credentials, and give each caller a fair request allowance. |
+| **3 — Streaming and observability** | [Sprint 3 guide](docs/sprint-3.md) | Stream a real answer, record safe service signals, and connect an observation to evaluation. |
+| **4 — Companion UI** | [Lovable student guide](docs/lovable-student-guide.md) · [Integration example](examples/lovable/README.md) | Build a focused UI, connect it to your local service, test the full path, and write a handoff. |
 
 The [Sprint 1 Colab notebook](notebooks/sprint_1/sprint_1_service_foundations.ipynb) is for its checkpoint. The walkthrough and practice work happen in your local project. Sprints 2–4 continue in VS Code and the terminal.
 

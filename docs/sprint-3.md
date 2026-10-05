@@ -90,5 +90,3 @@ python -m clients.evaluate EVAL-FC-005 EVAL-FC-003
 The command prints original case definitions, actual deterministic evaluation results and a design hash. It uses the unchanged Module A evaluator with `service/data/pipeline_design.json`. That file configures the reference pipeline, not the live OpenRouter graph. These results do not grade the streamed wording or prove production behavior. The operational record motivates the evaluation choice; it is not replayed as a private prompt.
 
 For your checkpoint, choose your own justified case pair and preserve the original criteria. Submit one traceable request, its selected safe record, your privacy check and the evaluation reasoning. Follow the [evidence template](../evidence/README.md).
-
-[Campus lessons in Notion](https://app.notion.com/p/3ea5a55972ad81bfbf8dcb2d5d3b368e)
