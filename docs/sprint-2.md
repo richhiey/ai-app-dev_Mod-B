@@ -1,6 +1,6 @@
 # Sprint 2: secure your service
 
-HelioDesk is opening FieldCare to a partner application. You will decide which callers are recognized and how much work each may request. Keep your existing routes and contracts.
+Nice work getting FieldCare ready for real callers. HelioDesk is now opening it to a partner application, and you’ll decide who the service recognizes and how much work each caller may request. Keep your existing routes and contracts as you add these protections.
 
 Start with the [local development guide](local-development.md). The Campus lessons explain each boundary; this page keeps the source locations and commands together.
 

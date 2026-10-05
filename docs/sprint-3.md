@@ -1,6 +1,6 @@
 # Sprint 3: follow an answer from request to evidence
 
-Continue the secured local project you built in Sprint 2. You will offer progressive delivery to a technician while preserving the buffered response used by another application. Then you will connect one request to its safe log and choose an existing evaluation case to investigate a concern.
+Your secured FieldCare service is ready for its next step. Continue the local project you built in Sprint 2: let technicians follow an answer as it arrives while keeping the buffered response another application uses. Then trace a request into its safe log and use an existing evaluation case to investigate a concern.
 
 ## Register the streaming route
 

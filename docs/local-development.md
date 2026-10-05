@@ -1,6 +1,6 @@
 # Run FieldCare on your computer
 
-You will keep the service running in one VS Code terminal and send requests from another. The service receives requests; the client sends them. Both run on your computer as separate processes.
+Welcome! You’ll bring FieldCare to life on your own computer, with the service running in one VS Code terminal and requests coming from another. The service receives each request; the client sends it. Both run locally as separate processes, so you can see exactly what happens on each side.
 
 ## Install the tools
 
@@ -50,7 +50,7 @@ python -m tools.local_env
 git check-ignore .env
 ```
 
-The first command creates `.env` once. It generates two different caller keys and leaves the provider key blank. It never prints key values or overwrites an existing file. The second command should print `.env`, which confirms the file is ignored by Git.
+The first command creates `.env` once. It generates two different caller keys and leaves the provider key blank. It never prints key values or overwrites an existing file. The second command should print `.env`, which confirms the file is ignored by Git. That’s a good sign: your local setup is keeping its secrets out of future commits.
 
 Open `.env` in VS Code. Leave `OPENROUTER_API_KEY` blank for the first local checks. `FIELDCARE_DISPATCH_KEY` and `FIELDCARE_PARTNER_KEY` identify callers to FieldCare; `OPENROUTER_API_KEY` identifies the service to its model provider. Keep each value in this local file. Do not paste a key into a terminal command, browser code, or screenshot. Restart running processes after changing configuration.
 
