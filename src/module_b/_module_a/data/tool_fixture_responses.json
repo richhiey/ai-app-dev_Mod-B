@@ -14,12 +14,7 @@
         "error_type": null,
         "source_id": "equipment_records.csv",
         "retrieved_at": "2026-09-09"
-      },
-      "lesson_use": [
-        "Campus 3",
-        "Campus 4",
-        "LS14"
-      ]
+      }
     },
     {
       "fixture_id": "FIX-FC-002",
@@ -34,10 +29,7 @@
         "error_type": "missing_record",
         "source_id": "equipment_records.csv",
         "retrieved_at": "2026-09-09"
-      },
-      "lesson_use": [
-        "Campus 4"
-      ]
+      }
     },
     {
       "fixture_id": "FIX-FC-003",
@@ -60,12 +52,7 @@
         "error_type": null,
         "source_id": "warranty_service_fixture",
         "retrieved_at": "2026-09-09"
-      },
-      "lesson_use": [
-        "Campus 3",
-        "Campus 4",
-        "LS14"
-      ]
+      }
     },
     {
       "fixture_id": "FIX-FC-004",
@@ -90,11 +77,7 @@
         "error_type": null,
         "source_id": "warranty_service_fixture",
         "retrieved_at": "2026-09-09"
-      },
-      "lesson_use": [
-        "Campus 2",
-        "Campus 4"
-      ]
+      }
     },
     {
       "fixture_id": "FIX-FC-005",
@@ -110,11 +93,7 @@
         "error_type": "upstream_unavailable",
         "source_id": "warranty_service_fixture",
         "retrieved_at": "2026-09-09"
-      },
-      "lesson_use": [
-        "Campus 4",
-        "LS14"
-      ]
+      }
     },
     {
       "fixture_id": "FIX-FC-006",
@@ -130,11 +109,7 @@
         "error_type": "timeout",
         "source_id": "warranty_service_fixture",
         "retrieved_at": "2026-09-09"
-      },
-      "lesson_use": [
-        "Campus 4",
-        "LS14"
-      ]
+      }
     },
     {
       "fixture_id": "FIX-FC-007",
@@ -149,12 +124,7 @@
         "error_type": null,
         "source_id": "service_tickets.csv",
         "retrieved_at": "2026-09-09"
-      },
-      "lesson_use": [
-        "Campus 3",
-        "Campus 4",
-        "LS14"
-      ]
+      }
     },
     {
       "fixture_id": "FIX-FC-008",
@@ -179,11 +149,7 @@
         "error_type": null,
         "source_id": "routing_fixture",
         "retrieved_at": "2026-09-09"
-      },
-      "lesson_use": [
-        "Campus 4",
-        "LS14"
-      ]
+      }
     }
   ]
 }

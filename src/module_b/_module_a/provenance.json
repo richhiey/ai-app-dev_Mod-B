@@ -1,20 +1,17 @@
 {
-  "course_source": "module-a/campus/sprint-4/assets/sprint-4-fieldcare-project__colab_source.py",
-  "course_source_sha256": "09fc4fe69b82b17882149d69905bd051fb4e6668da23874441d96ba727b59efb",
-  "extraction": "Evaluator functions and their support definitions were extracted from the exact course-source snapshot. Notebook execution cells and provider-key probing were omitted. Imports now resolve to the vendored, pinned helper-core snapshot. Runtime asset loading is restricted to the bundled Module B data.",
   "helper_source": "https://github.com/richhiey/ai-app-dev_Mod-A",
   "helper_commit": "7c94ef2bd90ab92865ba4f155889e22044ffaf98",
   "files": {
     "LICENSE": "9e3cd84268118cc1d1fcb9ee61777f700963356b4b4b1f2757c200f3ece3573d",
     "__init__.py": "8f0ccf2501e62cd3c0ddaf35ae8c789d8c58e1402729d5b93fbc77ee7b2eb244",
-    "data/README.md": "a8a8f8236b18bbe1b27696c70266e0cd9ae9878c1eb41ad66cfd9b1353848a98",
+    "data/README.md": "e930ce5cdb2356bef64bd5ad9f5245c61868f08d145f39c7f05edf8805977edc",
     "data/equipment_records.csv": "6d5bbc648821e10d5a8566496e9cf407fe1eddd8975db7933c93c4b1dab302c4",
     "data/eval_cases.jsonl": "e94600de4afc5586e53952645054a1fc309c4ad393e467ade8ab54cb236724e2",
-    "data/fieldcare_manifest.json": "46f86d66cc7d35a10fbb06f1c0ca1ee5d9f409518e68a4a3999e4565c2388c13",
+    "data/fieldcare_manifest.json": "daac5acb90d8820698cdefab3c71dbbb1aeba8f4d918fa2ceea64da29216571e",
     "data/maintenance_history.csv": "626fdda5f6a3514598ba03b145cb5a9843501b62c364f265ebd83020731b303e",
     "data/service_docs.jsonl": "4237d56d1bd7a66d064ea58f32fdbe3f5f375dabb889cd7d5bca5c7130b8a3b8",
     "data/service_tickets.csv": "8dcd25c2876014934a8da3cf497afb749ff78fdf1a62cf2fabd3c83fceadcb97",
-    "data/tool_fixture_responses.json": "a1527dbe311d99e7fd6e954388eb1c8328c132a93da79fe944aa1cf82815aa4e",
+    "data/tool_fixture_responses.json": "1ca70e2c694f7113fc588fe188983ca16c51637f66d262394be7d2dcf6c7717b",
     "data/tool_schemas.json": "2b026cae1b0941a9d51dbb749d19e8c96aa8482c3f233ca686fe309fc6bca2ae",
     "data/user_requests.jsonl": "5c0c7c239f4388e65c72c91f92663446f000872e98d36acef3800be7a1d65990",
     "documents.py": "f0ac96bb608fa6b06c12e17309355e0e11f18b151b2e696867d0ea359f4e15a1",
@@ -23,5 +20,6 @@
     "openrouter.py": "83616685ae073be50ad717e3f40a04f3f0979a5de08f051f194bab1b27cd01e2",
     "project.py": "96379c9ee2c419dee16bfa5d7537cac11bea65aeb6293ede0a1e16c7896441c0",
     "tools.py": "7d93678c370166911fb694614f2e60a4845940ae2ff9768c8cd72549ad30a81d"
-  }
+  },
+  "adaptation": "Non-runtime planning metadata has been omitted. Runtime evaluation records and original criteria are preserved; all data is bundled locally."
 }

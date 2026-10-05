@@ -1,6 +1,6 @@
-# Understand the supplied code
+# Follow the shared helper code
 
-You own the application under `service/fieldcare/` and the experiments under `clients/`. These helpers supply reusable mechanics so the lessons can focus on service behavior.
+Your application lives under `service/fieldcare/`; your repeatable command-line experiments live under `clients/`. Shared modules in `src/module_b/` handle mechanics that you apply in the lessons.
 
 | Module | Supplied responsibility | Your visible decision |
 |---|---|---|
@@ -10,6 +10,4 @@ You own the application under `service/fieldcare/` and the experiments under `cl
 | `openrouter`, `retrieval` | Provider HTTP calls and Chroma indexing/querying | Explicit preparation, route prompt and supported request |
 | `evaluation`, `_module_a` | Preserve original Module A cases and evaluator | Concern, selected cases, design change and bounded conclusion |
 
-Read the function's docstring and call site together. The local application uses ordinary Uvicorn commands; it does not use `ServiceProcess`.
-
-`runtime`, `campus`, `campus_bootstrap`, `workspace` and checkpoint utilities remain for Sprint 1/Live Colab compatibility and safe source transfer. They do not implement the local student workflow. Test-only time controls and provider doubles live under `tests/`; they do not establish real provider success.
+Read a helper's docstring with the code that calls it. The service runs with Uvicorn using the commands in the [local setup guide](local-development.md). When something fails, compare the request in your client with the corresponding server response and safe observation; a helper or health check does not prove that a provider-backed answer succeeded.

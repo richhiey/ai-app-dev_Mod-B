@@ -1,21 +1,23 @@
 # Run FieldCare on your computer
 
-You will keep FastAPI running in one VS Code terminal and make requests from another. The **server** receives requests; the **client** sends them. Both run on your computer, but they are separate processes.
+You will keep the service running in one VS Code terminal and send requests from another. The service receives requests; the client sends them. Both run on your computer as separate processes.
 
-Use Python **3.12** for the course path, Git, and VS Code. Python 3.13 is also included in automated compatibility checks. Install them from [Python](https://www.python.org/downloads/), [Git](https://git-scm.com/downloads), and [VS Code](https://code.visualstudio.com/download). In VS Code, install Microsoft's Python extension. A virtual environment keeps this project's installed packages separate from other projects.
+## Install the tools
 
-## Get the repository
+Install Python **3.12**, Git, and VS Code. In VS Code, install Microsoft's Python extension. The steps below work in Windows PowerShell and macOS Terminal.
 
-In a terminal, run:
+## Clone the course repository
+
+Clone the course's `main` branch once. Keep this folder for Sprints 1–4 so your work carries forward.
 
 ```text
 git clone --branch main https://github.com/richhiey/ai-app-dev_Mod-B.git
 cd ai-app-dev_Mod-B
 ```
 
-In VS Code choose **File → Open Folder** and open `ai-app-dev_Mod-B`. All commands below run from this folder, which contains `pyproject.toml`. Use **Terminal → New Terminal** to open an integrated terminal.
+In VS Code, choose **File → Open Folder** and open `ai-app-dev_Mod-B`. Open **Terminal → New Terminal**. Run the following commands from the folder containing `pyproject.toml`.
 
-## Create your Python environment
+## Create the project environment
 
 **Windows PowerShell**
 
@@ -31,59 +33,59 @@ python3.12 -m venv .venv
 .venv/bin/python -m pip install -e . -c requirements.lock
 ```
 
-`-e .` installs this repository in editable mode: saved changes under `service/fieldcare/` are the code Python imports. `-c requirements.lock` selects the reviewed dependency versions.
+`-e .` means Python imports the files in this folder, so changes you save under `service/fieldcare/` are the code the service runs. `-c requirements.lock` keeps the installed dependency versions aligned with the course.
 
-Use **Python: Select Interpreter** in VS Code's command palette and select this project's `.venv`. Close the setup terminal and open two new terminals. The extension normally activates the selected environment. Check **both** terminals:
+In VS Code, open the Command Palette and run **Python: Select Interpreter**. Choose this project's `.venv`. Close the setup terminal and open two new terminals. In each, check the selected interpreter:
 
 ```text
 python -c "import sys; print(sys.executable)"
 ```
 
-Expected: a path inside this repository's `.venv`. If activation is unavailable, replace `python` in each later command with `.\.venv\Scripts\python.exe` on Windows or `.venv/bin/python` on macOS. You do not need to change PowerShell's security policy. In a path with spaces, use PowerShell's `&` before a quoted executable path.
+The printed path should be inside this repository's `.venv`. If automatic activation is unavailable, use `\.venv\Scripts\python.exe` in PowerShell or `.venv/bin/python` on macOS in place of `python` below. You do not need to change PowerShell's execution policy.
 
-## Create your local configuration
+## Set up local configuration
 
 ```text
 python -m tools.local_env
 git check-ignore .env
 ```
 
-The first command creates `.env` with two distinct caller keys and an empty provider key. It never prints the values or overwrites an existing file. The second should print `.env`, confirming Git ignores the untracked file. Ignore rules do not remove a file that was already committed.
+The first command creates `.env` once. It generates two different caller keys and leaves the provider key blank. It never prints key values or overwrites an existing file. The second command should print `.env`, which confirms the file is ignored by Git.
 
-Open `.env` in VS Code. Keep the provider value empty for the initial checks. `FIELDCARE_DISPATCH_KEY` and `FIELDCARE_PARTNER_KEY` identify callers to your service; `OPENROUTER_API_KEY` authenticates the service to its provider. The application and clients load this file; an existing terminal environment value takes precedence. Restart processes after changing values. Share configuration names, never a screenshot of the values.
+Open `.env` in VS Code. Leave `OPENROUTER_API_KEY` blank for the first local checks. `FIELDCARE_DISPATCH_KEY` and `FIELDCARE_PARTNER_KEY` identify callers to FieldCare; `OPENROUTER_API_KEY` identifies the service to its model provider. Keep each value in this local file. Do not paste a key into a terminal command, browser code, or screenshot. Restart running processes after changing configuration.
 
-## Start the server
+## Start the service and send a request
 
-In terminal A:
+In **terminal A**, start the service:
 
 ```text
 python -m uvicorn fieldcare.main:app --host 127.0.0.1 --port 8000
 ```
 
-`fieldcare.main:app` means “load `app` from `service/fieldcare/main.py`.” `127.0.0.1` accepts local callers only. The terminal stays busy while the server runs. Keep it open; press **Ctrl+C** when you need to stop it.
+`fieldcare.main:app` means “load the `app` object from `service/fieldcare/main.py`.” The `127.0.0.1` address accepts requests from this computer only. Leave this terminal open; press **Ctrl+C** to stop the server.
 
-In terminal B:
+In **terminal B**, check health and make the starter request:
 
 ```text
 python -c "import httpx; print(httpx.get('http://127.0.0.1:8000/health').json())"
 python -m clients.request
 ```
 
-Expected before adding authentication: health reports `status: ok`, `index_prepared: false`, and `provider_configured: false`; the client receives `200` with `status: needs_clarification`. Its question omits equipment context. Neither operation calls the provider.
+Expected: health reports `status: ok`, `index_prepared: false`, and `provider_configured: false`. The client receives HTTP `200` and application status `needs_clarification`; its question intentionally has no equipment context. These deterministic checks do not call the provider.
 
-Open `clients/request.py`. Find `CALLER`, `PATH`, `BODY`, and the actual `httpx.post` call. These are your experiment inputs. After adding authentication, this unchanged client intentionally receives `401` because `CALLER = None`.
+Open `clients/request.py`. Find `CALLER`, `PATH`, `BODY`, and the `httpx.post` call. Those values control the experiment. Once Sprint 2 authentication is attached, the unchanged client receives `401` because `CALLER = None`.
 
-## Prepare real AI requests
+## Prepare a real AI request
 
-Stop terminal A's server. In VS Code, put your OpenRouter key in `.env`; do not paste it into a shell command or source file. Then run:
+Preparing the document index and generating an answer use provider quota. You can inspect routes, validation, clarification, and authentication without setting a provider key. When a lesson asks you to observe real retrieval and generation, put your key in `.env`, stop the server, and run:
 
 ```text
 python -m fieldcare.prepare_index
 ```
 
-This sends the supplied current service documents to OpenRouter for embeddings and stores them in `var/chroma`. **It uses provider quota.** Successful preparation prints `Index ready`. It creates `var/index.json`, which identifies the document version and embedding model. Re-run preparation if the supplied documents change; stop the service first. It does not generate an answer.
+Successful preparation prints `Index ready`. It embeds the supplied service documents and stores the index in `var/chroma`; `var/index.json` records the source and embedding model versions. It does not generate an answer. If the documents change, stop the service and prepare the index again.
 
-Start the server again. In `clients/request.py`, use this supported body and, once authentication is attached, a recognized caller:
+Start the server again. Edit `clients/request.py` to send a supported request using a recognized caller:
 
 ```python
 CALLER = "dispatch"
@@ -93,53 +95,25 @@ BODY = {
 }
 ```
 
-Run the client. A successful result is `200`, `status: ready`, an actual answer, and citations. Read a cited document in `service/data/service_docs.json` and check one answer claim. Wording varies. A provider error or a clarification is an observation to investigate, not a successful generated answer.
+Run the client again. A successful generated response has HTTP `200`, status `ready`, an answer, and citations. Wording varies. Inspect a cited entry in `service/data/service_docs.json` and check one answer claim against it. A provider error or clarification is an observation to investigate, not a successful generated answer.
 
-## Bring your Sprint 1 work
+## Save work and evidence
 
-Keep your original Colab checkpoint ZIP. Unpack it to a **new**, separate directory:
-
-```text
-python -m tools.checkpoint unpack "PATH-TO-YOUR-CHECKPOINT.zip" .checkpoint-imports/sprint-1
-```
-
-Replace the quoted archive path with your actual file. The command checks archive paths, does not execute restored code, and refuses to replace an existing destination.
-
-Use VS Code's **Select for Compare / Compare with Selected** on the restored source and `service/fieldcare/`. Carry over your added route modules, request/response models, prompts and route registrations. Keep the local starter's `main.py` lifespan, `config.py`, and `resources.py`: these separate index preparation from server startup. Change imports from `app.*` to `fieldcare.*` in copied modules.
-
-For an imported route that needs generation, obtain its graph with:
-
-```python
-graph = request.app.state.resources.graph_for(system_prompt=YOUR_ROUTE_PROMPT)
-```
-
-Pass that graph to the existing `run_diagnosis` pattern. If your route constructs a graph directly, use `resources = request.app.state.resources.ready()`, then `resources.store` and `resources.client`. `openrouter_model()` supplies the configured model. Run deterministic clarification before requesting AI resources, as `routes.py` demonstrates.
-
-Add each imported router with `app.include_router(...)` before the security attachment. Verify its path in `/docs`, then test its contract and version. Do not replace your earlier work with the supplied diagnostic route and call it a completed checkpoint. If you have no checkpoint, label your starting point as the provided fallback and complete the missing route/contract work before the secured-service assessment.
-
-## Save and carry forward
-
-Continue editing the same folder in Sprint 3. Use `git diff` to review your changes; exclude `.env` and `var`. Put selected safe observations in `evidence/`, following its README.
-
-```text
-python -m tools.checkpoint export artifacts/my-service.zip
-```
-
-Choose a new archive name on each export; existing archives are preserved. The ZIP contains your service, client code, selected Markdown/JSON evidence and dependency metadata, not `.env`, the database, or raw logs. It is an overlay for a clone of this course repository, not a standalone Python distribution. Record `git rev-parse HEAD` and your changed files in your handoff. Review allowed source and notes for accidental credentials before sharing.
+Continue in this same clone through Sprints 1–4. Save changes before updating course code and use `git diff` to review them. Runtime files in `.env` and `var/` are local and ignored by Git. Keep selected, sanitized observations in [`evidence/`](../evidence/README.md). Never save keys, full request bodies, or raw private logs there.
 
 ## When something fails
 
-| Observation | Inspect or do this |
+| What you see | What to check |
 |---|---|
-| `python` is missing or imports fail | Check the interpreter path; use the explicit `.venv` executable and repeat the install command. |
-| Connection refused | Confirm terminal A is running and both client and server use port 8000. |
+| `python` is missing or imports fail | Check the interpreter path. Use the explicit `.venv` executable and repeat the install command. |
+| Connection refused | Confirm terminal A still runs and both processes use port 8000. |
 | Address already in use | Stop your earlier server with Ctrl+C. Do not terminate an unidentified process. |
-| Changed code seems ignored | Save the file and restart terminal A. Keep auto-reload off while measuring request allowances. |
-| `401` after choosing a recognized caller | Check caller labels and configuration **names** on both sides; restart after `.env` changes. |
-| `422` | Inspect the response's validation detail and your request body. |
-| `429` | Read `Retry-After`; keep the same server running while waiting for renewal. |
-| `503` asking for index preparation | Stop the server, prepare the index, then restart. |
-| Embedding request fails | Read the preparation traceback and safe provider message. Key rejection, credit, connectivity and storage need different fixes. |
-| Health is OK but generation fails | Health checks process/preparation state, not provider access or answer quality. |
+| Saved code seems ignored | Save the file and restart terminal A. Keep auto-reload off while measuring request allowances. |
+| `401` after choosing a recognized caller | Compare caller labels and configuration **names** on both sides. Restart after `.env` changes. |
+| `422` | Read the validation detail and inspect the request body. |
+| `429` | Read `Retry-After`. Keep the same server running while waiting for the allowance to renew. |
+| `503` says to prepare the index | Stop the server, prepare the index, then restart. |
+| Embedding fails | Keep the traceback. Key rejection, provider credit, network access, and storage permissions have different fixes. |
+| Health works but generation fails | Health describes process and preparation state; it does not prove provider access or answer quality. |
 
-Do not delete your database to conceal a failure. Preserve the error and check its path, permissions and preparation state. Share a sanitized error, source revision and command, never a full environment dump.
+Do not delete the database to hide an error. Preserve the failing command and sanitized error message, then check the index path and preparation state. Share the source revision and command if you need help; never share an environment dump.

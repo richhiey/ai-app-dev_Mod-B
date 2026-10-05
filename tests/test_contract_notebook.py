@@ -11,12 +11,14 @@ sys.path.insert(0, str(ROOT / "examples" / "fieldcare"))
 from app.schemas import DiagnosticRequest, DiagnosticResponse
 
 
-def test_notebook_contract_cell_uses_the_current_request_and_response_models():
+def test_checkpoint_asks_the_learner_to_exercise_the_versioned_supervisor_route():
     notebook = json.loads((ROOT / "notebooks/sprint_1/sprint_1_service_foundations.ipynb").read_text())
-    cell = next(cell for cell in notebook["cells"] if cell["id"] == "contract-schema")
-    source = "".join(cell["source"])
-    assert "DiagnosticRequest.model_validate" in source
-    assert "DiagnosticResponse.model_validate" in source
+    cells = {cell["id"]: "".join(cell["source"]) for cell in notebook["cells"]}
+    assert "SUPERVISOR_PATH" in cells["run-supported"]
+    assert '"/v2/diagnose"' in cells["run-supported"]
+    assert "supported_body = json.loads(body_text)" in cells["run-supported"]
+    assert "httpx.post(service.base_url + SUPERVISOR_PATH" in cells["run-supported"]
+    assert "DiagnosticRequest.model_validate" not in "\n".join(cells.values())
 
 
 def test_request_contract_accepts_optional_context_and_rejects_invalid_shapes():

@@ -1,24 +1,33 @@
-# Follow one request
+# Follow one FieldCare request
 
-The local application lives in `service/fieldcare/`. Its server runs in terminal A; a client in terminal B sends an HTTP request to it.
+FieldCare is a FastAPI application that exposes AI-assisted equipment guidance through HTTP. You develop it in `service/fieldcare/` and call it from small Python programs in `clients/` or the interface you build in Lovable.
 
 ```text
-clients/request.py or clients/stream.py
-    → observation middleware (once attached)
-    → authentication and caller allowance (once attached)
-    → FastAPI input validation
-    → route and deterministic clarification
-    → prepared Chroma index + LangGraph + OpenRouter, when needed
-    → JSON response or incremental NDJSON events
-    → one minimized terminal record, when observation is attached
+Caller
+  → service authentication and allowance
+  → FastAPI request validation
+  → deterministic clarification when context is missing
+  → ChromaDB retrieval → LangGraph orchestration → OpenRouter generation
+  → JSON response or NDJSON stream
+  → minimized request record
 ```
 
-`main.py` owns registration. Routers are registered before the guard inventories their paths. Observation is attached last so it surrounds authentication rejections as well as admitted requests.
+Not every request follows every step. Invalid input stops at validation. An unrecognized key stops at authentication. A valid question without required context can receive a clarification before retrieval or generation. A supported question with a prepared index can use the model path.
 
-Startup creates a resource manager, not embeddings. `python -m fieldcare.prepare_index` performs the explicit embedding preparation. A supported request opens the prepared index and calls the provider; deterministic clarification does neither. `/health` exposes preparation/configuration state without claiming that generation has succeeded.
+## Where each part lives
 
-`var/` contains generated local state and is ignored by Git. `service/data/` contains supplied synthetic evidence. `evidence/` contains your selected, reviewed observations. These three folders serve different purposes.
+- `service/fieldcare/main.py` creates the app and registers routes and middleware.
+- `service/fieldcare/routes.py` and `schemas.py` define the buffered operation and its contract.
+- `service/fieldcare/stream_routes.py` defines the streamed operation added in Sprint 3.
+- `service/fieldcare/service.py`, `orchestration.py`, and `model.py` connect rules, retrieval, and generation.
+- `service/fieldcare/security_settings.py` names callers and the allowance policy; key values live in the ignored local `.env` file.
+- `service/fieldcare/resources.py` opens prepared resources only when a supported request needs them.
+- `service/data/` contains supplied synthetic equipment records and service documents.
+- `src/module_b/` contains shared mechanics used by the FieldCare application.
+- `clients/` contains readable HTTP callers and investigation tools.
+- `var/` contains local generated indexes and safe runtime records. It is ignored by Git.
+- `evidence/` contains selected, reviewed observations; do not copy `.env`, raw logs, or private request content there.
 
-The Module A evaluator uses its original reference pipeline and the saved evaluation design. It is a separate source of behavioral evidence, not a scorer for a streamed paragraph.
+Run `python -m fieldcare.prepare_index` only when a lesson calls for real retrieval. Indexing sends supplied documents to the embedding provider and uses quota. A healthy `/health` response means the process started; it does not prove the provider, retrieval, answer quality, or interface integration works.
 
-The separate application in `examples/fieldcare/` supports the existing Sprint 1 and Live notebooks. It is not the local Campus editing location.
+The deterministic Module A evaluator and the live OpenRouter service are separate systems. Evaluation results describe the selected reference cases, not the wording of a live streamed answer.

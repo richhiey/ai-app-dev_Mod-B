@@ -1,66 +1,49 @@
-# Lovable connector for FieldCare
+# Connect your Lovable interface to FieldCare
 
-This small reference package connects a Lovable UI to the existing Module B FieldCare service. It is course support code, not a new AI service and not a student setup exercise.
+Use this course example after you have a FieldCare service from Sprints 1–3 and a UI built in Lovable. The [Lovable student guide](../../docs/lovable-student-guide.md) covers prompt design, review, the default backend, Git Sync, privacy, and framework versions.
+
+Keep Lovable Cloud, Lovable's built-in Supabase-based backend. Do not connect a separate Supabase project. FieldCare remains the service that answers equipment questions. For the classroom integration, run both apps on your computer:
 
 ```text
-Lovable UI → fieldcareClient → authenticated Edge Function → FastAPI FieldCare
-                                                          → LangGraph → ChromaDB/OpenRouter
+Browser → local Lovable UI
+        → same-origin TanStack Start server route
+        → local FieldCare service
+        → retrieval, model, streaming, and safe observation
 ```
 
-The browser sends the request through `fieldcareClient`. The Edge Function adds the FieldCare caller key on the server and forwards the original body to `POST /v1/diagnose-stream`. It passes through the real NDJSON stream or the service's JSON clarification, along with the safe request ID. OpenRouter keys stay inside FieldCare. There is no second database or model call.
+Lovable preview and Cloud Edge Functions run remotely and cannot call `localhost` on your computer. Do not publish this local bridge or use a tunnel. A hosted integration needs a separately deployed FieldCare API and an appropriately secured server-side connection.
 
-## Files
+## Keep the key on the server
 
-- `src/lib/fieldcareClient.ts` — obtains the current Supabase Auth session, opens an anonymous session when needed, calls the Edge Function with a user JWT, and yields actual service events as they arrive.
-- `supabase/functions/fieldcare-proxy/index.ts` — authenticates the user JWT, reads the service origin and caller key from backend secrets, forwards the request, and streams the response without logging request content.
+Copy [`src/routes/api.fieldcare.ts`](src/routes/api.fieldcare.ts) into the generated TanStack Start UI repository at `src/routes/api.fieldcare.ts`. The route handles same-origin `POST /api/fieldcare`, checks that the configured FieldCare address is loopback, forwards to the fixed `POST /v1/diagnose-stream` path, and reads the caller key in the server handler. The browser never receives the key.
 
-The browser must use the Lovable project's existing Supabase client. Pass the same client, project URL, and publishable key that the starter already uses to call `createClient`; confirm their actual names and paths in the starter. These public client values are not service or provider secrets. Do not paste service or provider credentials into Lovable chat, frontend variables, notebook outputs, or source control.
+Copy [`.env.example`](.env.example) to a new `.env.local` in the UI repository. Set `FIELDCARE_CALLER_KEY` to the recognized `FIELDCARE_PARTNER_KEY` value from FieldCare's private `.env`. Keep `.env.local` private and uncommitted. Keep `OPENROUTER_API_KEY` in FieldCare's `.env`; the UI does not need it. Restart the UI dev server after changing its environment.
 
-## Course-team setup
+This route is an intentionally limited local development scaffold. It only accepts HTTP loopback FieldCare URLs, checks the browser origin, and fixes the upstream path. It is not a public endpoint or a production substitute for designing an authenticated deployment.
 
-Provision the connection once in the provided Lovable Cloud starter so students can spend their time learning the UI/service boundary:
+## Map the response to the screen
 
-1. Enable anonymous sign-in in the project’s Auth settings. The UI does not need a login form; the client obtains a user JWT so the Edge Function can require `auth: "user"`.
-2. Add `FIELDCARE_SERVICE_URL` and `FIELDCARE_CALLER_KEY` as backend secrets. The first value is the reachable HTTPS origin only; the second is the service caller credential. Keep `OPENROUTER_API_KEY` in the FieldCare service environment.
-3. Add the Edge Function from `supabase/functions/fieldcare-proxy/index.ts` and leave JWT verification enabled. Its handler also requires an authenticated user. Do not change the function to public access.
-4. Add `fieldcareClient.ts` to the UI project and call it from the submit action with the existing Supabase client, project URL, publishable key, and request body.
-5. Check one supported request and one request without optional equipment context in the actual Lovable preview. Confirm actual service events and the matching `X-Request-ID` before using the starter in class.
+Copy [`src/lib/fieldcareClient.ts`](src/lib/fieldcareClient.ts) into the matching UI folder. Connect the form's submit handler to `streamDiagnosis({ question, equipment_id })`. The client yields stream events or wraps an ordinary JSON clarification as a `response` event.
 
-The function fixes its upstream path to `/v1/diagnose-stream`; the browser cannot supply a URL. The configured service must be reachable over HTTPS from the function runtime. CORS only controls which browser origins may read a response; the user JWT check is the function's caller authentication. Anonymous sign-in is convenient for this classroom UI but is not an abuse-prevention or production identity policy.
+- On `metadata`, save the citations and request ID for the current request.
+- On each `delta`, append text to the answer in progress.
+- On `complete`, mark that request complete.
+- On `error`, non-success HTTP status, malformed event, or missing terminal event, show a recoverable error and do not present partial text as final.
+- On a JSON clarification, tell the user what context is missing; do not call it a connection error.
 
-## Calling the client
+Keep request state tied to one submission so a previous answer cannot appear current after a later error. Follow the components and style of your generated screen rather than replacing it with a transport demo.
 
-```ts
-const input = {
-  question,
-  ...(equipmentId ? { equipment_id: equipmentId } : {}),
-};
+## Run the two apps locally
 
-for await (const event of diagnoseWithFieldCare(
-  supabase,
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY,
-  input,
-)) {
-  if (event.type === "metadata") setStatus(event.status);
-  if (event.type === "delta") setAnswer((current) => current + event.text);
-  if (event.type === "response") setClarification(event.response);
-  if (event.type === "complete") setComplete(true);
-  if (event.type === "error") setFailed(true);
-}
-```
+1. Start the FieldCare service you have extended since Sprint 1 using the [local development instructions](../../docs/local-development.md), and keep that terminal open.
+2. In a second terminal, open the cloned UI repository, install its listed dependencies, and run the development command shown in its `package.json` (commonly `npm run dev`).
+3. Open the local URL printed by the UI development server. Send a supported synthetic question and equipment ID. If a live response succeeds, compare its citations and request ID in the UI with the same ID in FieldCare's safe observation record.
+4. Try a valid question without the equipment context, then stop FieldCare and submit again. Check that clarification and connection failure remain different states and that loading ends on failure.
 
-This is a usage example, not a fabricated service result. `delta` text comes from the current provider-backed request. A JSON `response` is the deterministic service clarification. If the stream ends without `complete` or `error`, the client reports an incomplete request; it never promotes partial text to a completed answer.
+Compare the browser, UI-server terminal, and FieldCare record. A mock interaction or a direct Python-client call is not evidence that the UI request reached the service.
 
-## Release status
+## If your project is older
 
-The source is prepared for the course starter, but it has not been deployed to a Lovable project or checked against a reachable FieldCare service. The course team must verify the project’s anonymous-auth setting, function deployment, secrets, CORS in its preview, stream pass-through, actual OpenRouter-backed output, clarification response, and request-ID correlation before declaring the walkthrough runnable. Until then, these files are a reviewed implementation draft, not proof of a working hosted integration.
+New Lovable apps use TanStack Start; older projects may use React + Vite. Inspect `package.json` and `src/routes/` before copying the example. Its route is for TanStack Start. Upgrade an eligible older project if Lovable offers that option; otherwise ask for a verified pattern for that actual framework. Do not guess how to keep the caller key server-side.
 
-## Product and platform references
-
-- [Lovable Cloud](https://docs.lovable.dev/features/cloud)
-- [Lovable Edge Functions](https://docs.lovable.dev/features/edge-functions)
-- [Lovable Secrets](https://docs.lovable.dev/features/secrets)
-- [Supabase Edge Function authentication](https://supabase.com/docs/guides/functions/auth)
-- [Supabase authorization headers](https://supabase.com/docs/guides/functions/auth-headers)
-- [Supabase Edge Function secrets](https://supabase.com/docs/guides/functions/secrets)
+The course keeps Lovable Cloud as the default backend but does not require a Cloud database table for the FieldCare request. The browser talks to the local UI route, and the route talks to the local service.
