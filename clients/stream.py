@@ -5,6 +5,8 @@ import time
 import httpx
 from clients.common import BASE_URL, headers_for
 
+CALLER = "dispatch"  # Choose a label from your current clients/common.py mapping.
+
 BODY = {
     "question": "Which filter and airflow checks are documented?",
     "equipment_id": "EQ-FC-1002",
@@ -17,7 +19,7 @@ def main():
     with httpx.stream(
         "POST",
         BASE_URL + "/v1/diagnose-stream",
-        headers=headers_for("dispatch"),
+        headers=headers_for(CALLER),
         json=BODY,
         timeout=90,
     ) as response:

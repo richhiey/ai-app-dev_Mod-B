@@ -4,6 +4,7 @@ import argparse
 import json
 from pathlib import Path
 import shutil
+import sys
 import tempfile
 import tomllib
 
@@ -60,7 +61,11 @@ def export(destination: Path) -> Path:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("destination", type=Path, help="a new ZIP path, for example artifacts/sprint-1-checkpoint.zip")
-    args = parser.parse_args()
+    arguments = sys.argv[1:]
+    # Keep the original positional spelling valid for saved course notes.
+    if arguments[:1] == ["export"]:
+        arguments = arguments[1:]
+    args = parser.parse_args(arguments)
     archive = export(args.destination)
     print("Checkpoint source archive:", archive)
     print("Review the included source and evidence for accidental secrets before uploading it to the assessment notebook.")

@@ -17,7 +17,7 @@ Lovable preview and Cloud Edge Functions run remotely and cannot call `localhost
 
 Copy [`src/routes/api.fieldcare.ts`](src/routes/api.fieldcare.ts) into the generated TanStack Start UI repository at `src/routes/api.fieldcare.ts`. The route handles same-origin `POST /api/fieldcare`, checks that the configured FieldCare address is loopback, forwards to the fixed `POST /v1/diagnose-stream` path, and reads the caller key in the server handler. The browser never receives the key.
 
-Copy [`.env.example`](.env.example) to a new `.env.local` in the UI repository. Set `FIELDCARE_CALLER_KEY` to the recognized `FIELDCARE_PARTNER_KEY` value from FieldCare's private `.env`. Keep `.env.local` private and uncommitted. Keep `OPENROUTER_API_KEY` in FieldCare's `.env`; the UI does not need it. Restart the UI dev server after changing its environment.
+Copy [`.env.example`](.env.example) to a new `.env.local` in the UI repository. Set `FIELDCARE_CALLER_KEY` to the private key for a caller registered in your current `service/fieldcare/security_settings.py`. For the cumulative weekend-pilot project, use `weekend_partner`’s `FIELDCARE_WEEKEND_PARTNER_KEY` value from FieldCare’s private `.env`. Only the original starter uses `partner`/`FIELDCARE_PARTNER_KEY`; retain your checkpoint mappings and allowance. Keep `.env.local` private and uncommitted. Before adding a key, run `git check-ignore .env.local` from the UI repository root; it should print `.env.local`. If it prints nothing, add `.env.local` to that repository’s `.gitignore` first. Keep `OPENROUTER_API_KEY` in FieldCare's `.env`; the UI does not need it. Restart the UI dev server after changing its environment.
 
 This route is an intentionally limited local development scaffold. It only accepts HTTP loopback FieldCare URLs, checks the browser origin, and fixes the upstream path. It is not a public endpoint or a production substitute for designing an authenticated deployment.
 
@@ -36,11 +36,20 @@ Keep request state tied to one submission so a previous answer cannot appear cur
 ## Run the two apps locally
 
 1. Start the FieldCare service you have extended since Sprint 1 using the [local development instructions](../../docs/local-development.md), and keep that terminal open.
-2. In a second terminal, open the cloned UI repository, install its listed dependencies, and run the development command shown in its `package.json` (commonly `npm run dev`).
+2. Open a second terminal at the cloned UI repository root (the folder containing `package.json`). Check `node --version` against its `engines.node` requirement, if present, and use the package manager named by `packageManager`, its README and lockfile. For an npm project with `package-lock.json` and a `dev` script, run:
+
+   ```text
+   npm ci
+   npm run dev
+   ```
+
+   If the project specifies pnpm, Yarn or Bun, use its documented install/dev commands instead; do not generate a second package manager’s lockfile. For npm without a lockfile, use `npm install` for the initial install. `npm run` lists available scripts if there is no `dev` entry. Keep this terminal open alongside FieldCare’s terminal.
 3. Open the local URL printed by the UI development server. Send a supported synthetic question and equipment ID. If a live response succeeds, compare its citations and request ID in the UI with the same ID in FieldCare's safe observation record.
-4. Try a valid question without the equipment context, then stop FieldCare and submit again. Check that clarification and connection failure remain different states and that loading ends on failure.
+4. Try a valid question without the equipment context, then stop FieldCare and submit again. Check that clarification and connection failure remain different states and that loading ends on failure. Restart FieldCare after this stopped-service check.
 
 Compare the browser, UI-server terminal, and FieldCare record. A mock interaction or a direct Python-client call is not evidence that the UI request reached the service.
+
+> 💭 A `429` is a caller allowance result, not a broken connection. The bridge preserves `Retry-After`; inspect it in the browser Network panel, keep FieldCare running, and wait at least that duration before retrying. The weekend-pilot policy is four admitted attempts per 60 seconds across protected routes. Keep that policy rather than resetting the service to get another attempt.
 
 ## If your project is older
 

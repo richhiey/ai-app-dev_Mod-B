@@ -7,18 +7,25 @@ import pytest
 from pydantic import ValidationError
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "examples" / "fieldcare"))
-from app.schemas import DiagnosticRequest, DiagnosticResponse
+sys.path.insert(0, str(ROOT / "service"))
+from fieldcare.schemas import DiagnosticRequest, DiagnosticResponse
 
 
-def test_checkpoint_asks_the_learner_to_exercise_the_versioned_supervisor_route():
+def test_checkpoint_observes_submitted_service_without_creating_v2():
+    from module_b.openrouter import DEFAULT_CHAT_MODEL
+
     notebook = json.loads((ROOT / "notebooks/sprint_1/sprint_1_service_foundations.ipynb").read_text())
     cells = {cell["id"]: "".join(cell["source"]) for cell in notebook["cells"]}
-    assert "SUPERVISOR_PATH" in cells["run-supported"]
-    assert '"/v2/diagnose"' in cells["run-supported"]
-    assert "supported_body = json.loads(body_text)" in cells["run-supported"]
-    assert "httpx.post(service.base_url + SUPERVISOR_PATH" in cells["run-supported"]
-    assert "DiagnosticRequest.model_validate" not in "\n".join(cells.values())
+    # Execute the actual observation cell against the untouched starter. It must
+    # report a missing assessment route, never manufacture a completed endpoint.
+    namespace = {"REPO": ROOT, "CHECKPOINT_MODEL": DEFAULT_CHAT_MODEL, "json": json}
+    exec(compile(cells["checkpoint-03"], "checkpoint-03", "exec"), namespace)
+    assert len(namespace["boundary_body"]["question"]) == 1000
+    assert len(namespace["long_body"]["question"]) == 1001
+    observations = namespace["observations"]
+    assert [row["http_status"] for row in observations if row["path"] == "/v1/diagnose"] == [200, 200, 200, 422]
+    assert [row["http_status"] for row in observations if row["path"] == "/v2/diagnose"] == [404, 404, 404, 404]
+    assert not namespace["generation_attempted"]
 
 
 def test_request_contract_accepts_optional_context_and_rejects_invalid_shapes():

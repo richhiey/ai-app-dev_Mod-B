@@ -17,7 +17,7 @@ Do not attach another guard. `protected_post_paths(app)` must now include the st
 
 ## Read a real stream
 
-Prepare the index and provider key if you have not already done so. Open `clients/stream.py`: inspect `httpx.stream`, the `response.iter_lines()` loop and the terminal-event check.
+Prepare the index and provider key if you have not already done so. Open `clients/stream.py`: set `CALLER` to a recognized label in your current `clients/common.py` mapping, such as `operations` after the weekend checkpoint. Keep your existing caller configuration and allowance. Then inspect `httpx.stream`, the `response.iter_lines()` loop and the terminal-event check.
 
 ```text
 python -m clients.stream
@@ -44,13 +44,13 @@ app.add_middleware(
 )
 ```
 
-Restart, then make a new request. Copy its `Request ID` from the client output:
+Restart, then rerun one supported stream and one buffered request with an admitted caller. Keep both new `Request ID` values: attempts made before observation was attached have no saved record. Look up each new ID in turn:
 
 ```text
 python -m clients.logs YOUR_REQUEST_ID
 ```
 
-Replace `YOUR_REQUEST_ID` with that actual UUID. You should find one terminal record in `var/requests.jsonl` with the same ID. Compare HTTP status, terminal outcome, model, tokens and timing. Buffered generation may report no usage; do not infer token counts from answer length.
+Replace `YOUR_REQUEST_ID` with that actual UUID. You should find one terminal record in `var/requests.jsonl` with the same ID. Compare HTTP status, terminal outcome, model, tokens and timing for the two records. Also send a missing-key request and find its record to check that rejected attempts are observed. Buffered generation may report no usage; do not infer token counts from answer length.
 
 ## Check the privacy boundary
 

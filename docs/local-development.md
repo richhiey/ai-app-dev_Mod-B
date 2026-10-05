@@ -4,7 +4,7 @@ Welcome! You’ll bring FieldCare to life on your own computer, with the service
 
 ## Install the tools
 
-Install Python **3.12**, Git, and VS Code. In VS Code, install Microsoft's Python extension. The steps below work in Windows PowerShell and macOS Terminal.
+Install [Python **3.12**](https://www.python.org/downloads/), [Git](https://git-scm.com/downloads), and [VS Code](https://code.visualstudio.com/download). In VS Code, install Microsoft's Python extension. The steps below work in Windows PowerShell and macOS Terminal.
 
 ## Clone the course repository
 
@@ -41,7 +41,7 @@ In VS Code, open the Command Palette and run **Python: Select Interpreter**. Cho
 python -c "import sys; print(sys.executable)"
 ```
 
-The printed path should be inside this repository's `.venv`. If automatic activation is unavailable, use `\.venv\Scripts\python.exe` in PowerShell or `.venv/bin/python` on macOS in place of `python` below. You do not need to change PowerShell's execution policy.
+The printed path should be inside this repository's `.venv`. If automatic activation is unavailable, use `.\.venv\Scripts\python.exe` in PowerShell or `.venv/bin/python` on macOS in place of `python` below. You do not need to change PowerShell's execution policy. If an executable path contains spaces, put `&` before its quoted path in PowerShell.
 
 ## Set up local configuration
 
@@ -50,9 +50,9 @@ python -m tools.local_env
 git check-ignore .env
 ```
 
-The first command creates `.env` once. It generates two different caller keys and leaves the provider key blank. It never prints key values or overwrites an existing file. The second command should print `.env`, which confirms the file is ignored by Git. That’s a good sign: your local setup is keeping its secrets out of future commits.
+The first command creates `.env` once. It generates two different caller keys and leaves the provider key blank. It never prints key values or overwrites an existing file. The second command should print `.env`, which confirms the file is ignored by Git. That confirms the ignore rule for an untracked file; it does not remove a secret that was already committed.
 
-Open `.env` in VS Code. Leave `OPENROUTER_API_KEY` blank for the first local checks. `FIELDCARE_DISPATCH_KEY` and `FIELDCARE_PARTNER_KEY` identify callers to FieldCare; `OPENROUTER_API_KEY` identifies the service to its model provider. Keep each value in this local file. Do not paste a key into a terminal command, browser code, or screenshot. Restart running processes after changing configuration.
+Open `.env` in VS Code. Leave `OPENROUTER_API_KEY` blank for the first local checks. `FIELDCARE_DISPATCH_KEY` and `FIELDCARE_PARTNER_KEY` identify callers to FieldCare; `OPENROUTER_API_KEY` identifies the service to its model provider. Keep each value in this local file. Do not paste a key into a terminal command, browser code, or screenshot. Restart running processes after changing configuration. An existing terminal environment value takes precedence over the same name in `.env`.
 
 ## Start the service and send a request
 
@@ -95,11 +95,15 @@ BODY = {
 }
 ```
 
+The starter uses `dispatch`; if your checkpoint changed caller labels, choose a label from your current `clients/common.py` mapping instead. Keep the same mapping and private values on the service and client sides.
+
 Run the client again. A successful generated response has HTTP `200`, status `ready`, an answer, and citations. Wording varies. Inspect a cited entry in `service/data/service_docs.json` and check one answer claim against it. A provider error or clarification is an observation to investigate, not a successful generated answer.
 
 ## Save work and evidence
 
-Continue in this same clone through Sprints 1–4. Save changes before updating course code and use `git diff` to review them. Runtime files in `.env` and `var/` are local and ignored by Git. Keep selected, sanitized observations in [`evidence/`](../evidence/README.md). Never save keys, full request bodies, or raw private logs there.
+Continue in this same clone through Sprints 1–4. Save changes before updating course code and use `git diff` to review them. Runtime files in `.env` and `var/` are local and ignored by Git. Your local folder remains the authoring copy when the Sprint 1 checkpoint runs in Colab. Follow the [checkpoint guide](colab-setup.md) to export and verify its source; you do not need to copy notebook code back into your project.
+
+Keep selected, sanitized observations in [`evidence/`](../evidence/README.md). Never save keys, full request bodies, or raw private logs there.
 
 ## When something fails
 

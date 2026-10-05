@@ -1,16 +1,42 @@
 # Use the Sprint 1 checkpoint notebook
 
-Campus coding happens in the local VS Code project. Use the [Sprint 1 notebook](../notebooks/sprint_1/sprint_1_service_foundations.ipynb) only for the service scaffold checkpoint at the end of Sprint 1.
+Campus coding happens in your local VS Code project. Use the [Sprint 1 checkpoint in Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/main/notebooks/sprint_1/sprint_1_service_foundations.ipynb) after completing the Campus checkpoint brief. It runs your exported service and records observations; your implementation and reasoning remain yours.
 
-Before opening Colab, complete the service work locally and export a source checkpoint from the course repository root. Record the repository base revision before export. The notebook also prints a SHA-256 fingerprint for the exact source ZIP you upload:
+## Export your completed source
+
+From the FieldCare repository root, run:
 
 ```text
+python -m tools.checkpoint export artifacts/sprint-1-checkpoint.zip
 git rev-parse HEAD
-python -m tools.checkpoint artifacts/sprint-1-checkpoint.zip
+python -c "import hashlib; from pathlib import Path; print(hashlib.sha256(Path('artifacts/sprint-1-checkpoint.zip').read_bytes()).hexdigest())"
 ```
 
-Review the source archive for accidental credentials, then download it. Open the checkpoint notebook and choose **File → Save a copy in Drive**. Run setup to clone this repository's `main` branch and install its pinned dependencies. Upload the checkpoint ZIP when prompted. The notebook restores only allowed source files into a new folder; it does not create or modify your service code for you.
+Choose a new archive name for each export, and use that same name in the hash command. Existing archives are preserved. The Git revision identifies the base repository; the SHA-256 fingerprint identifies the exact exported bytes, including uncommitted changes.
 
-The assessment notebook runs your submitted service source in an isolated Colab process so it can make the checkpoint requests. It prints the source archive SHA-256, asks for the repository base revision, the POST /v2/diagnose route and matching request bodies, and your provider key through a hidden password prompt. Choose an approved model; the notebook sets OPENROUTER_MODEL for the temporary service. Sprint 1 does not yet add caller authentication. Never place a credential in a code cell, output, screenshot, notebook text, or source export. Colab cannot reach a server running on your laptop, so it runs the uploaded checkpoint source itself.
+The ZIP contains your service, clients, supplied synthetic data, selected evidence, and dependency metadata. It excludes `.env`, indexes, and raw logs. Review the included source and notes for accidentally pasted credentials before uploading. This archive is an overlay for the course clone, not a standalone application.
 
-Supported generated requests and document-index preparation use provider quota. Invalid and missing-context requests may stop before model generation. Preserve the actual result, request ID, repository base revision, source archive SHA-256, and any provider error in your handoff. The notebook does not supply the endpoint or answer for you, and a `200` alone does not establish that your contract or generated answer is correct.
+## Run the checkpoint in Colab
+
+1. Open the notebook and choose **File → Save a copy in Drive**. Upload the ZIP through Colab's **Files** panel.
+2. In setup, set `ARCHIVE` to the uploaded path and enter the locally recorded `SOURCE_REVISION` and `ARCHIVE_SHA256`. Set `CHECKPOINT_MODEL` to the same approved `OPENROUTER_MODEL` used locally. The ZIP correctly excludes your private `.env`, so model configuration must be selected explicitly.
+3. Run setup. It clones current `main`, installs the locked dependencies, checks the digest and dependency metadata, and restores allowed files into that fresh runtime clone. It prints the runner revision separately. Your laptop source is untouched.
+4. Predict and run the contract observations. They test both versioned paths, including accepted `1000`-character and rejected `1001`-character v2 inputs, without calling the provider. Read actual results against the brief; the notebook is not an automatic grader.
+5. When ready to use provider quota, set `RUN_GENERATION = True`. Enter the provider key only in the hidden prompt. Index preparation and supported generation use quota; compare an actual generated claim with its cited document. If access is unavailable, keep the generated-answer evidence marked as outstanding.
+6. Save your predictions and interpretation in your Drive copy. Review and download the evidence JSON from the Files panel, and retain the original source ZIP.
+
+Colab starts its own temporary HTTP server from your uploaded source; it cannot reach your laptop's `localhost`. Keep source edits in VS Code. To repair a result, edit locally, export a new ZIP and digest, and rerun setup. You do not need to copy code back from Colab.
+
+## Recover without losing work
+
+| Observation | Next check |
+|---|---|
+| File or digest mismatch | Compare the uploaded path with the locally recorded ZIP and SHA-256. |
+| Dependency metadata mismatch | Compare your source revision with the runner revision; resolve the course dependency difference before retrying. Keep your original source. |
+| `404` or unexpected validation | Inspect the registered route and model in your local project, then export a corrected version. |
+| Provider or index failure | Preserve the actual failure and inspect configuration, quota, connectivity and storage. Do not substitute a sample answer. |
+| Evidence file already exists | Keep the earlier file and choose a new name for the new observation set. |
+
+Never include a key in a saved cell, output, screenshot, or source export. A working process and a valid response shape are useful checks; neither establishes answer quality.
+
+[Return to local setup](local-development.md)

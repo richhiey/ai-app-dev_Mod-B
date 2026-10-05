@@ -60,7 +60,7 @@ export const Route = createFileRoute('/api/fieldcare')({
           })
 
           const headers = new Headers()
-          for (const name of ['content-type', 'cache-control', 'x-request-id']) {
+          for (const name of ['content-type', 'cache-control', 'x-request-id', 'retry-after']) {
             const value = upstream.headers.get(name)
             if (value) headers.set(name, value)
           }

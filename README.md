@@ -22,7 +22,7 @@ Use the matching repository guide when you need file locations, commands, expect
 
 | Sprint | Repository guides | What you will build |
 |---|---|---|
-| **1 — Service foundations** | [Local setup](docs/local-development.md) · [Checkpoint setup](docs/colab-setup.md) | Explore and extend the FastAPI service, then explain a versioned service contract. |
+| **1 — Service foundations** | [Local setup](docs/local-development.md) · [Worked route](docs/sprint-1/guided-extension.md) · [Versioning pattern](docs/sprint-1/guided-versioning.md) · [Checkpoint setup](docs/colab-setup.md) | Explore and extend the FastAPI service, then explain a versioned service contract. |
 | **2 — Secure the service** | [Sprint 2 guide](docs/sprint-2.md) | Recognize callers, protect credentials, and give each caller a fair request allowance. |
 | **3 — Streaming and observability** | [Sprint 3 guide](docs/sprint-3.md) | Stream a real answer, record safe service signals, and connect an observation to evaluation. |
 | **4 — Companion UI** | [Lovable student guide](docs/lovable-student-guide.md) · [Integration example](examples/lovable/README.md) | Build a focused UI, connect it to your local service, test the full path, and write a handoff. |

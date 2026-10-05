@@ -1,8 +1,6 @@
 # Sprint 1 notebooks
 
-- [Campus checkpoint notebook](sprint_1_service_foundations.ipynb) · [Open in Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/main/notebooks/sprint_1/sprint_1_service_foundations.ipynb) — run your own exported FieldCare source through the Sprint 1 assessment. Complete the practical work in VS Code first.
-- [Live workshop notebook](sprint_1_live_workshops.ipynb) · [Open in Colab](https://colab.research.google.com/github/richhiey/ai-app-dev_Mod-B/blob/main/notebooks/sprint_1/sprint_1_live_workshops.ipynb) — separate workshop activities; it does not replace your Campus project.
+- [Campus checkpoint](sprint_1_service_foundations.ipynb): run the local source export after completing the VS Code lessons and checkpoint implementation. It verifies the archive digest and records the supplied source revision, starts the submitted service, makes visible HTTP requests, and saves selected observations. It supplies no assessment implementation.
+- [Live workshops](sprint_1_live_workshops.ipynb): separate instructor demonstrations. Preserve their existing workflow and saved copies; local Campus exports are not Live workspaces.
 
-Keep the Campus checkpoint copy separate from any Live workshop copy. The checkpoint notebook clones the course repository's `main` branch, restores only the source archive you upload, and runs that source in a temporary Colab process. It does not teach the sprint lessons or write implementation files from notebook cells. Review the source archive before uploading it; `.env`, provider keys, indexes and raw logs are not included.
-
-See [the checkpoint setup guide](../../docs/colab-setup.md) before opening Colab.
+Campus uses VS Code from the start. Follow [local development](../../docs/local-development.md) and the [checkpoint transfer guide](../../docs/colab-setup.md). The checkpoint notebook clones main and restores into a fresh runtime copy; keep the original local project and ZIP. Contract checks do not call the provider. Set `CHECKPOINT_MODEL` to your approved local model setting. Optional indexing and generation use provider quota and a hidden key prompt; a skipped generated-answer check remains outstanding. The contract comparison includes 1000 accepted and 1001 rejected by v2.

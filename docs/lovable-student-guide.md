@@ -16,8 +16,6 @@ Use only synthetic course examples. Never paste a caller key, `OPENROUTER_API_KE
 
 Open the course Lovable workspace and its Sprint 4 project. Find the chat, interactive preview, code view, Cloud view, and Git settings. The chat is where you describe a change; the preview is where you try it; the code view helps you find what changed. Generated code is a first draft, and a polished preview does not prove a service connection.
 
-> 📸 **SCREENSHOT PLACEHOLDER — Editor map:** add a course-workspace capture that labels chat, preview, code view, Cloud view, and Git settings. Hide account names and project IDs.
-
 For a quick tour, use Lovable's [quick start](https://docs.lovable.dev/introduction/getting-started) and [editor guide](https://docs.lovable.dev/features/projects/editor).
 
 ## 2. Ask for one useful screen
@@ -27,8 +25,6 @@ Start with the person, their task, what they will enter, what the screen will sh
 > Plan a single-screen companion for a HelioDesk dispatcher. They enter a required maintenance question and an optional equipment ID. The screen needs labelled fields, one submit action, a loading state, an answer area for citations and request ID, and distinct clarification and error states. Use synthetic examples and a mock response for this UI pass. Keep the default Lovable Cloud backend; do not connect a separate Supabase project or add database tables. Do not add a model call, credentials, or a second AI answer feature. First summarize the proposed screen, states, and files you expect to change.
 
 Read the plan. If Lovable adds a dashboard, login flow, invented endpoint, database feature, or model call, narrow the brief before asking it to build. Use a mock for this stage so you can focus on labels and interaction before network behavior.
-
-> 📸 **SCREENSHOT PLACEHOLDER — First brief:** add a crop of the prompt and Lovable's plan, with no account details or private content.
 
 ## 3. Build, review, and iterate with AI
 
@@ -75,8 +71,6 @@ Git Sync is two-way, but follows one branch at a time. Check its current sync st
 
 New Lovable apps created from May 13, 2026 (June 22, 2026 in Enterprise workspaces) use TanStack Start. Older projects may use React + Vite. Check `package.json` and `src/routes/` before copying framework-specific code. This course's checked-in server route is for TanStack Start. If your older project cannot be upgraded, ask for a verified pattern for its actual framework before continuing; do not paste a TanStack route into a Vite project.
 
-> 📸 **SCREENSHOT PLACEHOLDER — Git Sync:** add a capture showing the generated UI repository name and “in sync” status. Hide account details.
-
 The [FAQ](https://docs.lovable.dev/introduction/faq) explains framework versions, project ownership, and code export. The [Git Sync guide](https://docs.lovable.dev/integrations/git-sync-overview) explains how the synced branch behaves.
 
 ## 6. Connect the local UI to local FieldCare
@@ -85,11 +79,9 @@ Lovable preview and Cloud Edge Functions run remotely. They cannot call a servic
 
 For the course test, run both programs on your computer. In a TanStack Start project, the checked-in [`api.fieldcare.ts`](../examples/lovable/src/routes/api.fieldcare.ts) provides a same-origin server route. The browser calls the UI server; that route reads the recognized FieldCare caller key on the server and forwards the request to the fixed local `/v1/diagnose-stream` path. The browser does not receive the key. The example accepts only a loopback URL and is a development scaffold, not a production bridge.
 
-Copy that route and [`fieldcareClient.ts`](../examples/lovable/src/lib/fieldcareClient.ts) from the FieldCare repository into the matching folders in the UI repository. Copy [`examples/lovable/.env.example`](../examples/lovable/.env.example) to a new `.env.local` in the UI repository, then set `FIELDCARE_CALLER_KEY` to the recognized `FIELDCARE_PARTNER_KEY` value from FieldCare's private `.env`. Keep `OPENROUTER_API_KEY` only in the FieldCare `.env`. Never use a browser-visible variable prefix for the caller key.
+Copy that route and [`fieldcareClient.ts`](../examples/lovable/src/lib/fieldcareClient.ts) from the FieldCare repository into the matching folders in the UI repository. Copy [`examples/lovable/.env.example`](../examples/lovable/.env.example) to a new `.env.local` in the UI repository, then set `FIELDCARE_CALLER_KEY` to the private key for a caller registered in your current `service/fieldcare/security_settings.py`. After the weekend-pilot checkpoint, that can be the `weekend_partner` caller’s `FIELDCARE_WEEKEND_PARTNER_KEY` value from FieldCare’s private `.env`. The original starter uses `partner`/`FIELDCARE_PARTNER_KEY`; do not restore those names over your completed checkpoint configuration. Keep `OPENROUTER_API_KEY` only in the FieldCare `.env`. Never use a browser-visible variable prefix for the caller key.
 
-Start FieldCare in one VS Code terminal. In a second terminal, install and start the UI using the actual commands in its `package.json`. Open the local UI URL printed by that server. The [`Lovable integration example`](../examples/lovable/README.md) gives the short copy/run path.
-
-> 📸 **SCREENSHOT PLACEHOLDER — Local run:** add a capture of the UI and both local terminals after removing or covering all environment values, account names, and private request text.
+Start FieldCare in one VS Code terminal and leave it running. Open a second terminal at the UI repository root, where its `package.json` lives. Follow the [install/start steps in the integration example](../examples/lovable/README.md#run-the-two-apps-locally), using that project’s package manager, lockfile and scripts. Open the local UI URL printed by its development server. Restart that UI server after changing `.env.local`.
 
 ## 7. Test the request and save honest evidence
 
@@ -101,9 +93,9 @@ Use synthetic examples. Test the complete UI flow and compare what you see in th
 4. **Invalid or unauthorized request:** use the checks in the FieldCare lesson. Confirm the UI handles the response without showing keys or tracebacks.
 5. **Responsive and keyboard use:** complete the form with the keyboard and inspect a narrow layout.
 
-A request that appears only in the UI mock is not an end-to-end result. Save the case, expected outcome, actual observation, whether the request reached FieldCare, and its matching ID. Use the earlier-sprint [evidence guide](../evidence/README.md) to keep the record useful and private.
+> 💭 Your existing caller allowance still applies. If repeated checks return `429`, leave FieldCare running, inspect `Retry-After` in the browser Network panel, wait at least that duration, then retry. Keep the caller mapping and policy you built; restarting the process is not evidence of quota renewal.
 
-> 📸 **SCREENSHOT PLACEHOLDER — Verified request:** add a crop of a synthetic completed response showing citation IDs and request ID. Make sure no key, private data, account identity, or terminal output is visible.
+A request that appears only in the UI mock is not an end-to-end result. Save the case, expected outcome, actual observation, whether the request reached FieldCare, and its matching ID. Use the earlier-sprint [evidence guide](../evidence/README.md) to keep the record useful and private.
 
 ## 8. Know what publishing changes
 
