@@ -4,7 +4,7 @@ In Sprint 4, you will use Lovable to shape a small technician interface, bring i
 
 Your finished course flow has one question form and response area. It preserves FieldCare's citations and request ID, handles clarification and errors clearly, and has a real local request that can be matched to the service's safe record. The first Lovable preview uses a mock response so you can improve the interface before debugging a connection.
 
-> **Backend for this course:** Keep Lovable Cloud, Lovable's built-in backend. It is enabled by default and uses Supabase's open-source foundation. Do not connect a separate Supabase project that you own. FieldCare remains the service that answers equipment questions.
+> **Backend for this course:** Keep Lovable Cloud as the backend choice. It uses Supabase's open-source foundation and is available by default in most workspaces; individual projects activate it when backend functionality is needed. A mock-only screen need not have an active Cloud instance. Do not connect a separate Supabase project that you own. FieldCare remains the service that answers equipment questions.
 
 ## Before you start
 
@@ -46,13 +46,13 @@ Lovable's [preview guide](https://docs.lovable.dev/features/projects/preview) ex
 
 ## 4. Keep Lovable Cloud as the default backend
 
-Lovable Cloud is the built-in backend and is enabled by default. It uses Supabase's open-source foundation for managed database, authentication, storage, and serverless-function capabilities. A separate Supabase connection links your Lovable app to a Supabase project you own, with its own account and billing. The course does not ask you to make that connection. Do not use the “connect your own Supabase project” flow.
+Lovable Cloud uses Supabase's open-source foundation for managed database, authentication, storage, and serverless-function capabilities. Workspace permission is enabled by default in most workspaces, but Lovable activates an individual project's Cloud backend when a requested feature needs it, automatically or after approval according to the workspace setting. Some Enterprise workspaces disable Cloud. The mock screen and local FieldCare connection do not require a Cloud instance, so an inactive backend is not a failed setup. See the [Cloud activation guide](https://docs.lovable.dev/features/cloud#enabling-the-built-in-backend-cloud) for the current behavior. A separate Supabase connection links your Lovable app to a Supabase project you own, with its own account and billing. The course does not ask you to make that connection. Do not use the “connect your own Supabase project” flow.
 
 These pieces have different jobs:
 
 | Part | Job in this project |
 |---|---|
-| Lovable Cloud | The Lovable project's default managed app backend. No new data table is needed for the companion UI exercise. |
+| Lovable Cloud | The built-in managed backend, activated when needed. No Cloud instance or new data table is needed for the companion UI's local FieldCare request. |
 | FieldCare | Your existing AI service: it checks the caller, retrieves course evidence, calls the model, streams events, and writes a safe service observation. |
 
 The default Cloud backend is not a route to the FieldCare process on your laptop. Keep FieldCare as the answer service and use the local server route described below for the classroom integration.
