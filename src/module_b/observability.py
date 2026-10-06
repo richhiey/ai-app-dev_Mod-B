@@ -14,6 +14,7 @@ FIELDS = (
     "status_code",
     "outcome",
     "source",
+    "configured_model",
     "model",
     "tokens",
     "latency_ms",
@@ -70,7 +71,7 @@ def safe_record(values, *, fields=FIELDS, routes=()):
                 and re.fullmatch(r"EVAL-FC-0(?:0[1-9]|1[0-6])", value)
                 else None
             )
-        elif key == "model":
+        elif key in {"model", "configured_model"}:
             approved = values.get("_approved_models", ())
             value = value if isinstance(value, str) and value in approved else None
         elif key == "status_code":

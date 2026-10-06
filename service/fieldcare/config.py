@@ -15,8 +15,17 @@ def work_dir():
     return (path if path.is_absolute() else ROOT / path).resolve()
 
 
-def openrouter_model():
-    model = os.getenv("OPENROUTER_MODEL", DEFAULT_CHAT_MODEL).strip()
+def approved_model(model, setting="model_name"):
+    model = model.strip()
     if model not in CHAT_MODELS:
-        raise ValueError("Choose a course-approved OPENROUTER_MODEL in .env.")
+        raise ValueError(f"Choose a course-approved {setting} in .env.")
     return model
+
+
+def openrouter_model():
+    return approved_model(os.getenv("OPENROUTER_MODEL", DEFAULT_CHAT_MODEL), "OPENROUTER_MODEL")
+
+
+def openrouter_model_v2():
+    # An unset pilot uses its own default, never the mutable v1 setting.
+    return approved_model(os.getenv("OPENROUTER_MODEL_V2", DEFAULT_CHAT_MODEL), "OPENROUTER_MODEL_V2")

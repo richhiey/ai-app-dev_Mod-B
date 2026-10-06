@@ -275,3 +275,40 @@ def test_evaluation_client_runs_original_cases():
     assert result.returncode == 0, result.stderr
     assert "original_module_a_deterministic_evaluator" in result.stdout
     assert '"pipeline_pass": true' in result.stdout
+
+
+@pytest.mark.parametrize("reported", ["approved", None, "SYNTHETIC-PRIVATE-MARKER"])
+def test_stream_model_identity_survives_without_usage(monkeypatch, tmp_path, reported):
+    """No network: verify provider metadata reaches the real route and safe sink."""
+    from types import SimpleNamespace
+    from fastapi import FastAPI
+    from fieldcare import stream_routes
+    from fieldcare.config import openrouter_model
+
+    selected = openrouter_model()
+    app = FastAPI()
+    app.include_router(stream_routes.router)
+    prepared = SimpleNamespace(retrieval_graph=SimpleNamespace(invoke=lambda _: {
+        "retrieved": [{"doc_id": "TEST-DOC"}],
+    }))
+    app.state.resources = SimpleNamespace(ready=lambda: prepared)
+    log = tmp_path / "requests.jsonl"
+    app.add_middleware(ObservationMiddleware, path=log,
+                       routes=("/v1/diagnose-stream",), approved_models=(selected,))
+
+    async def events(context, **kwargs):
+        if reported:
+            yield {"type": "model", "model": selected if reported == "approved" else reported}
+        yield {"type": "delta", "text": "TEST DOUBLE"}
+
+    monkeypatch.setattr(stream_routes, "provider_events", events)
+    with TestClient(app) as client:
+        response = client.post("/v1/diagnose-stream", json={
+            "question": "Which filter checks?", "equipment_id": "EQ-FC-1002",
+        })
+    record = json.loads(log.read_text())
+    assert record["configured_model"] == selected
+    assert record["model"] == (selected if reported == "approved" else None)
+    assert record["tokens"] is None and record["outcome"] == "completed"
+    assert [json.loads(line)["type"] for line in response.text.splitlines()] == ["metadata", "delta", "complete"]
+    assert "SYNTHETIC-PRIVATE-MARKER" not in response.text + log.read_text()

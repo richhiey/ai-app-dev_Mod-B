@@ -15,6 +15,8 @@ class DiagnosisState(TypedDict, total=False):
     retrieved: list[dict]
     answer: str
     usage: dict | None
+    configured_model: str
+    model: str | None
 
 
 def build_diagnosis_graph(
@@ -44,7 +46,7 @@ def build_diagnosis_graph(
         return {"retrieved": rows}
 
     def generate(state: DiagnosisState) -> DiagnosisState:
-        answer, usage = generate_answer(
+        answer, usage, reported_model = generate_answer(
             state["question"],
             state["equipment"],
             state["retrieved"],
@@ -52,7 +54,8 @@ def build_diagnosis_graph(
             model_name=model_name,
             client=client,
         )
-        return {"answer": answer, "usage": usage}
+        return {"answer": answer, "usage": usage,
+                "configured_model": model_name, "model": reported_model}
 
     graph = StateGraph(DiagnosisState)
     graph.add_node("retrieve_evidence", retrieve)

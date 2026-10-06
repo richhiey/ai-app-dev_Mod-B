@@ -17,7 +17,7 @@ def generate_answer(
     system_prompt: str,
     model_name: str,
     client: OpenRouterClient,
-) -> tuple[str, dict | None]:
+) -> tuple[str, dict | None, str | None]:
     evidence = {
         "equipment": equipment,
         "documents": [
@@ -46,4 +46,4 @@ def generate_answer(
 
     if response.finish_reason != "stop" or not (response.content or "").strip():
         raise ModelUnavailable
-    return response.content.strip(), response.usage
+    return response.content.strip(), response.usage, response.model

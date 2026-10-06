@@ -12,7 +12,7 @@ import threading
 from fastapi import HTTPException
 from module_b.openrouter import EMBEDDING_MODEL, OpenRouterClient
 from module_b.retrieval import ChromaStore
-from fieldcare.config import DATA, openrouter_model, work_dir
+from fieldcare.config import DATA, approved_model, openrouter_model, work_dir
 from fieldcare.orchestration import build_diagnosis_graph, build_retrieval_graph
 
 SYSTEM_PROMPT = (
@@ -80,14 +80,15 @@ class ServiceResources:
             self.client, self.store, self.retrieval_graph = client, store, graph
             return self
 
-    def graph_for(self, system_prompt=SYSTEM_PROMPT):
-        """Each route can choose its own prompt without changing other routes."""
+    def graph_for(self, system_prompt=SYSTEM_PROMPT, model_name=None):
+        """Bind a route-owned prompt/model; omitted model keeps the v1 default."""
+        selected_model = openrouter_model() if model_name is None else approved_model(model_name)
         self.ready()
         return build_diagnosis_graph(
             store=self.store,
             client=self.client,
             system_prompt=system_prompt,
-            model_name=openrouter_model(),
+            model_name=selected_model,
         )
 
     def close(self):

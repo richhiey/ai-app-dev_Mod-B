@@ -91,6 +91,7 @@ def test_provider_event_parser_accepts_complete_real_protocol_shape(monkeypatch)
 
     assert asyncio.run(collect()) == [
         {"type": "delta", "text": "step "},
+        {"type": "model", "model": "approved"},
         {"type": "delta", "text": "one"},
         {"type": "usage", "model": "approved", "tokens": 17},
     ]
@@ -139,3 +140,32 @@ def test_bundled_module_a_evaluator_matches_its_provenance_hashes():
     for name, digest in provenance["files"].items():
         assert hashlib.sha256((vendor / name).read_bytes()).hexdigest() == digest, name
     assert "actual pipeline run" in module_a.evaluate_case.__doc__
+
+
+@pytest.mark.parametrize("reported", [True, False])
+def test_provider_model_reporting_is_independent_of_usage(monkeypatch, reported):
+    monkeypatch.setenv("OPENROUTER_API_KEY", "SYNTHETIC-TEST-KEY")
+    frame = {"choices": [{"delta": {"content": "TEST"}, "finish_reason": "stop"}]}
+    if reported:
+        frame["model"] = "approved"
+    body = "data: " + json.dumps(frame) + "\n\ndata: [DONE]\n\n"
+
+    async def collect():
+        return [event async for event in provider_events(
+            {}, model="approved", system_prompt="Test fixture",
+            transport=httpx.MockTransport(lambda _: httpx.Response(200, text=body)),
+        )]
+
+    events = asyncio.run(collect())
+    models = [event["model"] for event in events if event["type"] == "model"]
+    assert models == (["approved"] if reported else [])
+    assert not any(event["type"] == "usage" for event in events)
+
+
+def test_configured_and_reported_models_have_the_same_safe_allowlist():
+    values = {"configured_model": "v2", "model": "v2", "_approved_models": ("v1", "v2")}
+    assert safe_record(values)["configured_model"] == "v2"
+    assert safe_record(values)["model"] == "v2"
+    values["model"] = "SYNTHETIC-PRIVATE-MARKER"
+    result = safe_record(values)
+    assert result["model"] is None and result["configured_model"] == "v2"

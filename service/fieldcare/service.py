@@ -74,7 +74,7 @@ def clarification_for(request: DiagnosticRequest) -> DiagnosticResponse | None:
     return None
 
 
-def run_diagnosis(request: DiagnosticRequest, *, graph) -> DiagnosticResponse:
+def run_diagnosis(request: DiagnosticRequest, *, graph, observation=None) -> DiagnosticResponse:
     clarification = clarification_for(request)
     if clarification is not None:
         return clarification
@@ -89,6 +89,14 @@ def run_diagnosis(request: DiagnosticRequest, *, graph) -> DiagnosticResponse:
             status="needs_clarification",
             citations=[],
             mode="live",
+        )
+    if observation is not None:
+        usage = state.get("usage")
+        observation.update(
+            source="live_provider",
+            configured_model=state.get("configured_model"),
+            model=state.get("model"),
+            tokens=usage.get("total_tokens") if isinstance(usage, dict) else None,
         )
     return DiagnosticResponse(
         answer=state["answer"],

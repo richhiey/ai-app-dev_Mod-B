@@ -36,6 +36,7 @@ async def provider_events(context, *, model, system_prompt, transport=None):
     ended = False
     stopped = False
     content = False
+    reported_model = None
     try:
         async with httpx.AsyncClient(timeout=40, transport=transport) as client:
             async with client.stream(
@@ -63,6 +64,9 @@ async def provider_events(context, *, model, system_prompt, transport=None):
                     event = json.loads(raw)
                     if event.get("error"):
                         raise StreamFailure("provider_interrupted")
+                    if isinstance(event.get("model"), str) and event["model"] != reported_model:
+                        reported_model = event["model"]
+                        yield {"type": "model", "model": reported_model}
                     for choice in event.get("choices", []):
                         reason = choice.get("finish_reason")
                         if reason and reason != "stop":
@@ -78,7 +82,7 @@ async def provider_events(context, *, model, system_prompt, transport=None):
                         count = usage.get("total_tokens")
                         yield {
                             "type": "usage",
-                            "model": event.get("model", model),
+                            "model": reported_model,
                             "tokens": count
                             if type(count) is int and count >= 0
                             else None,

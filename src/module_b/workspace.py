@@ -300,6 +300,7 @@ def _allowed_member(name: str, policy: WorkspacePolicy = DEFAULT_POLICY) -> bool
 
 def restore_workspace(
     archive: str | Path, destination: str | Path, *, policy: WorkspacePolicy = DEFAULT_POLICY,
+    required_source_version: str | None = None,
 ) -> Path:
     """Restore an exported, marked workspace to a NEW directory without execution.
 
@@ -354,6 +355,8 @@ def restore_workspace(
                     raise ValueError("Archive contents exceed the size limit or disagree with their declared size.")
                 payloads[info.filename] = content
             marker = _validated_marker(json.loads(payloads[_MARKER].decode("utf-8")))
+            if required_source_version is not None and marker["source_version"] != required_source_version:
+                raise ValueError(f"This restore requires a {required_source_version!r} workspace export.")
             payloads[_MARKER] = (json.dumps(marker, indent=2) + "\n").encode("utf-8")
     except (zipfile.BadZipFile, UnicodeError, json.JSONDecodeError, NotImplementedError, RuntimeError) as exc:
         raise ValueError("Invalid or unsupported workspace archive.") from exc

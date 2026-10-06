@@ -46,8 +46,10 @@ async def diagnose_stream(payload: DiagnosticRequest, request: Request):
     if observation is None:
         observation = request.state.observation = {}
     started = time.perf_counter()
+    selected_model = openrouter_model()
     observation.update(
-        source="live_provider", model=None, tokens=None, error_category="none"
+        source="live_provider", configured_model=selected_model,
+        model=None, tokens=None, error_category="none"
     )
     context = {
         "question": payload.question,
@@ -69,9 +71,12 @@ async def diagnose_stream(payload: DiagnosticRequest, request: Request):
             )
             async for event in provider_events(
                 context,
-                model=openrouter_model(),
+                model=selected_model,
                 system_prompt=SYSTEM_PROMPT,
             ):
+                if event["type"] == "model":
+                    observation["model"] = event["model"]
+                    continue  # Internal provider metadata; the public event contract stays unchanged.
                 if event["type"] == "delta" and first_content:
                     observation["first_content_ms"] = (
                         time.perf_counter() - started
