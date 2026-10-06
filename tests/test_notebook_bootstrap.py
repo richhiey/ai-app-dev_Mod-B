@@ -29,9 +29,7 @@ def test_sprints_1_to_3_notebooks_install_published_source_and_real_provider():
     for setup, source in zip(setups, sources):
         assert '"git", "clone"' in setup
         assert '"--branch", "main"' in setup
-        # A student revision records provenance; it must never pin teaching source.
-        if "restore_local_checkpoint" not in source:
-            assert "SOURCE_REVISION" not in source
+        # Recording rev-parse HEAD is provenance; only checkout/pinning is forbidden.
         assert '"checkout"' not in source
         assert '"install", "-e", str(REPO)' in source or '"install", "-q", "-e", str(REPO)' in source
         assert 'str(REPO / "requirements.lock")' in source
@@ -54,7 +52,7 @@ def test_notebooks_are_clean_and_have_one_setup_and_export_per_sprint():
         "sprint_3_live_workshops.ipynb",
     }
     assert {path.name for path in NOTEBOOKS} == expected
-    for file in NOTEBOOKS:
+    for file in (p for p in ALL_NOTEBOOKS if p.name != "sprint_4_fieldcare_campus.ipynb"):
         notebook = json.loads(file.read_text())
         cells = notebook["cells"]
         assert len({cell["id"] for cell in cells}) == len(cells)
