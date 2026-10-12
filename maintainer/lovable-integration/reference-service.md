@@ -1,4 +1,6 @@
-# Guided local reference and recovery
+# Maintainer archive: former Lovable-to-FieldCare reference
+
+> Maintainer material only. Current Sprint 4 students use Streamlit and should follow `docs/sprint-4.md` and `examples/streamlit/README.md` instead.
 
 This is public teaching support for the first guided UI interaction. It does not modify `service/fieldcare/main.py`, install assessment solutions, or replace a learner's cumulative project. Use a clean teaching checkout when demonstrating the reference; keep the learner project and its caller policy separate. The source service binds the public stream route plus the provided authentication and safe-observation patterns.
 

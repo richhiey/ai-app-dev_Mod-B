@@ -1,6 +1,6 @@
-# FieldCare local recovery UI
+# Maintainer archive: former Lovable local recovery UI
 
-Public, hand-authored TanStack Start reference. This is not a Lovable-generated project or learner assessment solution. It provides a runnable form and stream-state example when diagnosing a local integration problem. Keep your generated screen for the learning task.
+> This hand-authored TanStack Start UI is retained for maintainers and is not the Sprint 4 student starter. Students use the Streamlit kit.
 
 Prerequisites: Node `>=22.12.0`, npm, the installed course Python environment, and a local reference service. Follow [reference setup](../reference-service.md) to create the two ignored private configuration files without printing secrets.
 
