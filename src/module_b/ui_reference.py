@@ -88,8 +88,10 @@ def initialize(ui_dir, ui_kind="web"):
     if service_env.exists() or ui_env.exists():
         raise ValueError("Configuration already exists. Reuse it; inspect private files to configure another UI manually.")
     ignore = ui_dir / ".gitignore"
-    with ignore.open("a") as stream:
-        stream.write("\n# Private local FieldCare bridge configuration\n.env.local\n")
+    ignored = ignore.read_text() if ignore.exists() else ""
+    if ".env.local" not in ignored.splitlines():
+        with ignore.open("a") as stream:
+            stream.write("\n# Private local FieldCare bridge configuration\n.env.local\n")
     STATE.mkdir(parents=True, exist_ok=True)
     key = secrets.token_urlsafe(32)
     for target, body in (

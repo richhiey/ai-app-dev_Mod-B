@@ -15,9 +15,9 @@
   },
   "not_verified": [
     "student ChatGPT generation",
-    "Windows execution",
-    "provider-backed output",
-    "human classroom capture pass"
+    "Windows UI workflow on the latest branch revision",
+    "provider-backed behavior in a student-generated app",
+    "fresh-reader classroom rehearsal"
   ],
   "matched_record": {
     "request_id": "0bbcbff6-cd10-4958-b424-662600767a64",
@@ -33,5 +33,51 @@
     "error_category": "none",
     "case_id": null
   },
-  "browser_scope": "Local worked reference in Codex in-app browser; mock data, observed 7 October 2026. Not a student-generated or live-provider UI rehearsal."
+  "provider_rehearsal": {
+    "date": "2026-10-12",
+    "runtime": "Python 3.12; Streamlit 1.65 AppTest against the local provider reference",
+    "app": "examples/streamlit/app_reference.py (worked reference, not student-generated)",
+    "first_attempt": {
+      "request_id": "0891bb36-7d27-4fb4-bb47-f21a82324b4e",
+      "status_code": 200,
+      "outcome": "failed",
+      "source": "live_provider",
+      "error_category": "provider_incomplete"
+    },
+    "correction": "The response cap was reached. The system prompt now requests concise answers under 180 words and the stream cap is 500 tokens.",
+    "source_mode": "live",
+    "request_id": "83efeb83-41dd-4e0f-8396-7ebc5d9ffa60",
+    "events": ["metadata", "delta", "usage", "complete"],
+    "answer_word_count": 104,
+    "citations": ["DOC-FC-MP-014", "DOC-FC-TS-001"],
+    "citation_check": "The listed filter, seating and airflow checks were verified against the cited synthetic service documents.",
+    "safe_record": {
+      "route": "/v1/diagnose-stream",
+      "status_code": 200,
+      "outcome": "completed",
+      "source": "live_provider",
+      "error_category": "none",
+      "model": "google/gemini-3.1-flash-lite",
+      "tokens": 995
+    },
+    "scope": "One provider-backed request from the hand-authored Streamlit reference through the real local HTTP service. No student generation or real browser interaction was tested."
+  },
+  "private_settings_rehearsal": {
+    "date": "2026-10-12",
+    "runtime": "Python 3.12; Streamlit AppTest, actual local HTTP fixture",
+    "settings_source": "examples/streamlit/.env.local (environment overrides removed)",
+    "source_mode": "fixture",
+    "ui_state": "Needs clarification",
+    "events": ["response"],
+    "request_id": "4c01f151-9220-47da-99a7-0d1ef4805385",
+    "safe_record": {
+      "route": "/v1/diagnose-stream",
+      "status_code": 200,
+      "outcome": "completed",
+      "source": "none",
+      "error_category": "none"
+    },
+    "scope": "The app loaded the ignored local settings file and matched its clarification request to a safe fixture record. No provider call."
+  },
+  "browser_scope": "Local worked-reference browser checks used mock data on 7 October 2026. The provider_rehearsal above used Streamlit AppTest, not a real browser or student-generated app."
 }

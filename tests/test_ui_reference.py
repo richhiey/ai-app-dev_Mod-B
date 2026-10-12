@@ -82,3 +82,17 @@ def test_init_streamlit_private_pair_and_refuses_overwrite(tmp_path, monkeypatch
     assert '.env.local' in (ui / '.gitignore').read_text()
     with pytest.raises(ValueError, match='already exists'):
         ui_reference.initialize(ui, 'streamlit')
+
+
+def test_init_does_not_duplicate_existing_local_settings_ignore(tmp_path, monkeypatch):
+    from module_b import ui_reference
+    monkeypatch.setattr(ui_reference, 'STATE', tmp_path / 'state')
+    ui = tmp_path / 'streamlit-ui'
+    ui.mkdir()
+    (ui / 'fieldcare_client.py').write_text('# supplied client')
+    ignore = ui / '.gitignore'
+    ignore.write_text('.env.local\n')
+
+    ui_reference.initialize(ui, 'streamlit')
+
+    assert ignore.read_text().splitlines().count('.env.local') == 1

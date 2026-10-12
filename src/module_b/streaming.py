@@ -48,7 +48,7 @@ async def provider_events(context, *, model, system_prompt, transport=None):
                     "stream": True,
                     "stream_options": {"include_usage": True},
                     "temperature": 0.2,
-                    "max_tokens": 350,
+                    "max_tokens": 500,
                     "messages": [
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": json.dumps(context)},
