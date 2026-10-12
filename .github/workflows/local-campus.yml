@@ -16,3 +16,23 @@ jobs:
           cache: pip
       - run: python -m pip install -e ".[dev]" -c requirements.lock
       - run: python -m pytest tests/test_local_service.py tests/test_security.py tests/test_observability.py tests/test_openrouter_errors.py
+      - name: Test the Streamlit UI on Windows
+        if: matrix.os == 'windows-latest' && matrix.python == '3.12'
+        shell: pwsh
+        working-directory: examples/streamlit
+        run: |
+          python -m venv .venv
+          .\.venv\Scripts\Activate.ps1
+          python -m pip install -r requirements.txt
+          python -m pip install pytest
+          python -m pytest ../../tests/test_streamlit_ui.py
+      - name: Test the Streamlit UI on macOS
+        if: matrix.os == 'macos-latest' && matrix.python == '3.12'
+        shell: bash
+        working-directory: examples/streamlit
+        run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
+          python -m pip install -r requirements.txt
+          python -m pip install pytest
+          python -m pytest ../../tests/test_streamlit_ui.py

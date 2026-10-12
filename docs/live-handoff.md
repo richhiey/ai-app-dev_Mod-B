@@ -37,4 +37,4 @@ The Live compositions make the same registration order visible: routes first, se
 
 ## Sprint 4: local UI workshops
 
-Keep the generated UI in a separate repository beside FieldCare. The first guided interaction uses the [public reference service](../examples/lovable/reference-service.md); then adapt its trusted connector to your own cumulative service. The supplied LS13–LS14 plan uses this local path for the scoped companion UI, integration testing and documentation. The Live notebook is an optional hosted API observer and cannot verify a browser interaction. Keep fixture, provider and learner-project evidence distinct.
+Sprint 4's required UI is the Streamlit app in the FieldCare repository. Use the [Streamlit teaching kit](../examples/streamlit/README.md) for UI setup and the [Sprint 4 connection guide](sprint-4.md) for the local service path. The Live notebook is an optional hosted API observer and cannot verify a browser interaction. Keep fixture, provider and learner-project evidence distinct.

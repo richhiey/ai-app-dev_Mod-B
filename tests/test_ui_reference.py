@@ -38,7 +38,7 @@ def test_fixture_trace_clarification_guards_and_allowance(tmp_path, monkeypatch)
 
 
 def test_canonical_transport_matches_recovery_copy():
-    root = Path(__file__).resolve().parents[1] / 'examples' / 'lovable'
+    root = Path(__file__).resolve().parents[1] / 'maintainer' / 'lovable-integration'
     for relative in ('src/routes/api.fieldcare.ts', 'src/lib/fieldcareClient.ts'):
         assert (root / relative).read_text() == (root / 'reference-ui' / relative).read_text()
 
