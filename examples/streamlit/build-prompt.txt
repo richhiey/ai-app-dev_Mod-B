@@ -1,0 +1,9 @@
+Create the first runnable version of a Streamlit chat for HelioDesk FieldCare. I will copy it into VS Code, inspect it and run it locally. You cannot see my files or run my app.
+
+I will send a design brief and the supplied client contract in separate messages. Wait for END OF CONTEXT before generating code. Follow their actual API and event shapes. If they conflict or leave an essential detail undefined, ask one focused question rather than inventing behavior.
+
+Return one readable app.py using Streamlit 1.65 and only the supplied fieldcare_client.py and mock_client.py. Use `st.chat_input(submit_mode="disable")` for deliberate submissions and `st.chat_message` for the turns. Follow the brief and contract for Demo and Local service choices, per-turn history in `st.session_state`, streaming, clarification and failure states, sources, request reference, explicit retry and New chat. Call a client only after a submitted question or explicit retry. Send only the current question and optional equipment ID; displayed transcript history is not backend memory. Keep credentials private.
+
+All runtime model requests must go through FieldCare to OpenRouter. Do not add a direct model call, OpenAI SDK/key, another provider or fallback. Add no dependency, database, login, custom HTML/JavaScript or deployment. Do not claim to have run the app.
+
+After END OF CONTEXT, return one complete fenced Python file, a short explanation of the submission guard and per-turn state, and manual checks for success, clarification, interruption, error after success, retry and New chat.

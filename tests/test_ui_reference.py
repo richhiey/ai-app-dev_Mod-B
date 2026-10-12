@@ -68,3 +68,17 @@ def test_init_creates_private_pair_and_refuses_overwrite(tmp_path, monkeypatch):
     with pytest.raises(ValueError, match='already exists'):
         ui_reference.initialize(ui)
     assert (ui / '.env.local').read_text() == browser_server
+
+
+def test_init_streamlit_private_pair_and_refuses_overwrite(tmp_path, monkeypatch):
+    from module_b import ui_reference
+    monkeypatch.setattr(ui_reference, 'STATE', tmp_path / 'state')
+    ui = tmp_path / 'streamlit-ui'
+    ui.mkdir()
+    (ui / 'fieldcare_client.py').write_text('# supplied client')
+    ui_reference.initialize(ui, 'streamlit')
+    service = (tmp_path / 'state/reference.env').read_text().strip().split('=', 1)[1]
+    assert f'FIELDCARE_CALLER_KEY={service}' in (ui / '.env.local').read_text()
+    assert '.env.local' in (ui / '.gitignore').read_text()
+    with pytest.raises(ValueError, match='already exists'):
+        ui_reference.initialize(ui, 'streamlit')

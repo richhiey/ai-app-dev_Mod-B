@@ -1,0 +1,22 @@
+FieldCare UI design brief
+
+User and task: a HelioDesk dispatcher asks an equipment question during a ticket.
+Required inputs: question (required), equipment_id (optional).
+Layout: welcoming empty state, user/assistant chat messages, bottom composer, equipment in sidebar.
+Visual decisions to carry forward: [two useful layout or guidance choices; a prototype is optional].
+Labels and helper text: [copy the exact wording you want to keep].
+Response states: idle, loading, receiving, complete, clarification, error/incomplete.
+Sources and request reference: per-reply expander with actual source mode and target.
+Service visibility: event order, text chunks, UI elapsed/first-text time, returned model/tokens if reported, and HTTP rejection. Keep unknowns unknown; do not turn chunks into tokens or timings into a benchmark.
+History: preserve earlier turns; fresh result per message; explicit retry and New chat.
+Context: each request sends only its question/equipment, not the displayed transcript.
+
+Observed usability issue (complete after first run): [action, actual behavior, expected behavior].
+Chosen improvement (complete after first run): [one change and why it helps the dispatcher].
+Acceptance check (complete after first run): [a repeatable action and expected result].
+
+Provenance: [supplied brief / your own sketch / optional tool exploration].
+Streamlit adaptation: use native controls; preserve the interaction, not exact pixels.
+Runtime model provider: OpenRouter, through the existing FieldCare service.
+ChatGPT is used only to help students write/refine app.py; it is not part of runtime.
+The UI never needs an OpenAI key/SDK or the service's OPENROUTER_API_KEY.

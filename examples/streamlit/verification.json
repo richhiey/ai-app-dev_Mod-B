@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-07",
+  "runtime": "Python 3.12; Streamlit AppTest with actual local HTTP reference",
+  "source": "fixture; no model calls",
+  "checks": {
+    "completed_stream_and_matching_record": true,
+    "help_rerun_makes_no_request": true,
+    "json_clarification": true,
+    "stopped_service_has_fresh_error_turn": true,
+    "earlier_chat_turns_preserved": true,
+    "browser_demo_chat_keyboard_submit": true,
+    "browser_second_turn_keeps_first": true,
+    "browser_composer_disabled_during_reply": true,
+    "browser_sources_expander": true
+  },
+  "not_verified": [
+    "student ChatGPT generation",
+    "Windows execution",
+    "provider-backed output",
+    "human classroom capture pass"
+  ],
+  "matched_record": {
+    "request_id": "0bbcbff6-cd10-4958-b424-662600767a64",
+    "route": "/v1/diagnose-stream",
+    "status_code": 200,
+    "outcome": "completed",
+    "source": "none",
+    "configured_model": null,
+    "model": null,
+    "tokens": null,
+    "latency_ms": 95.96,
+    "first_content_ms": null,
+    "error_category": "none",
+    "case_id": null
+  },
+  "browser_scope": "Local worked reference in Codex in-app browser; mock data, observed 7 October 2026. Not a student-generated or live-provider UI rehearsal."
+}

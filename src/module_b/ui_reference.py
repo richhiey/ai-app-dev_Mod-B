@@ -76,11 +76,14 @@ def create_app(mode="fixture", *, log_path=None):
     return app
 
 
-def initialize(ui_dir):
+def initialize(ui_dir, ui_kind="web"):
     """Create a fresh pair of private local configs; never overwrite existing files."""
     ui_dir = Path(ui_dir).resolve()
-    if not (ui_dir / "package.json").is_file():
-        raise ValueError("Choose the UI directory containing package.json.")
+    if ui_kind not in {"web", "streamlit"}:
+        raise ValueError("Choose web or streamlit UI configuration.")
+    marker = "package.json" if ui_kind == "web" else "fieldcare_client.py"
+    if not (ui_dir / marker).is_file():
+        raise ValueError(f"Choose the UI directory containing {marker}.")
     service_env, ui_env = STATE / "reference.env", ui_dir / ".env.local"
     if service_env.exists() or ui_env.exists():
         raise ValueError("Configuration already exists. Reuse it; inspect private files to configure another UI manually.")
@@ -104,6 +107,7 @@ def main():
     commands = parser.add_subparsers(dest="command", required=True)
     init = commands.add_parser("init")
     init.add_argument("--ui-dir", required=True)
+    init.add_argument("--ui-kind", choices=("web", "streamlit"), default="web")
     serve = commands.add_parser("serve")
     serve.add_argument("--mode", choices=("fixture", "provider"), default="fixture")
     show = commands.add_parser("show-log")
@@ -111,7 +115,7 @@ def main():
     show.add_argument("--request-id", required=True)
     args = parser.parse_args()
     if args.command == "init":
-        initialize(args.ui_dir)
+        initialize(args.ui_dir, args.ui_kind)
     elif args.command == "serve":
         import uvicorn
         load_dotenv(STATE / "reference.env", override=False)

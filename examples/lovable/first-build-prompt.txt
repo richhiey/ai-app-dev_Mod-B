@@ -1,0 +1,18 @@
+Build one small mock chat screen for HelioDesk FieldCare, used by a dispatcher asking equipment questions during a service ticket. This is a short design exploration on a personal free account. Implement only the screen below using the project's existing framework and components; do not expand the scope.
+
+Layout
+Title: "Ask FieldCare". Visible label: "Demo — mock replies; no service or model calls". Use a calm, readable layout with dark text, a light background, simple green accents and good spacing. Show separate user/assistant messages and a composer at the bottom without covering the latest reply. Put "Equipment ID (optional)" beside the chat on desktop and above it or in a labelled collapsible panel on mobile. Helper: "For example, EQ-FC-1002. Leave blank if unknown." Wrap long text and show visible keyboard focus.
+
+Interaction
+Start with: "What equipment are you working on? Add an equipment ID, then ask a question below." The composer accepts a required question, up to 2000 characters; equipment is optional, up to 64 characters. Reject whitespace-only questions. Label the send action clearly and prevent another submission while a reply arrives. Append each question and its reply to temporary in-memory history. Keep earlier turns visible; each new reply starts with empty answer, sources and request reference. Put sources and reference in a small per-reply expandable section.
+
+Three local mock cases, with no backend or model/API requests
+1. Nonblank question with equipment: brief delay, a few text chunks, then completion. Answer: "Mock response for layout testing only. No service or model was called." Synthetic source: DEMO-SOURCE-01. Reference: demo-001.
+2. Equipment blank: "Which equipment are you asking about? Add an equipment ID and send the full question again." This is clarification, not failure.
+3. Question exactly DEMO ERROR: show an unavailable-service error after a brief delay, even if equipment is blank. Do not copy a previous answer, sources or reference into this new reply.
+Show a short help note explaining these test cases. The displayed history is not model memory; there is no real model here.
+
+Boundaries
+No Cloud activation, Supabase, database, login, API keys, AI gateway, real service connection, permanent storage, generated images, extra pages, export or publishing. Leave existing backend settings unchanged. We will take design ideas into a separate Python Streamlit app; this prototype will not become the project backend. Do not add a direct OpenAI integration or any other model integration. The real course application uses FieldCare and OpenRouter separately.
+
+Finish with a short account of changes, checks actually run and known limitations. Do not claim a mock proves a real service call. Stop after this screen.

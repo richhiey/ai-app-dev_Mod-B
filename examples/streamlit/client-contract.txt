@@ -1,0 +1,61 @@
+Runtime model provider: OpenRouter, through the existing FieldCare service.
+ChatGPT is used only to help students write/refine app.py; it is not part of runtime.
+The UI never needs an OpenAI key/SDK or the service's OPENROUTER_API_KEY.
+
+Supplied Python modules in the same directory as app.py
+
+from fieldcare_client import FieldCareError, make_input, load_settings, stream_diagnosis
+from mock_client import stream_demo
+
+make_input(question: str, equipment_id: str = "") -> dict
+  Trims and validates question (1..2000) and equipment_id (0..64).
+  Omits equipment_id when blank. Raises FieldCareError for invalid input.
+
+load_settings() -> (base_url, caller_key)
+  Reads this UI folder's private .env.local or server environment.
+  Raises FieldCareError for missing/invalid configuration. Never show caller_key.
+  The validated local base_url and fixed route may be displayed as the target;
+  load_settings itself makes no HTTP request. Do not display raw environment values.
+
+stream_diagnosis(payload, *, base_url, caller_key) -> synchronous event generator
+  Sends one authenticated POST /v1/diagnose-stream to the local FieldCare service.
+  Reads NDJSON or JSON, preserves request ID and safe errors, never auto-retries.
+  Raises FieldCareError for transport failure, HTTP rejection, invalid response,
+  or a stream that ends without a terminal event.
+
+stream_demo(payload, scenario="Success") -> synchronous event generator
+  No network or service log. Scenarios: Success, Clarification, Unavailable, Interrupted.
+  Missing equipment also produces clarification. The unavailable scenario takes precedence.
+
+Event shapes:
+{"type":"metadata", "request_id":"…", "mode":"live", "citations":["DOC-ID"]}
+{"type":"delta", "text":"next text chunk"}
+{"type":"complete", "request_id":"…"}
+{"type":"error", "category":"provider_failure", "request_id":"…"}
+{"type":"response", "request_id":"…", "response":{"status":"needs_clarification", "answer":"Which equipment?", "citations":[], "mode":"live"}}
+{"type":"usage", "model":"reported-model-id", "tokens":123}
+
+Treat category as a service signal, not user-facing diagnostic detail.
+Display a safe failure message for an error event and stop treating text as complete.
+An ordinary response with status ready may be labelled Response received; it is not
+proof that this particular request streamed. Mock IDs begin demo-; fixture output
+is fixed text over real HTTP; live output can still fail or need clarification.
+
+FieldCareError is an Exception with a safe str(error), status_code (int or None),
+request_id (string), and retry_after (integer seconds or None).
+
+Keep answer, status, citations, request_id, mode and error together for EACH turn.
+Keep earlier turns visible, but start every new reply with empty result fields.
+The backend receives only the current question and optional equipment_id, never
+chat history. A transcript in session state does not give the service memory. Do not put caller_key
+in visible components, prompts, output files, or the browser.
+
+usage.model is the provider-reported model string or null. usage.tokens is the
+reported TOTAL token count (nonnegative integer) or null, not a dictionary.
+The event itself may be absent. Display "Not reported" for missing/null values;
+never infer usage, cost or model identity from answer length/configuration.
+Measure optional UI elapsed/first-text times with perf_counter; these include
+client work and are not identical to service log timings. Count delta events as
+chunks, never tokens. Display only event types, not raw headers or payloads.
+FieldCareError.status_code is an observed HTTP rejection, not a complete history
+of all HTTP statuses. A timeout/connection failure can have no HTTP status or ID.
