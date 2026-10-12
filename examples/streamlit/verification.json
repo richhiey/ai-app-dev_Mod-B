@@ -15,10 +15,17 @@
   },
   "not_verified": [
     "student ChatGPT generation",
-    "Windows UI workflow on the latest branch revision",
     "provider-backed behavior in a student-generated app",
     "fresh-reader classroom rehearsal"
   ],
+  "cross_platform_ci": {
+    "run_id": 38302045628,
+    "commit": "f9e0230d54a16d62a683179c45b4818c082da7d8",
+    "workflow": "Local Campus service",
+    "result": "success",
+    "matrix": ["macOS / Python 3.12", "macOS / Python 3.13", "Windows / Python 3.12", "Windows / Python 3.13"],
+    "url": "https://github.com/richhiey/ai-app-dev_Mod-B/actions/runs/38302045628"
+  },
   "matched_record": {
     "request_id": "0bbcbff6-cd10-4958-b424-662600767a64",
     "route": "/v1/diagnose-stream",
