@@ -17,7 +17,7 @@ Use one personal Colab copy for four 60-minute concept workshops. Explain an ide
 | LS11 | Connect service logs back into the evaluation framework from Module A — no new eval framework built. | [A signal to an evaluation question](#ls11) |
 | LS12 | Use the Colab examples to explain how streaming, structured logging with redaction, and an existing evaluation check answer different questions about an AI service. | [Concept checkpoint](#ls12) |
 
-Start with [setup](#setup-guide). Save the notebook and [download your Live ZIP](#save-work) after each session. Cell labels such as `code-05` are stable IDs used by the instructor guide; search the unique nearby heading or use Colab's table of contents.
+Start with [setup](#setup-guide). Save the notebook and [download your Live ZIP](#save-work) after each session. Code cells begin with a searchable comment such as `# Cell: code-05`. Use notebook Find to locate that label, or use Colab's table of contents for the session heading.
 
 `PROJECT` is the separate Live practice folder, not a Campus project. Edit only the files under the printed `PROJECT` path. `REPO` is a fresh source checkout. The supplied `live_*.py` composition files make route registration and middleware attachment visible; each service runs in its own owned child process. A Colab `127.0.0.1` address belongs to that runtime, not your laptop. No public tunnel or foreground Uvicorn call is needed.
 
@@ -80,7 +80,7 @@ The supplied policy allows each caller two admitted attempts per 60 seconds acro
 
 ### Optional provider comparison — explicit opt-in
 
-The core streaming discussion can use written event traces and deterministic JSON clarification. For an actual generated-answer comparison, leave this section pending until you choose to use OpenRouter. The generic sample sends the supplied question and context directly; no index or embedding preparation is required. Enter the key through Colab Secrets or the hidden prompt only. A running process does not prove provider access or answer quality. Set the provider switch back to `False` after the intended run.
+The core streaming discussion can use written event traces and deterministic JSON clarification. For an actual generated-answer comparison, leave this section pending until you choose to use OpenRouter. The generic sample sends the supplied question and context directly; no index or embedding preparation is required. Enter the key through Colab Secrets or the hidden prompt only. A running process does not prove provider access or answer quality. After the intended run, edit the provider switch back to `False` **without rerunning `code-05`**. Rerunning that cell clears its current event and timing variables. Export the observations before starting a new comparison.
 
 ---
 
@@ -219,6 +219,8 @@ Record the actual result, original requirement, design hash and a bounded conclu
 ## LS12 — Concept checkpoint
 
 **Outcome:** Use the Colab examples to explain how streaming, structured logging with redaction, and an existing evaluation check answer different questions about an AI service.
+
+For a fresh runtime, restore your Live ZIP, confirm the logging attachment once, and run `ls10-configure-start` → `ls10-requests` → `code-07` → `code-09` → `ls11-cases` → `code-11`. These checks need no provider key. Saved snapshots describe earlier runs. To correlate a new provider attempt, run `code-05` only after private provider preparation and a service restart; reload `records` with `code-07`, then use the exact-ID lookup in the notebook’s LS12 section.
 
 Explain the Colab concepts to a peer, using actual observations when available. Keep unavailable provider checks pending and label written or recorded examples. This is a formative concept checkpoint; no Campus project milestone is submitted.
 

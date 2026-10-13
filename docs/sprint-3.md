@@ -13,7 +13,7 @@ from fieldcare.stream_routes import router as stream_router
 app.include_router(stream_router)
 ```
 
-Do not attach another guard. `protected_post_paths(app)` must now include the streaming path as well as your earlier paths. Save and restart. A missing key on `/v1/diagnose-stream` must receive `401`. A recognized caller sending an empty body receives `422` if it has remaining allowance. A valid question without equipment receives clarification JSON.
+If the stream router is already registered, retain one registration. Do not attach another guard. `protected_post_paths(app)` must now include the streaming path as well as your earlier paths. Save and restart. A missing key on `/v1/diagnose-stream` must receive `401`. A recognized caller sending an empty body receives `422` if it has remaining allowance. A valid question without equipment receives clarification JSON.
 
 ## Read a real stream
 
@@ -29,20 +29,22 @@ Change `clients/request.py` to send the same supported question to the buffered 
 
 ## Attach safe request observation
 
-Add this **after** the security attachment. In FastAPI the last middleware added is the outermost wrapper, so this placement includes authentication and limit rejections.
+Add this **once, after** the security attachment. If it already exists, check its order rather than adding another copy. In FastAPI the last middleware added is the outermost wrapper, so this placement includes authentication and limit rejections.
 
 ```python
 from module_b.observability import ObservationMiddleware
 from module_b.security import protected_post_paths
-from fieldcare.config import openrouter_model, work_dir
+from fieldcare.config import openrouter_model, openrouter_model_v2, work_dir
 
 app.add_middleware(
     ObservationMiddleware,
     path=work_dir() / "requests.jsonl",
     routes=protected_post_paths(app),
-    approved_models=(openrouter_model(),),
+    approved_models=(openrouter_model(), openrouter_model_v2()),
 )
 ```
+
+For each buffered extension you added, pass `observation=getattr(request.state, "observation", None)` into its existing `run_diagnosis(payload, graph=graph, ...)` call. The supplied service helper copies only model identity and reported usage into the request observation; it does not change the endpoint response contract. Keep your route-specific graph and prompt.
 
 Restart, then rerun one supported stream and one buffered request with an admitted caller. Keep both new `Request ID` values: attempts made before observation was attached have no saved record. Look up each new ID in turn:
 
@@ -50,7 +52,9 @@ Restart, then rerun one supported stream and one buffered request with an admitt
 python -m clients.logs YOUR_REQUEST_ID
 ```
 
-Replace `YOUR_REQUEST_ID` with that actual UUID. You should find one terminal record in `var/requests.jsonl` with the same ID. Compare HTTP status, terminal outcome, model, tokens and timing for the two records. Also send a missing-key request and find its record to check that rejected attempts are observed. Buffered generation may report no usage; do not infer token counts from answer length.
+Replace `YOUR_REQUEST_ID` with that actual UUID. You should find one terminal record in `var/requests.jsonl` with the same ID. Compare HTTP status, terminal outcome, model, tokens and timing for the two records. Also send a missing-key request and find its record to check that rejected attempts are observed. Both paths retain `configured_model` separately from provider-reported `model`. Either path may report no usage; do not infer token counts from answer length. The provider identity can be known even when tokens are unknown.
+
+Buffered provider metadata is copied only after the graph returns. A failed buffered graph can therefore leave `source: none` and empty model/usage fields even if a provider call was attempted. Interpret those fields with the actual status and route boundary; their absence does not prove no provider attempt. Authentication/schema rejections and deterministic clarification have known earlier stopping points in the source.
 
 ## Check the privacy boundary
 

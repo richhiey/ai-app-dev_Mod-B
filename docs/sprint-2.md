@@ -61,7 +61,7 @@ Write your predictions in `evidence/observations.md` before executing:
 python -m clients.burst
 ```
 
-Use a second caller and a second route from your own project. Repeated deterministic requests isolate the limiter without buying model calls. Demonstrate renewal by waiting at least the returned `Retry-After` while the same server remains running, then retrying. Treat a restart as a new experiment.
+Use a second caller and a second route from your own project. Repeated deterministic requests isolate the limiter without buying model calls. Demonstrate renewal by waiting at least the returned `Retry-After` while the same server remains running. Set `clients/request.py` to the exhausted caller, a protected path and a question-only body without equipment, then run `python -m clients.request` once. Expect `200` with `needs_clarification`; rerunning the entire burst would spend more than one admission. Treat a restart as a new experiment.
 
 For the assessment's new caller labels, update both `service/fieldcare/security_settings.py` and the mapping in `clients/common.py`; put new values only in `.env`. You can rename the generated caller-variable names in `.env` while retaining their distinct values. Never print those values in your evidence.
 

@@ -69,7 +69,7 @@ If a call reports connection refused, rerun `ls01-start` and retry the same requ
 
 ### Optional provider preparation — after the deterministic checks
 
-You can complete the core source/contract exercises without a provider. Opt in only to observe generated behavior: run the next cell to enter the provider key privately. Keep it out of code cells, outputs and archives.
+You can complete the core source/contract exercises without a provider. Opt in only to observe generated behavior: set `PREPARE_PROVIDER = True` in `prepare-provider`, then run that cell to enter the provider key privately. Reset this preparation switch to `False` after entry. Keep it out of code cells, outputs and archives.
 
 After preparation succeeds, set `RUN_PROVIDER = True` in `ls01-provider`. Expect an actual response or an explicit error: `200`/`ready` with an answer is different from `200`/`needs_context` or `502` for a provider failure. Exact wording varies. The generated answer uses only the supplied context; inspect whether it is supported. A healthy process does not establish answer quality.
 
@@ -118,9 +118,10 @@ A **contract** is the caller/service agreement about accepted inputs and returne
 The example keeps `/v1/answer` at a 2000-character question limit and adds `/v2/answer` with a 600-character limit. V1 uses `OPENROUTER_MODEL`; v2 selects `OPENROUTER_MODEL_V2` explicitly. The LS02 route remains registered through `live_extension.py`.
 
 1. Read `ls03-source`. Locate each version's schema, prompt and model binding. Predict what a 700-character question without context will do on each path.
-2. Run `ls03-model-before` to record both selected model names and source digests. A digest is a fingerprint used here to detect file changes.
-3. Choose a different approved v2 model in `ls03-model-change`. Run it **before editing source**: it checks that v1 and the source bindings stayed unchanged.
-4. Run `ls03-start`, then `code-09`. V1 should accept the long input and clarify; v2 should reject it. Inspect the actual results before concluding the expected boundary held.
+2. Run `ls03-start`, then `code-09` to save the initial contract results.
+3. Run `ls03-model-before` to record both selected model names and source digests. A digest is a fingerprint used here to detect file changes.
+4. Choose a different approved v2 model in `ls03-model-change`. Run it **before editing source**: it checks that v1 and the source bindings stayed unchanged.
+5. Rerun `ls03-start`, then `code-09` and compare with the initial contract results. V1 should accept the long input and clarify; v2 should reject it. Inspect the actual results before concluding the expected boundary held.
 
 Selecting a model and checking source does not call that model. Keep claims about configuration separate from generated behavior. If you repeat the experiment, first restore the intended comparison state and save the before record.
 

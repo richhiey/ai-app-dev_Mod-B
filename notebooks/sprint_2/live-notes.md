@@ -134,7 +134,7 @@ Identify the copied field that introduced each marker before changing the policy
 
 ### Prevent disclosure before log serialization
 
-Read `REPO/examples/patterns/secret_workshop/log_safe.py` as the guided pattern. In the Files panel, adapt that field selection in `FIXTURE/log_policy.py` and save. Retain request ID, route, outcome and a bounded error code; exclude request headers and raw exception text. The aim is useful answer without copying credential-bearing inputs.
+Open the [safe log pattern](https://github.com/richhiey/ai-app-dev_Mod-B/blob/main/examples/patterns/secret_workshop/log_safe.py) as the guided reference. In the Files panel, adapt that field selection in `FIXTURE/log_policy.py` and save. Retain request ID, route, outcome and a bounded error code; exclude request headers and raw exception text. The aim is useful diagnostics without copying credential-bearing inputs. The retention check requires the original request IDs, route and outcomes, plus `error_code: null` for the ordinary record and `error_code: "operation_failed"` for the failed record.
 
 Run `live-ls07-log` and inspect `observed.log`. **Expected:** the marker is absent from both ordinary and error records, while request ID, route, outcome and an error code still explain the event. If a check fails, inspect the saved file and your policy's exception branch; removing only the ordinary header path is incomplete. Do not simply suppress the whole log record.
 
@@ -145,7 +145,7 @@ Run `live-ls07-log` and inspect `observed.log`. **Expected:** the marker is abse
 
 ### Keep runtime configuration outside the prompt
 
-Read `REPO/examples/patterns/secret_workshop/prompt_safe.py`, adapt its input selection in `FIXTURE/prompt_policy.py`, and save. A prompt needs the question and useful task context. Provider credentials configure the client that sends it; they are not part of its text.
+Open the [safe prompt pattern](https://github.com/richhiey/ai-app-dev_Mod-B/blob/main/examples/patterns/secret_workshop/prompt_safe.py), adapt its input selection in `FIXTURE/prompt_policy.py`, and save. A prompt needs the question and useful task context. Provider credentials configure the client that sends it; they are not part of its text.
 
 Run `live-ls07-prompt` and inspect `outbound-payload.json`. **Expected:** no marker, with the question and useful context retained. A clean answer would not prove a clean outbound payload, so check the assembled request here. If context disappears too, repair the allowed inputs and rerun this cell. No request is sent to a model.
 

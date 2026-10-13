@@ -67,7 +67,7 @@ Account/model availability and usage limits can change. Use the tools currently 
 
 ## 3. Check the mock before using a service
 
-Submit a question and `EQ-FC-1002` in Demo/Success: text should appear progressively and finish. Submit without equipment: expect clarification. Then try Unavailable after a success: keep the successful turn visible, but the new failed reply must have no old text, sources or ID. Interrupted must label partial text incomplete. Blank input must not call either client. Toggle request help after a completed result: it must remain visible without making another request. Keep the failed question visible; Retry this message must append a labelled attempt with its original input and connection. New chat clears history without calling a client. Send two messages and check that each keeps its own reply and details.
+Submit a question and `EQ-FC-1002` in Demo/Success: text should appear progressively and finish. Submit without equipment: expect clarification. Then try Unavailable after a success: keep the successful turn visible, but the new failed reply must have no old text, sources or ID. Interrupted must label partial text incomplete. The empty composer disables submission; a whitespace-only question should show validation feedback without calling either client. Toggle request help after a completed result: it must remain visible without making another request. Keep the failed question visible; Retry this message must append a labelled attempt with its original input and connection. New chat clears history without calling a client. Send two messages and check that each keeps its own reply and details.
 
 The main-page composer uses `st.chat_input(submit_mode="disable")` in the pinned Streamlit version; this disables submission during execution. `st.chat_message` holds each user question and assistant reply. Keep equipment in the sidebar and details in per-reply expanders. Visible history is not model memory: the service receives only the current question and equipment. After a clarification, set equipment and resend a full question. Multi-turn context is a separate service-contract extension.
 
@@ -81,7 +81,7 @@ Use a clean teaching checkout of the course repository and its established servi
 python -m module_b.ui_reference init --ui-kind streamlit --ui-dir examples/streamlit
 ```
 
-If your UI is in a different checkout, replace `examples/streamlit` with its actual directory. Initialization creates `var/ui-reference/reference.env` and the UI's `.env.local` with a shared random caller key. It prints no key and refuses to overwrite either file. Check that each path is ignored with `git check-ignore` from the appropriate repository root.
+If your UI is in a different checkout, replace `examples/streamlit` with the **absolute path to the folder containing your running `app.py`**, in quotes. In VS Code, right-click that folder and choose **Copy Path**. A relative path is resolved from the reference checkout, so it can configure an unused UI copy. Initialization creates `var/ui-reference/reference.env` and the UI's `.env.local` with a shared random caller key. It prints no key and refuses to overwrite either file. Check that each path is ignored with `git check-ignore` from the appropriate repository root.
 
 If a reference config already exists from earlier work, reuse it: privately copy the value of its `FIELDCARE_REFERENCE_KEY` into the UI's `FIELDCARE_CALLER_KEY`, and set `FIELDCARE_SERVICE_URL=http://127.0.0.1:8001` in the UI's `.env.local`. These are local editor actions, never chat inputs. Keep `OPENROUTER_API_KEY` only in the service. Do not generate a second key that the running reference does not recognize.
 
@@ -101,7 +101,7 @@ Replace the final token with the actual displayed ID. Expect outcome `completed`
 
 ## 5. Complete a provider-backed reference interaction
 
-Stop the fixture reference. Use the existing FieldCare configuration for `OPENROUTER_API_KEY`, its approved OpenRouter model and index. In the reference checkout's service environment:
+Stop the fixture reference. Privately configure this reference checkout’s `.env` with `OPENROUTER_API_KEY` and the course-approved model. Your cumulative project’s `.env` is not loaded from another checkout. Use its existing prepared index when available. In the reference checkout's service environment:
 
 ```text
 python -m fieldcare.prepare_index

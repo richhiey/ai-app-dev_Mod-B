@@ -18,7 +18,7 @@ if st.sidebar.button("New chat"):
 
 
 def show_turn(turn):
-    st.markdown(turn["text"] or "Waiting for content…")
+    st.markdown(turn["text"] or ("No answer received." if turn["state"] == "Failed" else "Waiting for content…"))
     st.caption(f"{turn['origin']} · {turn['state']}")
     if turn["error"]:
         st.warning(f"Request ended: {turn['error']}")

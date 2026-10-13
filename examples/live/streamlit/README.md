@@ -61,7 +61,7 @@ Use the synthetic question **“What belongs in a useful meeting note?”** and 
 
 1. Run Demo Success, then toggle reply details. The same turn should remain and no new turn should appear.
 2. Run Demo Interrupted. Partial text must stay Incomplete. Its references and state belong to that turn.
-3. Clear the context and submit a fresh question. Expect Needs context. The body omits `context`; the service's JSON response has `answer: null`, `status: needs_context`, and `references: []`.
+3. Stay in Demo, clear the context and submit a fresh question. Expect the authored Needs context result; no HTTP request is made. The corresponding service JSON shape is `answer: null`, `status: needs_context`, and `references: []`.
 4. Restore the context, select Local service, and submit once to the fixture. Expect its labelled fixed text, `complete`, an actual request ID and a safe record.
 
 Only two admitted service requests fit each caller's 60-second window. Authentication runs before allowance; allowance runs before input validation. For `429`, wait for the displayed `Retry-After` before a new explicit submit. A restart resets counters and must not be presented as renewal.
