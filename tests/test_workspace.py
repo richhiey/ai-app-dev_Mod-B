@@ -12,6 +12,20 @@ from module_b import workspace
 from module_b.workspace import DEFAULT_POLICY, WorkspacePolicy, export_workspace, prepare_example, restore_workspace
 
 
+def symlinks_available():
+    with tempfile.TemporaryDirectory() as directory:
+        target = Path(directory) / "target"
+        target.write_text("fixture", encoding="utf-8")
+        try:
+            (Path(directory) / "link").symlink_to(target)
+        except OSError:
+            return False
+        return True
+
+
+HAS_SYMLINKS = symlinks_available()
+
+
 class WorkspaceTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
@@ -119,6 +133,7 @@ class WorkspaceTests(unittest.TestCase):
         self.assertIn("starter", (second / "app/main.py").read_text())
         self.assertEqual((first / "app/main.py").read_text(), "EDITED = True\n")
 
+    @unittest.skipUnless(HAS_SYMLINKS, "OS/account does not permit symbolic-link fixtures")
     def test_symbolic_link_inputs_are_rejected(self):
         outside = self.root / "outside.py"
         outside.write_text("PRIVATE = True\n", encoding="utf-8")
@@ -149,8 +164,8 @@ class WorkspaceTests(unittest.TestCase):
                 "fixtures/request.json", "trace-record.md",
                 ".module-b-workspace.json",
             })
-            self.assertEqual(archive.read("app/main.py"), b"VALUE = 'edited'\n")
-            self.assertEqual(archive.read("trace-record.md"), b"My trace\n")
+            self.assertEqual(archive.read("app/main.py"), (project / "app/main.py").read_bytes())
+            self.assertEqual(archive.read("trace-record.md"), (project / "trace-record.md").read_bytes())
 
     def test_export_refuses_to_overwrite_existing_output(self):
         project = self.prepare()
@@ -160,6 +175,7 @@ class WorkspaceTests(unittest.TestCase):
             export_workspace(project, output)
         self.assertEqual(output.read_bytes(), b"original bytes")
 
+    @unittest.skipUnless(HAS_SYMLINKS, "OS/account does not permit symbolic-link fixtures")
     def test_export_skips_symlink_files_and_directories_in_allowlist(self):
         project = self.prepare()
         outside = self.root / "private"
@@ -175,6 +191,7 @@ class WorkspaceTests(unittest.TestCase):
         with zipfile.ZipFile(output) as archive:
             self.assertEqual(set(archive.namelist()), {"app/main.py", "data/equipment.json", "fixtures/request.json", ".module-b-workspace.json"})
 
+    @unittest.skipUnless(HAS_SYMLINKS, "OS/account does not permit symbolic-link fixtures")
     def test_export_rejects_symbolic_link_workspace_and_output(self):
         project = self.prepare()
         alias = self.root / "workspace-alias"
@@ -237,8 +254,11 @@ class WorkspaceTests(unittest.TestCase):
         existing_file = self.root / "existing-file"
         existing_file.write_text("preserve", encoding="utf-8")
         alias = self.root / "existing-link"
-        alias.symlink_to(self.root / "missing")
-        for target in (existing_directory, existing_file, alias):
+        targets = [existing_directory, existing_file]
+        if HAS_SYMLINKS:
+            alias.symlink_to(self.root / "missing")
+            targets.append(alias)
+        for target in targets:
             with self.subTest(target=target), self.assertRaises(FileExistsError):
                 restore_workspace(exported, target)
         self.assertEqual(existing_file.read_text(), "preserve")
@@ -257,7 +277,11 @@ class WorkspaceTests(unittest.TestCase):
                 with zipfile.ZipFile(archive, "w") as package:
                     package.writestr(".module-b-workspace.json", marker)
                     package.writestr("app/main.py", "# innocent first file\n")
-                    package.writestr(name, "# unsafe path\n")
+                    package.writestr(name.replace("\\", "/"), "# unsafe path\n")
+                if "\\" in name:
+                    # zipfile normalizes separators on Windows; put the exact
+                    # hostile filename into both ZIP headers after serialization.
+                    archive.write_bytes(archive.read_bytes().replace(name.replace("\\", "/").encode(), name.encode()))
                 target = self.root / f"unsafe-{index}"
                 with self.assertRaises(ValueError):
                     restore_workspace(archive, target)
@@ -421,7 +445,8 @@ class WorkspaceTests(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("synthetic content\n", encoding="utf-8")
         # Ignored dependencies may themselves contain links; do not traverse them.
-        (self.example / "web/node_modules/external").symlink_to(self.root / "missing", target_is_directory=True)
+        if HAS_SYMLINKS:
+            (self.example / "web/node_modules/external").symlink_to(self.root / "missing", target_is_directory=True)
         project = self.prepare()
         for name in excluded:
             self.assertFalse((project / name).exists(), name)

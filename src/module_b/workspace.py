@@ -330,7 +330,9 @@ def restore_workspace(
             for info in members:
                 file_type = stat.S_IFMT(info.external_attr >> 16)
                 if (
-                    not _allowed_member(info.filename, policy)
+                    not _allowed_member(info.orig_filename, policy)
+                    or info.orig_filename != info.filename
+                    or not _allowed_member(info.filename, policy)
                     or info.filename in names
                     or info.is_dir()
                     or file_type not in (0, stat.S_IFREG)

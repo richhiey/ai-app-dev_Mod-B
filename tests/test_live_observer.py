@@ -58,7 +58,7 @@ def test_json_clarification_is_not_stream_completion():
     assert record['terminal_event'] is None and record['delta_count']==0
 
 
-@pytest.mark.parametrize('body,ctype', [('[]','application/json'),('<html>login</html>','text/html'),('x'*65537,'application/x-ndjson')])
+@pytest.mark.parametrize('body,ctype', [('[]','application/json'),('<html>login</html>','text/html'),('x'*65537,'application/x-ndjson')], ids=['array', 'html', 'oversized-line'])
 def test_invalid_response_shapes_are_reported(body,ctype):
     record=observe_response(response(body,content_type=ctype),label='invalid',emit=lambda _:None)
     assert record['failure']=='ValueError'

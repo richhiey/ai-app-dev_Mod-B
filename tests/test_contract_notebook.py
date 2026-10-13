@@ -1,5 +1,6 @@
 """Contract behavior taught in the Sprint 1 notebook matches the service models."""
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -11,6 +12,7 @@ sys.path.insert(0, str(ROOT / "service"))
 from fieldcare.schemas import DiagnosticRequest, DiagnosticResponse
 
 
+@pytest.mark.skipif(os.name == "nt", reason="Colab checkpoint ServiceProcess requires POSIX descriptor handoff; local Windows uses Uvicorn directly.")
 def test_checkpoint_observes_submitted_service_without_creating_v2():
     from module_b.openrouter import DEFAULT_CHAT_MODEL
 

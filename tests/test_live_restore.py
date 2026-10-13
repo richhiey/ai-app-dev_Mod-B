@@ -1,5 +1,6 @@
 """A saved Live exercise must survive a new runtime without becoming Campus work."""
 import json
+import os
 from pathlib import Path
 import zipfile
 
@@ -62,6 +63,8 @@ def test_saved_authored_route_survives_fresh_runtime_and_setup(tmp_path):
     assert prepare_live_workspace(ROOT, restored) == restored
     assert files_below(restored) == before
     # Actual HTTP proves the retained registration still composes with the pilot.
+    if os.name == "nt":
+        pytest.skip("Archive/restore assertions passed; HTTP portion requires the POSIX Colab ServiceProcess helper.")
     with ServiceProcess("fieldcare.live_versions:app", project_dir=restored / "service", env={"OPENROUTER_API_KEY": ""}) as service:
         with httpx.Client(base_url=service.base_url, timeout=15) as client:
             reply = client.post("/v1/diagnose-checklist", json={"question": "Which filter checks?"})
