@@ -56,11 +56,16 @@ def test_notebooks_are_clean_and_have_one_setup_and_export_per_sprint():
         notebook = json.loads(file.read_text())
         cells = notebook["cells"]
         assert len({cell["id"] for cell in cells}) == len(cells)
-        campus_checkpoint = file.name == "sprint_1_service_foundations.ipynb"
-        setup_id = "checkpoint-01" if campus_checkpoint else "setup"
-        save_id = "checkpoint-07" if campus_checkpoint else "save-checkpoint"
-        assert sum(cell["id"] == setup_id for cell in cells) == 1
-        assert sum(cell["id"] == save_id for cell in cells) == 1
+        markdown_only_live = file.name == "sprint_4_fieldcare_live.ipynb"
+        if markdown_only_live:
+            # Sprint 4 runs locally; its notebook is a planning/evidence aid.
+            assert all(cell["cell_type"] == "markdown" for cell in cells)
+        else:
+            campus_checkpoint = file.name == "sprint_1_service_foundations.ipynb"
+            setup_id = "checkpoint-01" if campus_checkpoint else "setup"
+            save_id = "checkpoint-07" if campus_checkpoint else "save-checkpoint"
+            assert sum(cell["id"] == setup_id for cell in cells) == 1
+            assert sum(cell["id"] == save_id for cell in cells) == 1
         for cell in cells:
             if cell["cell_type"] == "code":
                 assert cell["execution_count"] is None
