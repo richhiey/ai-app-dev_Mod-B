@@ -15,7 +15,7 @@ LIVE_POLICY = WorkspacePolicy(directory_suffixes={
 
 CONCEPT_POLICY = WorkspacePolicy(directory_suffixes={
     "service/concept_api": (".py",),
-    "evidence": (".md", ".json")},
+    "evidence": (".md", ".json"), "evidence/ls07-policies": (".py",)},
     root_files=("requirements.lock", "pyproject.toml"))
 
 
