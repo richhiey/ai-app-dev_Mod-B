@@ -1,0 +1,152 @@
+# Sprint 4 Live — detailed reference
+
+Use the [Live notebook](sprint_4_fieldcare_live.ipynb) during class. These notes expand its short instructions and provide recovery steps.
+
+<a id="s4-intro"></a>
+
+# Sprint 4 Live — one interaction and a reproducible handoff
+
+Use this planning and evidence notebook with **LS13–LS14**. The required work runs locally in the neutral Live Streamlit lab. This notebook makes no HTTP requests, installs nothing and needs no hosted endpoint. A Colab runtime cannot reach a laptop's localhost.
+
+Open the [local lab source](https://github.com/richhiey/ai-app-dev_Mod-B/tree/main/examples/live/streamlit) in your prepared course checkout. Use `examples/live/streamlit/README.md`, `app_starter.py`, `client.py`, `server.py` and the finished `app_reference.py` for labelled recovery. The notebook is a place for your own plans and observations; preserve code and documentation in the local checkout separately.
+
+Live uses a synthetic question/context example, independent of Campus project work. The path is browser → Streamlit Python server → the course service's neutral Live API → OpenRouter. ChatGPT assists with source code. The UI owns its caller setting; the provider key stays private in the service. Keep the approved model configuration.
+
+Lovable is an optional personal-free-account mock/sketch exploration, with no purchase, export, Cloud, publication or required artifact. The core hour uses Streamlit.
+
+---
+
+<a id="s4-outcomes"></a>
+
+## Outcomes and practical evidence
+
+**LS13 official outcome:** “Build a scoped companion UI using Lovable (Supabase backend built in — no separate setup): one input form, one response display, one logged interaction. Richer dashboards are extension tasks, not required for credit.”
+
+**Approved Live approach:** build the scoped interaction in Streamlit with coding-assistant support, then inspect an actual HTTP interaction and matching service record. Lovable remains optional exploration.
+
+**LS14 official outcome:** “Run end-to-end tests across UI → service → model and write the README and API documentation.”
+
+**Live evidence:** predicted versus actual tests, a controlled failure and separate retest, three improved document drafts and a silent reader attempt. Demo, HTTP fixture, provider, earlier recording and pending checks retain their actual labels.
+
+---
+
+<a id="s4-local-start"></a>
+
+## Prepared local starting state
+
+Before class, follow the lab README for separate service and UI environments. The service listens on `8013` and Streamlit on `8513`. Run `server.py init` once from the repository root in the service environment to create private settings without displaying values. Existing settings remain intact.
+
+From the repository root, start `python examples/live/streamlit/server.py serve --mode fixture`. In the UI environment, from `examples/live/streamlit`, run `python -m streamlit run app.py --server.address 127.0.0.1 --server.port 8513` after saving and completing your starter copy. Use `app_starter.py` for the untouched starting state and `app_reference.py` for an identified worked example.
+
+Only the service owns `OPENROUTER_API_KEY`. The UI's `.private/ui.json` holds the caller setting and local target. Never copy private files or values into this notebook.
+
+**Synthetic input:** “What belongs in a useful meeting note?”
+
+**Context:** “A useful meeting note states the decision, names its owner, and records the next action.”
+
+---
+
+<a id="ls13-plan"></a>
+
+## LS13 — plan one useful interaction
+
+Locate the explicit submission branch, input check, fresh turn, saved turn list and event loop. A sidebar rerun must not invoke the client. The request contains current `question` and optional nonblank `context`; visible history is not backend conversation memory.
+
+Predict and inspect Demo Success, a reply-details toggle, Demo Interrupted and omitted context. Demo makes no HTTP call. Then use Local service: the fixture yields labelled text, real HTTP events, an ID and a safe record without generation. `delta` means partial content, `complete` establishes successful stream completion, and an error after text keeps it Incomplete. Ordinary JSON `needs_context` becomes Needs context.
+
+At 38–40, choose one improvement: context help, incomplete-state wording or reply-detail access. Use 40–52 for your own edit, selected case and neighboring check. At minute 46, show a saved change, actual observation and remaining check. During 52–57, pairs receive two minutes each plus comparison; keep individual notes.
+
+| Personal plan | Your entry |
+|---|---|
+| App filename/revision and own-build or adapted-reference origin | |
+| Intended UI improvement | |
+| Acceptance action and prediction before editing | |
+| Source change and inspected assumption | |
+| Actual selected-case result | |
+| Neighboring check and result | |
+| Peer observation or labelled self-check | |
+
+---
+
+<a id="s4-evidence"></a>
+
+## Join one reply to one record
+
+Copy the current reply's exact request UUID. In a service-environment terminal at the repository root, run `python examples/live/streamlit/server.py record --request-id UUID_FROM_REPLY`, substituting the real UUID. Match ID, outcome and source together.
+
+A fixture record has `source: none`. Genuine provider work requires a prepared provider run, completion and matching record; a mode label alone does not prove success. Check one generated claim against the supplied context. Keep absent model/usage unknown.
+
+| Actual attempt | Your record |
+|---|---|
+| Target and explicit mode | |
+| Input category and prior prediction | |
+| UI state and terminal event | |
+| Exact request ID, if supplied | |
+| Matching safe record and outcome/source | |
+| Reported model/usage or unknown | |
+| Context-supported claim, if generation ran | |
+| What this evidence establishes and leaves unproved | |
+
+A Demo turn or failed connection may have no service request ID. Do not fill it from another attempt. Share selected safe facts, not raw logs or credential-bearing headers.
+
+---
+
+<a id="ls14-tests"></a>
+
+## LS14 — tests that distinguish explanations
+
+Predict before acting. Use Local service for the supported path and omitted-context case. Whitespace-only input checks the UI validation boundary; toggling reply details checks rerun behavior. Each test has a stated scope.
+
+For the controlled failure, leave Streamlit running and stop only the identified service with Ctrl+C. Submit once and record `connection_or_protocol_error`, the current failed turn and absence of a new service ID. Name the last confirmed boundary. Restore the same explicit service mode and repeat as a separate attempt. A restart resets this in-memory allowance; it is not timed renewal.
+
+| Case | Prior prediction | Actual observation | Last confirmed boundary / limit |
+|---|---|---|---|
+| Supported input, actual mode stated | | | |
+| Omitted context | | | |
+| Whitespace-only question | | | |
+| Sidebar rerun | | | |
+| Owned service stopped | | | |
+| Same mode restored, new attempt | | | |
+
+Two admitted attempts per caller share a 60-second window. If `429` appears, respect `Retry-After` in the continuing process; do not replace the observation with your original prediction. An unexecuted provider path stays pending.
+
+---
+
+<a id="ls14-documents"></a>
+
+## LS14 — three drafts and a reader
+
+Use the [documentation starter](../../examples/live/streamlit/documentation-starter.md) for service README, API reference and UI README drafts. During 38–50, make one substantive source/evidence-supported completion in each and run the relevant check. At minute 44, identify the changed claim and its support.
+
+During 50–56, each reader has two minutes to follow a bounded written path without spoken rescue; reserve two minutes for correction and retry. Record an honestly successful path if no ambiguity appears. This checks a prepared environment, not a clean installation. A solo learner performs a labelled self-check in a clean terminal.
+
+| Document path | Changed command/field/state claim | Source or observation supporting it |
+|---|---|---|
+| Service README | | |
+| API reference | | |
+| UI README | | |
+
+Reader's attempted path:
+
+First ambiguity or success:
+
+Targeted correction and repeated step:
+
+Actual retry result and scope:
+
+---
+
+<a id="s4-save"></a>
+
+## Save your work and state what remains
+
+Save this notebook with your own predictions, observations and explanations. Save `app.py` and all three documentation files in the local lab separately. The notebook does not collect evidence automatically and does not export or preserve local source files.
+
+Keep the exact remaining action, input and needed observation when a check is incomplete. A provider outage does not erase valid fixture evidence, and fixture completion cannot establish a generated answer. Your handoff should make those distinctions usable for its next reader.
+
+## Summary
+
+You have a small interaction whose request trigger and reply state you can explain, a bounded change with a neighboring check, and written instructions someone else has tried. The saved record describes what actually ran.
+
+---
+
