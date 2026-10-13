@@ -2,7 +2,7 @@
 
 Open [the Live notebook](sprint_4_fieldcare_live.ipynb) for LS13–LS14. It contains the exact outcomes, a local UI/integration sequence, a learner evidence card, and a separate optional API observer. Use one saved copy for both sessions.
 
-The required work begins with one form and response display in Lovable, then Git Sync to a separate UI repository and local integration. Follow the [student guide](../../docs/lovable-student-guide.md), [connector](../../examples/lovable/README.md) and [recovery reference](../../examples/lovable/reference-service.md). Inspect the actual generated framework. The local browser calls `/api/fieldcare`; its server forwards to FieldCare. No separate Supabase project, public hosting or tunnel is required. A recovery fixture does not establish a Lovable build or model-backed interaction.
+The required UI work uses the local Streamlit project described in the [Sprint 4 guide](../../docs/sprint-4.md) and [Streamlit teaching kit](../../examples/streamlit/README.md). The [Lovable exploration](../../docs/lovable-student-guide.md) is optional: a small mock preview and useful notes are enough. A sketch or skipping it is valid; no paid features, export, publication, Cloud setup or generated artifact is required. The core project does not depend on Lovable.
 
 ## Delivery sequence
 
@@ -20,4 +20,4 @@ The JSON export excludes keys, bodies, generated text, citations and raw headers
 
 Rehearse the local UI through its matching safe log, including a controlled stopped-service failure and recovery. For optional hosted calls, verify origin, assigned caller policy and provider readiness beforehand; missing settings or unavailable hosting mean skip the optional section. A fixture checks protocol/control behavior only. Check one cited claim after an actual provider-backed answer.
 
-The old Sprint 4 Campus notebook is historical and excluded from active delivery. Module B supports the Sprint 1 Campus checkpoint runner plus these four separate Live notebooks. This notebook covers the supplied LS13–LS14 plan; it adds no LS15–LS16 requirement.
+Module B supports the Sprint 1 Campus checkpoint runner plus four separate Live notebooks. This notebook covers the supplied LS13–LS14 plan; it adds no LS15–LS16 requirement.

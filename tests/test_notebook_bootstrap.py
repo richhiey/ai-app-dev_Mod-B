@@ -52,7 +52,7 @@ def test_notebooks_are_clean_and_have_one_setup_and_export_per_sprint():
         "sprint_3_live_workshops.ipynb",
     }
     assert {path.name for path in NOTEBOOKS} == expected
-    for file in (p for p in ALL_NOTEBOOKS if p.name != "sprint_4_fieldcare_campus.ipynb"):
+    for file in ALL_NOTEBOOKS:
         notebook = json.loads(file.read_text())
         cells = notebook["cells"]
         assert len({cell["id"] for cell in cells}) == len(cells)
