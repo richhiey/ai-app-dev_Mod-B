@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 
 from module_b.openrouter import OpenRouterError
 
@@ -13,9 +13,12 @@ BRIEF_PROMPT = (
 
 
 @router.post("/v1/answer-brief", response_model=BriefResponse)
-def answer_brief(payload: BriefRequest):
+def answer_brief(payload: BriefRequest, request: Request):
     try:
-        result = answer_question(payload, system_prompt=BRIEF_PROMPT, response_shape="brief")
+        result = answer_question(
+            payload, system_prompt=BRIEF_PROMPT, response_shape="brief",
+            observation=getattr(request.state, "observation", None),
+        )
         return BriefResponse(**result.model_dump())
     except OpenRouterError:
         raise HTTPException(502, "The provider could not complete this request. Retry later.") from None

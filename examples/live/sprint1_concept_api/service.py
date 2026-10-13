@@ -15,7 +15,7 @@ def selected_model(variable="OPENROUTER_MODEL"):
 
 
 def answer_question(payload: AnswerRequest, *, system_prompt=BASE_PROMPT, model_name=None,
-                    response_shape="plain") -> AnswerResponse:
+                    response_shape="plain", observation=None) -> AnswerResponse:
     if payload.context is None or not payload.context.strip():
         return AnswerResponse(answer=None, status="needs_context", references=[])
     model = model_name or selected_model()
@@ -23,6 +23,10 @@ def answer_question(payload: AnswerRequest, *, system_prompt=BASE_PROMPT, model_
         system_prompt += " Present the answer as three concise bullets followed by one open question."
     if not os.environ.get("OPENROUTER_API_KEY", "").strip():
         raise OpenRouterError("The provider is not configured for this request.")
+    if observation is not None:
+        observation.update(
+            source="live_provider", configured_model=model, model=None, tokens=None
+        )
     client = OpenRouterClient(app_title="Module B Sprint 1 concept API")
     try:
         result = client.chat(
@@ -38,6 +42,11 @@ def answer_question(payload: AnswerRequest, *, system_prompt=BASE_PROMPT, model_
         raise
     finally:
         client.close()
+    if observation is not None:
+        observation.update(
+            model=result.model,
+            tokens=result.usage.get("total_tokens") if isinstance(result.usage, dict) else None,
+        )
     if not result.content:
         raise OpenRouterError("The provider returned no answer text.")
     return AnswerResponse(answer=result.content, status="ready", references=["provided_context"])

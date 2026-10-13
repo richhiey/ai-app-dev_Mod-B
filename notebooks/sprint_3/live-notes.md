@@ -115,6 +115,18 @@ For **written calibration only**, reason about `metadata → delta → error` an
 <a id="ls10"></a>
 ## LS10 — Useful safe records
 
+The supplied buffered and streaming routes both pass provider metadata to observation. A supported buffered answer should retain its configured model and any provider-reported model/usage; missing usage stays unknown. Rejections and clarification still have no provider call. `source: live_provider` marks the provider path, not successful completion by itself: read the outcome too.
+
+<a id="buffered-metadata"></a>
+### Older restored source or your own buffered route
+
+Setup preserves your files. An older restored `routes.py`, `brief_routes.py` or `pilot_routes.py` may not forward metadata, even when its response is `ready`. Compare your implementation with the current [answer helper](https://github.com/richhiey/ai-app-dev_Mod-B/blob/main/examples/live/sprint1_concept_api/service.py) and [buffered route](https://github.com/richhiey/ai-app-dev_Mod-B/blob/main/examples/live/sprint1_concept_api/routes.py). Keep your prompts, schemas and response formatting.
+
+For each buffered handler, import `Request` from FastAPI, accept `request: Request`, and pass `observation=getattr(request.state, "observation", None)` to its existing `answer_question(...)` call. The helper's optional `observation=None` parameter keeps older callers working; without forwarding, that route cannot record provider metadata. In an older helper, merge the current helper's two small observation updates around the provider call: selected model/path before the call, then reported model and `usage.total_tokens` after its response. Do not replace unknown values with zero or copy response text, prompts or credentials into records.
+
+Save, restart your logging composition, make a fresh request and match its exact ID. Retain both model choices in the middleware's `approved_models`. Existing rows are historical and are not repaired by a source edit.
+
+
 **Outcome:** Use the Colab service example to add structured logs for request ID, model, token usage, latency, and errors, while excluding personal data and sensitive prompts.
 
 A structured log stores named fields so requests can be compared without copying their private contents. The request ID is a unique identifier for one invocation; it is different from an evaluation case ID.

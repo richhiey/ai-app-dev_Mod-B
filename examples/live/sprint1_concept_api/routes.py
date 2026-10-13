@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 
 from module_b.openrouter import OpenRouterError
 
@@ -9,8 +9,8 @@ router = APIRouter()
 
 
 @router.post("/v1/answer", response_model=AnswerResponse)
-def answer(payload: AnswerRequest):
+def answer(payload: AnswerRequest, request: Request):
     try:
-        return answer_question(payload)
+        return answer_question(payload, observation=getattr(request.state, "observation", None))
     except OpenRouterError:
         raise HTTPException(502, "The provider could not complete this request. Retry later.") from None

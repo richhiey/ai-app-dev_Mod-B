@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 
 from module_b.openrouter import OpenRouterError
 
@@ -13,11 +13,12 @@ PILOT_PROMPT = (
 
 
 @router.post("/v2/answer", response_model=PilotResponse)
-def pilot_answer(payload: PilotRequest):
+def pilot_answer(payload: PilotRequest, request: Request):
     try:
         result = answer_question(
             payload, system_prompt=PILOT_PROMPT,
             model_name=selected_model("OPENROUTER_MODEL_V2"),
+            observation=getattr(request.state, "observation", None),
         )
         return PilotResponse(**result.model_dump())
     except OpenRouterError:
