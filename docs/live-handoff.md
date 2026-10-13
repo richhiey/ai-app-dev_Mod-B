@@ -1,16 +1,16 @@
 # Bring workshop learning into your local service
 
-Your Campus project for Sprints 1–4 stays on your computer. For Sprints 1–3, the Live Colab is the shared teaching and learner-practice environment for core concepts. It uses a separate public practice workspace with the same `service/fieldcare/` source layout. Its source export remains Live practice, not Campus assessment evidence.
+Your Campus project for Sprints 1–4 stays on your computer. For Sprints 1–3, the Live Colab is the shared teaching and learner-practice environment for core concepts. It uses a separate neutral practice workspace under `service/concept_api/`. LS13–LS14 use the neutral local Streamlit lab. Its source export remains Live practice, not Campus assessment evidence.
 
 ## Before a session
 
-Open the sprint’s Live notebook and save a personal copy. Use its supplied starter or restore your own Live practice ZIP. No local Campus project, VS Code setup or business-case preparation is required for LS01–LS12. Do not import a Campus source ZIP into a Live notebook. Follow the notebook’s setup, section entry points and recovery guidance.
+Open the sprint’s Live notebook and save a personal copy. Use its supplied starter or restore your own Live practice ZIP. No Campus project or business-case preparation is required for LS01–LS14. LS13–LS14 require the local lab setup described in their guides. Do not import a Campus source ZIP into a Live notebook. Follow the notebook’s setup, section entry points and recovery guidance.
 
 ## During a session
 
-Follow the instructor's demonstration in the named Live section. Deterministic clarification and validation establish only those request boundaries. Keep them separate from requests to your own application and from real-provider evidence.
+Follow the instructor's demonstration in the named Live section. Deterministic missing-context responses and validation establish only those request boundaries. Keep them separate from requests to your own application and from real-provider evidence.
 
-Follow the session’s stated workspace. LS02 has you create the formative checklist route in the separate Live Files workspace and register it in `live_extension.py`; LS03 continues that composition. Keep that public practice evidence separate. When applying the pattern to your Campus project, make the change in your local source, restart your server, and run your local clients. `127.0.0.1` means the machine running the client: a Colab request cannot reach the service on your laptop through that address.
+Follow the session’s stated workspace. LS02 has you create the structured answer route in the separate Live Files workspace and register it in `live_extension.py`; LS03 compares independently bound versions. Keep that public practice evidence separate. When applying the pattern to your Campus project, make the change in your local source, restart your server, and run your local clients. `127.0.0.1` means the machine running the client: a Colab request cannot reach the service on your laptop through that address.
 
 | Workshop concept | Your local source and experiment |
 |---|---|
@@ -27,14 +27,18 @@ The [Sprint 2](sprint-2.md) and [Sprint 3](sprint-3.md) guides contain the local
 
 ## After a session
 
-Save notebook notes and outputs, run the final Live export cell, and download its ZIP after each workshop. Files-panel source edits are saved in the ZIP, not inside the notebook. Keep the printed V1/V2 model choices with your notes (also saved as `evidence/live-models.json` in the ZIP). In a fresh runtime, upload that Live ZIP, set `LIVE_ARCHIVE`, fill both `RESTORED_MODELS`, and choose a new `LIVE_FOLDER` in setup. Review restored source before starting it. Clear `LIVE_ARCHIVE` before rerunning setup in that same runtime; the marked folder is reused. Re-enter private credentials and explicitly prepare any needed index. Campus checkpoints use their separate runner.
+Save notebook notes and outputs, run the final Live export cell, and download its ZIP after each workshop. Files-panel source edits are saved in the ZIP, not inside the notebook. Keep the printed V1/V2 model choices with your notes (also saved as `evidence/live-models.json` in the ZIP). In a fresh runtime, upload that Live ZIP, set `LIVE_ARCHIVE`, fill both `RESTORED_MODELS`, and choose a new `LIVE_FOLDER` in setup. Review restored source before starting it. Clear `LIVE_ARCHIVE` before rerunning setup in that same runtime; the marked folder is reused. Re-enter private credentials only for an explicit provider comparison. The neutral Live API accepts supplied context and needs no document index. Campus checkpoints use their separate runner.
 
 LS07's summary cell saves only the edited log/prompt policies and selected synthetic checks/results under `evidence/`; rerun it after your final edits before exporting. Its disposable Git repository and secret-shaped fixture files are excluded. LS08 can inspect the restored evidence without claiming it is a fresh execution.
 
 Run the relevant checks against your local service. Record which process and source produced each observation. Keep any provider failure as a failure to investigate. Export your local work with `python -m tools.checkpoint export artifacts/my-service.zip`, using a fresh filename, and follow the [evidence guide](../evidence/README.md).
 
-The Live compositions make the same registration order visible: routes first, security next, observation last. Each notebook starts a new owned process when changing composition. Keep a single process running for any allowance-renewal experiment. Prepare the document index explicitly before opting into provider calls. A Colab provider key belongs in Secrets or hidden input; a local provider key belongs in private `.env`.
+The Live compositions make the same registration order visible: routes first, security next, observation last. Each notebook starts a new owned process when changing composition. Keep a single process running for any allowance-renewal experiment. Read the optional provider cell before opting into a model request; preserve the approved model configuration. A Colab provider key belongs in Secrets or hidden input; a local provider key belongs in private `.env`.
 
 ## Sprint 4: local UI workshops
 
-Sprint 4's required UI is the Streamlit app in the FieldCare repository. Use the [Streamlit teaching kit](../examples/streamlit/README.md) for UI setup and the [Sprint 4 connection guide](sprint-4.md) for the local service path. The Live notebook is an optional hosted API observer and cannot verify a browser interaction. Keep fixture, provider and learner-project evidence distinct.
+For LS13–LS14 use the [neutral Streamlit lab](../examples/live/streamlit/README.md), with a separate UI Python environment. Its clean starter, solved reference, Demo scenarios and local HTTP fixture support the same interaction with progressively stronger evidence. Provider mode retains the course service/OpenRouter path and approved model configuration. ChatGPT is only a coding helper.
+
+The Live notebook is a planning and evidence aid. It cannot reach your laptop through Colab's `127.0.0.1` or establish that a browser interaction occurred. Keep Demo, HTTP fixture, provider and learner evidence separate.
+
+The [Lovable exploration](lovable-student-guide.md) is optional on a personal free account. A small mock preview, sketch or skipping it is valid. No export, paid features, Cloud setup, publication or Lovable-generated artifact is required. Campus integration and LS15–LS16 use their own project instructions and the [Campus Streamlit kit](../examples/streamlit/README.md).

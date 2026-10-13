@@ -1,0 +1,17 @@
+We are building a small Streamlit teaching UI for a neutral question/context API.
+ChatGPT assists with Python code only. The existing service uses OpenRouter.
+Use only my supplied app_starter.py and client.py contract. Return a complete app.py.
+
+Implement the explicit submission branch at the bottom of app_starter.py:
+- Call make_input(question, context) and display ValueError feedback without issuing a request.
+- Create a fresh new_turn(body, origin), then append it to st.session_state.turns.
+- Display the submitted question and use a placeholder for the assistant reply.
+- In Demo, iterate demo_events(body, scenario); in Local service, iterate service_events(body).
+- For every event call apply_event(turn, event), then show_turn(turn) in the placeholder.
+- Keep earlier saved turns, their request IDs and their states separate.
+- A sidebar rerun and New chat must never call the client. Send no visible chat history.
+- Keep the supplied client/state functions unchanged. Add no dependencies or model calls.
+- Keep private settings outside app.py. No key values belong in this conversation.
+
+Explain the submission guard and why only a complete event produces Completed.
+Do not invent a service result; I will run the UI and record the observation.

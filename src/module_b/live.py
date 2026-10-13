@@ -13,6 +13,12 @@ LIVE_POLICY = WorkspacePolicy(directory_suffixes={
     "evidence": (".md", ".json"), "evidence/ls07-policies": (".py",),
     "clients": (".py",)}, root_files=("requirements.lock", "pyproject.toml"))
 
+CONCEPT_POLICY = WorkspacePolicy(directory_suffixes={
+    "service/concept_api": (".py",),
+    "evidence": (".md", ".json")},
+    root_files=("requirements.lock", "pyproject.toml"))
+
+
 
 def prepare_live_workspace(repo, destination):
     repo, destination = Path(repo).resolve(), Path(destination).resolve()
@@ -30,6 +36,41 @@ def prepare_live_workspace(repo, destination):
         shutil.copy2(repo / name, destination / name)
     (destination / ".live-workspace.json").write_text(json.dumps({"purpose": "public_live_practice"}))
     return destination
+
+
+def prepare_concept_workspace(repo, destination):
+    """Prepare a small, domain-neutral API workspace for Sprint 1 Live."""
+    repo, destination = Path(repo).resolve(), Path(destination).resolve()
+    if destination.exists():
+        if not (destination / ".live-workspace.json").is_file():
+            raise FileExistsError("Choose a new Live folder; existing work is preserved.")
+        return destination
+    destination.mkdir(parents=True)
+    shutil.copytree(repo / "examples/live/sprint1_concept_api",
+                    destination / "service/concept_api",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    for name in ("requirements.lock", "pyproject.toml"):
+        shutil.copy2(repo / name, destination / name)
+    (destination / ".live-workspace.json").write_text(json.dumps({"purpose": "sprint_1_live_concepts"}))
+    return destination
+
+
+
+
+def export_concept_workspace(project, destination):
+    project = Path(project)
+    marker = project / ".module-b-workspace.json"
+    marker.write_text(json.dumps({"schema_version": 1,
+        "source_project": "ms-app-dev-module-b", "source_version": "sprint-1-live-concepts",
+        "example": "neutral-api"}))
+    return export_workspace(project, destination, policy=CONCEPT_POLICY)
+
+
+def restore_concept_workspace(archive, destination):
+    project = restore_workspace(archive, destination, policy=CONCEPT_POLICY,
+                                required_source_version="sprint-1-live-concepts")
+    (project / ".live-workspace.json").write_text(json.dumps({"purpose": "sprint_1_live_concepts"}))
+    return project
 
 
 def export_live_workspace(project, destination):
@@ -58,4 +99,13 @@ def start_live_service(project, module, env, previous=None):
     if previous is not None:
         previous.stop()
     return ServiceProcess(f"fieldcare.{module}:app",
+        project_dir=Path(project) / "service", env=env).start()
+
+
+def start_concept_service(project, module, env, previous=None):
+    """Start an owned process for Sprint 1's independent concept API."""
+    from module_b.runtime import ServiceProcess
+    if previous is not None:
+        previous.stop()
+    return ServiceProcess(f"concept_api.{module}:app",
         project_dir=Path(project) / "service", env=env).start()
