@@ -40,7 +40,7 @@ Provider-dependent streaming is optional to execute when access is available, bu
 ## 1. Set up or resume your Live workspace
 
 1. **Save a personal notebook copy.** Run `setup` once. It clones current `main`, installs the reviewed lock and creates a separate marked Live folder. Expected: the folder, source revision and two approved model choices print; no provider call occurs.
-2. **Inspect the Files panel.** Open the printed `PROJECT/service/concept_api/` folder. Double-click a `.py` file to edit it, save with Ctrl/Cmd+S, then rerun the source-printing cell to verify the saved text. A source edit affects a child service only after its start cell runs again.
+2. **Inspect the Files panel.** Open the printed `PROJECT/service/concept_api/` folder. Double-click a `.py` file to edit it, save with Ctrl/Cmd+S, then review your saved edit in the file. A source edit affects a child service only after its start cell runs again.
 3. **Resume existing work carefully.** Rerunning setup preserves a marked Live folder, stops our previous service and generates new temporary caller keys. Rerun the relevant start cell and requests afterward. It clears current observation variables so a new run cannot borrow old results, while retaining edited source and saved evidence files. Earlier runtime logs remain on disk; match only fresh request IDs. If the folder exists without the Live marker, choose a new `LIVE_FOLDER`; do not delete unrelated work.
 
 ### Continue in a fresh runtime
@@ -65,8 +65,8 @@ A buffered response returns a collected JSON object. A streamed response lets an
 
 ### Enable the route, then predict the boundary
 
-1. Run `ls09-source`. In `stream_routes.py`, locate the ordinary JSON clarification branch, the async generator, each `yield encode_event(...)` and `StreamingResponse`.
-2. Open `live_stream.py` in the Files editor. Enable the supplied router with `app.include_router(stream_router)` **before** `protected_post_paths(app)` and guard attachment. The starter already includes this line: retain exactly one registration. Explain why collecting protected paths before registration would miss the route. Save any edit and rerun the source cell.
+1. Read `ls09-source`. In `stream_routes.py`, locate the ordinary JSON clarification branch, the async generator, each `yield encode_event(...)` and `StreamingResponse`.
+2. Open `live_stream.py` in the Files editor. Enable the supplied router with `app.include_router(stream_router)` **before** `protected_post_paths(app)` and guard attachment. The starter already includes this line: retain exactly one registration. Explain why collecting protected paths before registration would miss the route. Save any edit and review the saved file.
 3. Run `code-04` to start that composition. Expected: an owned loopback URL. Run `ls09-boundaries` once and compare your predictions with the status and content type. Missing key gives `401`; admitted invalid input gives `422`; missing context gives `200` with ordinary JSON clarification. None of these generates an answer.
 
 The supplied policy allows each caller two admitted attempts per 60 seconds across protected routes. Invalid admitted input counts. Repeating requests can return `429`; wait for the current window or deliberately begin a new experiment by restarting. A restart is not evidence of quota renewal.
@@ -88,7 +88,7 @@ The core streaming discussion can use written event traces and deterministic JSO
 
 ### Correlate an event trace with a request record
 
-Run `ls09-observe-source` and read `live_observed.py`. Observation middleware is added last, outside the guard, so it can record rejected attempts too. Run `ls09-observed-start`; this starts the observed composition with the same enabled stream route and a new allowance window. Make fresh requests: observation cannot add records to earlier requests retroactively.
+Read `ls09-observe-source` and read `live_observed.py`. Observation middleware is added last, outside the guard, so it can record rejected attempts too. Run `ls09-observed-start`; this starts the observed composition with the same enabled stream route and a new allowance window. Make fresh requests: observation cannot add records to earlier requests retroactively.
 
 In `code-05`, locate `client.stream`, `iter_lines` and the first nonempty delta timer before running. With `RUN_PROVIDER = False`, expect an explicit pending message and no generated output. With provider access and the switch true, expect actual events or an honest failure. A clarification remains JSON. `metadata` means ready, `delta` means partial text, `complete` confirms the stream's terminal completion, and `error` or transport loss leaves a failed or incomplete response. Optional `usage` may be absent.
 
@@ -136,7 +136,7 @@ Explain these meanings first. Then configure observation, make fresh determinist
 <a id="ls10-configure-note"></a>
 
 ### Attach your own logging configuration
-Run `ls10-configure-source`, then open the printed `PROJECT/service/concept_api/live_logging.py` path in Colab’s Files editor. It imports the already secured streaming service but does not attach observation. Keep its required `LOG_FIELDS`; decide whether to add `"first_content_ms"` and explain which question it answers. Do not add prompts, headers or raw exceptions.
+Follow `ls10-configure-source` to open `PROJECT/service/concept_api/live_logging.py` in Colab’s Files editor. It imports the already secured streaming service but does not attach observation. Keep its required `LOG_FIELDS`; decide whether to add `"first_content_ms"` and explain which question it answers. Do not add prompts, headers or raw exceptions.
 
 Add this supplied attachment once at the bottom of that file and save it. If restored source already contains it, retain one attachment rather than duplicating it:
 
@@ -152,7 +152,7 @@ app.add_middleware(
 
 This wraps the existing guard, so rejections are observed too. `configured_model` records the selected model when generation runs; `model` records an approved provider-reported identity, independently of optional token usage. These are different claims. Early rejections and clarifications have no model call.
 
-Run `ls10-configure-source` again to confirm the saved edit, then `ls10-configure-start` to load it in a fresh process. Run `ls10-requests`, then `code-07`. Expected: a `401` rejection and a `200` clarification each have their own response UUID and exactly one matching JSONL row with your selected fields. The clarification finishes without a model call. The check waits briefly for the terminal row to be written.
+Review the saved edit in Files, then run `ls10-configure-start` to load it in a fresh process. Run `ls10-requests`, then `code-07`. Expected: a `401` rejection and a `200` clarification each have their own response UUID and exactly one matching JSONL row with your selected fields. The clarification finishes without a model call. The check waits briefly for the terminal row to be written.
 
 If the ID is missing, inspect the attachment and restart after saving; an old log file does not prove the new composition is observed. If no current row matches, verify the printed workspace and fresh IDs instead of borrowing an old row. Repeated requests can use the allowance; check `429` before explaining an unexpected result.
 
@@ -277,4 +277,3 @@ You can explain incremental delivery and terminal state, retain useful operation
 
 
 ---
-

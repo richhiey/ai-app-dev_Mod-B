@@ -47,7 +47,7 @@ A **caller key** is a value the client sends to this API; the guard checks wheth
 
 ### Read the mechanism, then make a prediction
 
-Run `ls05-source`. Read `CALLER_ENV` as a mapping from caller labels to configuration **names**, not secret values. In `live_auth.py`, router registration happens before the protected POST-path inventory; `POLICY = None` means no rate limit in this session. The displayed guard loads actual values when the service is constructed, checks the request header, then allows input validation and the handler to run.
+Read `ls05-source`. Read `CALLER_ENV` as a mapping from caller labels to configuration **names**, not secret values. In `live_auth.py`, router registration happens before the protected POST-path inventory; `policy=None` means no rate limit in this session. The guard loads actual values when the service is constructed, checks the request header, then allows input validation and the handler to run.
 
 Run `code-05` to start that authentication-only example. **Expected:** an owned loopback URL. Read each condition in `code-06` and write a status prediction before running it. Missing/wrong caller credentials should be rejected; a recognised caller can still send an invalid body or receive a clarification. The matrix displays statuses without displaying keys. Its OpenAPI inventory includes schema-visible POST routes; compare the source registrations too rather than treating documentation as a complete security audit.
 
@@ -78,7 +78,7 @@ The access, validation, clarification, rate-limit and secret-fixture exercises n
 
 A **rate limit** decides whether an authenticated caller has an admission available. This example allows **two admitted attempts per caller in a 60-second window**, shared across its protected routes. The window starts with that caller's first admission; it is not aligned to a wall-clock minute. Caller A is `reader`; caller B is `editor`. Their labels identify separate allowances, not different tasks.
 
-1. Run `ls06-source` and locate `LimitPolicy(allowance=2, window_seconds=60)` and its middleware attachment. Explain why admission happens before body validation: an admitted invalid body consumes an attempt too.
+1. Read `ls06-source` and locate `LimitPolicy(allowance=2, window_seconds=60)` and its middleware attachment. Explain why admission happens before body validation: an admitted invalid body consumes an attempt too.
 2. Run `code-08` **once** for a fresh guided experiment. It starts the rate-limited service and clears any earlier renewal observation. Predict the five results in `code-09`, then run that cell once. **Expected categories:** authentication refusal, admitted invalid input, admitted clarification, exhausted caller, and another caller with its own allowance. The printed statuses and `Retry-After` support those distinctions. `401` and `429` do not consume an additional admission; admitted `422` does.
 3. Keep the same process alive. Run `ls06-renewal` before expiry to see the remaining wait; after that delay rerun only that cell. **Expected:** the same worker accepts caller A again after expiry. Neither starting a new process nor seeing caller B succeed establishes A's renewal.
 
@@ -234,4 +234,3 @@ Keep this Live copy and its ZIP for review. Sprint 3 Live uses a separate notebo
 
 
 ---
-

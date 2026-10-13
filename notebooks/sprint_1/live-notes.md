@@ -46,7 +46,7 @@ The service binds to loopback inside the notebook runtime. Use the HTTP cells to
 
 An **endpoint** is an operation selected by an HTTP method and path. A **schema** declares fields, types and constraints. JSON carries those fields between client and service. The HTTP status describes request handling; the response body's `status` describes the example's result.
 
-**Trace the source.** Run `ls01-source`. In `main.py`, find router registration; in `routes.py`, find `POST /v1/answer`; in `schemas.py`, locate `AnswerRequest` and `AnswerResponse`. In `service.py`, find the early return and possible model call. Follow the request through these pieces rather than trying to memorize every line.
+**Trace the source.** Read `ls01-source`. In `main.py`, find router registration; in `routes.py`, find `POST /v1/answer`; in `schemas.py`, locate `AnswerRequest` and `AnswerResponse`. In `service.py`, find the early return and possible model call. Follow the request through these pieces rather than trying to memorize every line.
 
 Before running `code-03`, predict which steps each request reaches. Run `ls01-start`; its printed URL means the owned service passed its startup check. Then call the service. No provider key is needed.
 
@@ -83,13 +83,13 @@ If the call fails, leave generation pending and return to deterministic checks b
 
 A function inside a codebase is not yet an operation another program can call. The route exposes it; schemas describe the exchange; the handler connects that promise to behavior. A prompt changes model instructions, not input validation.
 
-**Guided example.** Run `ls02-source`. In `brief_routes.py`, locate the request/response models, route, and route-specific prompt. In `live_extension.py`, find where the router is registered. Run `ls02-start`, then `code-06` with `/v1/answer-brief`. Expect an accepted question without context to return `needs_context` and `{}` to return `422` on both the example and original route.
+**Guided example.** Read `ls02-source`. In `brief_routes.py`, locate the request/response models, route, and route-specific prompt. In `live_extension.py`, find where the router is registered. Run `ls02-start`, then `code-06` with `/v1/answer-brief`. Expect an accepted question without context to return `needs_context` and `{}` to return `422` on both the example and original route.
 
 ### Make a second operation
 
 Add a separate `/v1/answer-structured` operation with named request and response schemas. Its request keeps the base question/context rules and adds `format`, limited to `bullets` or `question_list`, defaulting to `bullets` when omitted. Its response includes the selected `format` alongside `answer`, `status` and `references`, including when the service asks for context. Connect the route to the shared answer behavior with its own model instructions, register it once, and keep both supplied routes working. A provider call is optional; deterministic contract responses can be checked without one.
 
-Write a contract card with method/path, required and optional fields, constraints, output fields and response states. Let someone use it to predict a request and interpret its response. Keep the work in `PROJECT/service/concept_api/`; printed source output is read-only. After saved source changes, restart with `ls02-start` before testing.
+Write a contract card with method/path, required and optional fields, constraints, output fields and response states. Let someone use it to predict a request and interpret its response. Keep the work in `PROJECT/service/concept_api/`; the linked GitHub source is a read-only reference. After saved source changes, restart with `ls02-start` before testing.
 
 
 ---
@@ -117,7 +117,7 @@ A **contract** is the caller/service agreement about accepted inputs and returne
 
 The example keeps `/v1/answer` at a 2000-character question limit and adds `/v2/answer` with a 600-character limit. V1 uses `OPENROUTER_MODEL`; v2 selects `OPENROUTER_MODEL_V2` explicitly. The LS02 route remains registered through `live_extension.py`.
 
-1. Run `ls03-source`. Locate each version's schema, prompt and model binding. Predict what a 700-character question without context will do on each path.
+1. Read `ls03-source`. Locate each version's schema, prompt and model binding. Predict what a 700-character question without context will do on each path.
 2. Run `ls03-model-before` to record both selected model names and source digests. A digest is a fingerprint used here to detect file changes.
 3. Choose a different approved v2 model in `ls03-model-change`. Run it **before editing source**: it checks that v1 and the source bindings stayed unchanged.
 4. Run `ls03-start`, then `code-09`. V1 should accept the long input and clarify; v2 should reject it. Inspect the actual results before concluding the expected boundary held.
@@ -142,7 +142,7 @@ Write a migration condition: name a caller, the input/output adaptation it needs
 
 Demonstrate the operation you added in Colab, explain its named input/output contract and versioned path, and use a request to test that explanation. The supplied brief and pilot examples are patterns; they do not replace your own extension.
 
-Before the review, confirm that your LS02 source and registration are saved. In a fresh runtime, restore your saved ZIP and run `ls03-source`, `ls03-start` and `code-09` to recreate the version comparison. Run `code-12` for a focused contract check. An incomplete accepted request should return `needs_context`, an empty body should return `422`, and the original version should accept the long question.
+Before the review, confirm that your LS02 source and registration are saved. In a fresh runtime, restore your saved ZIP and read `ls03-source`, then run `ls03-start` and `code-09` to recreate the version comparison. Run `code-12` for a focused contract check. An incomplete accepted request should return `needs_context`, an empty body should return `422`, and the original version should accept the long question.
 
 The review can use a live call, source trace, request/response record, peer question, or another format that helps make the contract visible. Every learner should be able to explain their own extension. Keep claims tied to evidence: a contract check does not verify generated answer quality, and one passing request does not cover every possible input.
 
@@ -169,4 +169,3 @@ Run `save-checkpoint` after any session. It stops the owned service, saves the t
 To continue immediately after saving, rerun the current session's start cell before making another request. The Live practice remains separate from the Campus project.
 
 ---
-
