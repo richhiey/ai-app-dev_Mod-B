@@ -32,7 +32,7 @@ class WorkspaceTests(unittest.TestCase):
         self.destination = self.root / "work" / "fieldcare"
 
     def prepare(self):
-        return prepare_example(destination=self.destination, repo_root=self.repo)
+        return prepare_example("fieldcare", self.destination, repo_root=self.repo)
 
     def test_fresh_copy_records_origin_and_leaves_source_unchanged(self):
         result = self.prepare()
@@ -76,7 +76,7 @@ class WorkspaceTests(unittest.TestCase):
         file_path = self.root / "already-a-file"
         file_path.write_text("keep", encoding="utf-8")
         with self.assertRaises(FileExistsError):
-            prepare_example(destination=file_path, repo_root=self.repo)
+            prepare_example("fieldcare", file_path, repo_root=self.repo)
         self.assertEqual(file_path.read_text(), "keep")
 
     def test_wrong_example_marker_and_malformed_marker_are_rejected(self):
@@ -109,13 +109,13 @@ class WorkspaceTests(unittest.TestCase):
     def test_implicit_root_is_based_on_module_location_not_current_directory(self):
         fake_module = self.repo / "src/module_b/workspace.py"
         with patch.object(workspace, "__file__", str(fake_module)):
-            project = prepare_example(destination=self.destination)
+            project = prepare_example("fieldcare", self.destination)
         self.assertTrue((project / "app/main.py").is_file())
 
     def test_new_destination_creates_a_separate_checkpoint(self):
         first = self.prepare()
         (first / "app/main.py").write_text("EDITED = True\n", encoding="utf-8")
-        second = prepare_example(destination=self.root / "another-checkpoint", repo_root=self.repo)
+        second = prepare_example("fieldcare", self.root / "another-checkpoint", repo_root=self.repo)
         self.assertIn("starter", (second / "app/main.py").read_text())
         self.assertEqual((first / "app/main.py").read_text(), "EDITED = True\n")
 
@@ -197,7 +197,7 @@ class WorkspaceTests(unittest.TestCase):
         self.assertFalse((restored / "fixtures/request.json").exists())
         self.assertEqual((restored / "trace-record.md").read_text(), "I traced the route.\n")
         before = {p.relative_to(restored): p.read_bytes() for p in restored.rglob("*") if p.is_file()}
-        self.assertEqual(prepare_example(destination=restored, repo_root=self.repo), restored)
+        self.assertEqual(prepare_example("fieldcare", restored, repo_root=self.repo), restored)
         after = {p.relative_to(restored): p.read_bytes() for p in restored.rglob("*") if p.is_file()}
         self.assertEqual(before, after)
 

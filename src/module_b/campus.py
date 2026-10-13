@@ -1,7 +1,8 @@
-"""Notebook housekeeping only: preserve source, read completed logs, save work.
+"""FieldCare Campus integration: preserve source, read logs, and save work.
 
-Teaching implementations are ordinary files in examples/fieldcare/app.
-No helper generates or patches Python source.
+This application adapter uses the generic workspace/archive helpers. The
+teaching implementation remains in examples/fieldcare/app; this module does
+not generate or patch Python source.
 """
 from datetime import datetime, timezone
 import io
@@ -46,7 +47,7 @@ def prepare_project(repo, destination, checkpoint=""):
     Existing destinations are preserved; an explicit restore never overwrites one.
     """
     if not checkpoint:
-        return prepare_example(destination=destination, repo_root=repo)
+        return prepare_example("fieldcare", destination, repo_root=repo)
     archive = Path(checkpoint).expanduser()
     if not archive.is_file():
         raise FileNotFoundError("Checkpoint not found. Upload it or leave CHECKPOINT empty.")

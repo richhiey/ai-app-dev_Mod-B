@@ -1,4 +1,4 @@
-"""Provided access/usage pattern for the single-process FieldCare teaching service.
+"""Provided access/usage pattern for a single-process ASGI teaching service.
 
 No credential issuance, distributed quota, storage encryption or production claim.
 The caller config is read when middleware is constructed, before lifespan startup.

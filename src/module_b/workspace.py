@@ -148,12 +148,12 @@ def _workspace_marker(path: Path, name: str | None = None) -> dict[str, Any]:
 
 
 def prepare_example(
-    name: str = "fieldcare",
-    destination: str | Path = Path("work/fieldcare"),
+    name: str,
+    destination: str | Path = Path("work/example"),
     *,
     repo_root: str | Path | None = None,
 ) -> Path:
-    """Copy a packaged example once; retain every edit on subsequent calls.
+    """Copy a named packaged example once; retain every edit on subsequent calls.
 
     ``repo_root`` defaults to the checkout containing this module. The example
     is copied into ``destination``, relative to the current directory unless an

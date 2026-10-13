@@ -1,6 +1,8 @@
-"""Isolated Live practice using the same source layout as local Campus.
+"""FieldCare Live integration using the same source layout as local Campus.
 
-No Campus source import, source rewriting, automatic provider work, or reset.
+This course adapter composes generic workspace and process helpers with the
+FieldCare project layout. It does not import Campus state, rewrite source, run
+provider calls automatically, or reset an existing workspace.
 """
 from pathlib import Path
 import json

@@ -62,7 +62,7 @@ class OpenRouterClient:
         *,
         api_key: str | None = None,
         timeout: float = 60.0,
-        app_title: str = "Module B FieldCare",
+        app_title: str = "Module B",
     ):
         self.api_key = api_key or os.getenv("OPENROUTER_API_KEY", "").strip()
         if not self.api_key:

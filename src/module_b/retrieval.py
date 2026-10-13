@@ -1,4 +1,4 @@
-"""Minimal persistent Chroma index used by the FieldCare service."""
+"""Persistent Chroma index with OpenRouter embeddings and similarity search."""
 
 from dataclasses import dataclass
 from pathlib import Path

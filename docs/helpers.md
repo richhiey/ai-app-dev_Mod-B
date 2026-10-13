@@ -11,3 +11,7 @@ Your application lives under `service/fieldcare/`; your repeatable command-line 
 | `evaluation`, `_module_a` | Preserve original Module A cases and evaluator | Concern, selected cases, design change and bounded conclusion |
 
 Read a helper's docstring with the code that calls it. The service runs with Uvicorn using the commands in the [local setup guide](local-development.md). When something fails, compare the request in your client with the corresponding server response and safe observation; a helper or health check does not prove that a provider-backed answer succeeded.
+
+## Keep the core independent
+
+`module_b.workspace`, `module_b.runtime` and the data/evidence utilities provide reusable mechanics. `module_b.campus`, `module_b.live` and `module_b.local_checkpoint` are FieldCare course adapters kept at stable import paths for existing notebooks. They own the course's file layout and checkpoint rules; new applications should compose the generic workspace, archive and process APIs instead of adding FieldCare assumptions to them. `module_b.openrouter` and `module_b.streaming` are provider-boundary adapters; application routes own prompts, model choices and response behavior.
