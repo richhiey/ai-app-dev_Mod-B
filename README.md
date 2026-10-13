@@ -25,7 +25,7 @@ Use the matching repository guide when you need file locations, commands, expect
 | **1 — Service foundations** | [Local setup](docs/local-development.md) · [Worked route](docs/sprint-1/guided-extension.md) · [Versioning pattern](docs/sprint-1/guided-versioning.md) · [Checkpoint setup](docs/colab-setup.md) | Explore and extend the FastAPI service, then explain a versioned service contract. |
 | **2 — Secure the service** | [Sprint 2 guide](docs/sprint-2.md) | Recognize callers, protect credentials, and give each caller a fair request allowance. |
 | **3 — Streaming and observability** | [Sprint 3 guide](docs/sprint-3.md) | Stream a real answer, record safe service signals, and connect an observation to evaluation. |
-| **4 — Companion UI** | [Connection, tests and handoff](docs/sprint-4.md) · [Streamlit teaching kit](examples/streamlit/README.md) · [Optional Lovable mock](examples/lovable/first-build-prompt.txt) | Build a Streamlit chat, connect it to your service, test the full path, and write a handoff. Lovable is optional and supplies no required project artifact. |
+| **4 — Companion UI** | [Connection, tests and handoff](docs/sprint-4.md) · [Streamlit teaching kit](examples/streamlit/README.md) · [Optional Lovable mock guide](docs/lovable-student-guide.md) | Build a Streamlit chat, connect it to your service, test the full path, and write a handoff. Lovable is optional and supplies no required project artifact. |
 
 The [Sprint 1 Colab notebook](notebooks/sprint_1/sprint_1_service_foundations.ipynb) is for its checkpoint. The walkthrough and practice work happen in your local project. Sprints 2–4 continue in VS Code and the terminal.
 

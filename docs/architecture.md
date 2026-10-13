@@ -1,6 +1,6 @@
 # Follow one FieldCare request
 
-FieldCare is a FastAPI application that exposes AI-assisted equipment guidance through HTTP. You develop it in `service/fieldcare/` and call it from small Python programs in `clients/` or the interface you build in Lovable.
+FieldCare is a FastAPI application that exposes AI-assisted equipment guidance through HTTP. You develop it in `service/fieldcare/` and call it from small Python programs in `clients/` or the Streamlit interface you build. Lovable is an optional mock-design exploration and does not connect to FieldCare.
 
 ```text
 Caller
