@@ -11,3 +11,5 @@ Your application lives under `service/fieldcare/`; your repeatable command-line 
 | `evaluation`, `_module_a` | Preserve original Module A cases and evaluator | Concern, selected cases, design change and bounded conclusion |
 
 Read a helper's docstring with the code that calls it. The service runs with Uvicorn using the commands in the [local setup guide](local-development.md). When something fails, compare the request in your client with the corresponding server response and safe observation; a helper or health check does not prove that a provider-backed answer succeeded.
+
+`runtime`, `campus`, `campus_bootstrap`, `workspace` and checkpoint utilities support notebook execution and safe source transfer. The local Campus service uses ordinary Uvicorn commands rather than `ServiceProcess`. Test-only time controls and provider doubles do not establish real provider success.

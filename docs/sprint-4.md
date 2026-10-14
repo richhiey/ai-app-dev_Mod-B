@@ -23,24 +23,18 @@ Use the [teaching kit](../examples/streamlit/README.md) for the initial UI insta
 | Guided reference, when rehearsing | Separate reference checkout; its service `.venv` | `http://127.0.0.1:8001` | Fixture or provider reference, not your cumulative service. |
 | Streamlit | `examples/streamlit`; UI `.venv` | `http://127.0.0.1:8501` | The browser interface. It is not the FieldCare API. |
 
-In service terminal A at **your project root**, activate the existing service environment.
+In service terminal A at **your project root**, use the existing service interpreter:
 
 macOS:
 
 ```sh
-source .venv/bin/activate
+.venv/bin/python -m uvicorn fieldcare.main:app --host 127.0.0.1 --port 8000
 ```
 
 Windows PowerShell:
 
 ```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-With the environment active, start FieldCare:
-
-```text
-python -m uvicorn fieldcare.main:app --host 127.0.0.1 --port 8000
+.\.venv\Scripts\python.exe -m uvicorn fieldcare.main:app --host 127.0.0.1 --port 8000
 ```
 
 Keep it running. If that port is occupied, identify your earlier terminal; do not kill an unknown process. Open `http://127.0.0.1:8000/health` and `/docs`. Health confirms process/preparation state, not a model answer. Confirm `POST /v1/diagnose-stream` appears in the API docs. If absent, inspect your earlier route registration rather than replacing `main.py` with the starter. If security/observation is missing, restore the work you completed before claiming a secured, traceable integration.
@@ -61,32 +55,34 @@ Expect that path. The UI folder's `.gitignore` already includes it; if your app 
 
 ### 3. Start the saved chat and prove a cheap request first
 
-In UI terminal B, enter `examples/streamlit` and activate the UI environment you installed from the teaching kit.
+In UI terminal B, enter `examples/streamlit`. Use its already installed UI environment:
 
 macOS:
 
 ```sh
-source .venv/bin/activate
+.venv/bin/python -m streamlit run app.py --server.address 127.0.0.1
 ```
 
 Windows PowerShell:
 
 ```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-With the UI environment active, run the saved app:
-
-```text
-streamlit run app.py --server.address 127.0.0.1
+.\.venv\Scripts\python.exe -m streamlit run app.py --server.address 127.0.0.1
 ```
 
 Restart the UI if its process environment changed. Open its printed URL, select `Local service`, and check the configured target is your project port. Opening the page or changing the selector must not make a diagnostic request.
 
-Leave equipment blank and send `Which filter and airflow checks are documented?`. This should produce a deterministic clarification through the real HTTP path, without an OpenRouter generation call. In that reply's `Sources & request details`, find its actual request ID. In a third terminal at the **project root**, activate the service environment as in step 1, then run:
+Leave equipment blank and send `Which filter and airflow checks are documented?`. This should produce a deterministic clarification through the real HTTP path, without an OpenRouter generation call. In that reply's `Sources & request details`, find its actual request ID. In a third terminal at the **project root**, use the service interpreter:
 
-```text
-python -m clients.logs UUID_FROM_SCREEN
+macOS:
+
+```sh
+.venv/bin/python -m clients.logs UUID_FROM_SCREEN
+```
+
+Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\python.exe -m clients.logs UUID_FROM_SCREEN
 ```
 
 Replace the final token with that reply's actual ID. Look for the record in your configured work directory (`var/requests.jsonl` by default). If no ID/record appears, investigate observation attachment before claiming the log join works. A clarification can carry mode `live` because it came from the live route; this does not mean a model was called.

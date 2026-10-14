@@ -55,6 +55,8 @@ Open the local address printed by Streamlit, normally `http://127.0.0.1:8501`. E
 
 The UI uses its own pinned requirements; leave the FieldCare service's existing environment and lockfile alone. Later starts do not need another installation. Python code runs on the Streamlit server; the browser displays widgets. The Streamlit server makes the HTTP request to FieldCare, so no TanStack proxy, Node setup or Lovable code export is needed.
 
+The reference sidebar's **Known equipment & topics** panel is built from the current starter equipment records and service-document topics. It helps dispatchers phrase supported questions and makes the limits visible: the starter has no live ticket/history, warranty or repair-approval data.
+
 ## 2. Prepare the design and generate
 
 Fill the user/task, two layout or guidance decisions, and exact labels in `design-brief.txt`. Leave the observed issue, chosen improvement and acceptance check blank until you have run the first app. A prototype screenshot can be useful if image input is available, but plain text is sufficient.

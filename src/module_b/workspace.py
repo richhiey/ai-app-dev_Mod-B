@@ -153,7 +153,7 @@ def prepare_example(
     *,
     repo_root: str | Path | None = None,
 ) -> Path:
-    """Copy a packaged example once; retain every edit on subsequent calls.
+    """Copy a named packaged example once; retain every edit on subsequent calls.
 
     ``repo_root`` defaults to the checkout containing this module. The example
     is copied into ``destination``, relative to the current directory unless an

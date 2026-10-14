@@ -31,6 +31,7 @@ Create `service/fieldcare/pilot_routes.py`:
 
 ```python
 from fastapi import APIRouter, HTTPException, Request
+from fieldcare.config import openrouter_model_v2
 from fieldcare.model import ModelUnavailable
 from fieldcare.pilot_schemas import PilotRequest, PilotResponse
 from fieldcare.resources import SYSTEM_PROMPT
@@ -50,7 +51,9 @@ def pilot_diagnose(payload: PilotRequest, request: Request):
     if clarification is not None:
         return PilotResponse.model_validate(clarification.model_dump())
     try:
-        graph = request.app.state.resources.graph_for(system_prompt=PILOT_PROMPT)
+        graph = request.app.state.resources.graph_for(
+            system_prompt=PILOT_PROMPT, model_name=openrouter_model_v2()
+        )
         result = run_diagnosis(payload, graph=graph)
         return PilotResponse.model_validate(result.model_dump())
     except (ModelUnavailable, OpenRouterError):
@@ -59,9 +62,9 @@ def pilot_diagnose(payload: PilotRequest, request: Request):
         ) from None
 ```
 
-Read the three bindings: `/v2/diagnose` chooses the path; `PilotRequest` chooses the input rule; `system_prompt=PILOT_PROMPT` chooses the instructions. `PilotResponse.model_validate(...)` checks the shared service result against the pilot's output model. `model_dump()` turns a Pydantic object into a dictionary for that check.
+Read the four bindings: `/v2/diagnose` chooses the path; `PilotRequest` chooses the input rule; `system_prompt=PILOT_PROMPT` chooses the instructions; `model_name=openrouter_model_v2()` selects the independently validated pilot model. `PilotResponse.model_validate(...)` checks the shared service result against the pilot's output model. `model_dump()` turns a Pydantic object into a dictionary for that check.
 
-The original route still uses its original model and default prompt. Both share deterministic checks, the evidence store, and the configured provider model.
+The original route still uses its original model and default prompt. Both share deterministic checks, the evidence store and provider access. V1 reads `OPENROUTER_MODEL`; v2 reads `OPENROUTER_MODEL_V2`. An unset setting uses the course default independently. Blank or unapproved values are rejected rather than silently substituted.
 
 ## 3. Register and restart
 
@@ -104,7 +107,23 @@ Repeat with `BODY = {"question": "Which filter checks?"}`. Both should return cl
 
 **Check:** record the six actual outcomes. If both routes reject the long question, inspect whether you modified the original model. If both accept it, inspect the new handler's input annotation and restart the service after any repair.
 
-## 5. Verify behavior separately from structure
+## 5. Change only the pilot model and verify the selection
+
+Add `OPENROUTER_MODEL_V2` to your private `.env`, initially using the same approved model as `OPENROUTER_MODEL`. Run `python -m clients.version_models` to record both resolved names. Keep a source diff of the original route, `DiagnosticRequest`, `SYSTEM_PROMPT`, and the pilot prompt/schema.
+
+Change **only** `OPENROUTER_MODEL_V2` to another course-approved ID. List the available course choices with:
+
+```text
+python -c "from module_b.openrouter import CHAT_MODELS; print(sorted(CHAT_MODELS))"
+```
+
+Run `python -m clients.version_models` again, then restart the service and repeat the six contract checks above. Inspect `pilot_routes.py` and the original route to connect each printed setting to the argument it passes into `graph_for`.
+
+**Expected:** only the printed v2 model changes; v1's model, both prompts and both schemas remain unchanged. The contract outcomes remain the same. An unchanged HTTP clarification cannot prove which model generated an answer: no model ran. These are configuration, source-diff and contract observations. The automated course binding test separately verifies the selected arguments at the generation boundary using a test double.
+
+If the original model changes too, inspect whether you edited `OPENROUTER_MODEL` or omitted the explicit pilot model argument. If validation rejects the selection, use one of the printed IDs; never bypass the approved-model check.
+
+## 6. Verify behavior separately from structure
 
 When provider setup is ready, send this body through both routes:
 
@@ -123,4 +142,4 @@ Restore the client's original route after the comparison. Keep the pilot source 
 
 Use your supervisor practice prompt to adapt the pilot while keeping v1 intact. Choose and document the new question limit from the caller's stated requirement; do not silently carry the example's `600` into a brief that specifies another limit. Keep the four output fields, the optional equipment context, and shared deterministic checks unless the brief explicitly changes them.
 
-Before the checkpoint, you should be able to explain which line binds the route, which declaration controls the input limit, which argument selects the prompt, and which request demonstrates that v1 still honors its agreement. The checkpoint supplies a fresh request and its own limit; it does not introduce a new implementation mechanism.
+Before the checkpoint, you should be able to explain which line binds the route, which declaration controls the input limit, which arguments select the prompt and independent model, and which request demonstrates that v1 still honors its agreement. The checkpoint supplies a fresh request and its own limit; it does not introduce a new implementation mechanism.

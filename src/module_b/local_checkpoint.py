@@ -1,7 +1,8 @@
-"""Validate a local source export and overlay it on a fresh course clone.
+"""FieldCare Campus adapter for validated local exports and fresh course clones.
 
-The caller owns the fresh clone. Existing learner workspaces are never targets.
-Archive validation reuses the workspace restore boundary; it does not execute code.
+The FieldCare layout and required files are application policy. The caller owns
+the fresh clone; existing learner workspaces are never targets. Archive
+validation reuses the generic workspace restore boundary and never executes code.
 """
 from __future__ import annotations
 

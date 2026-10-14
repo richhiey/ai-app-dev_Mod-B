@@ -8,7 +8,7 @@ Weak instruction: “Start the frontend and ask a question.” It leaves the fol
 
 A more useful reference instruction:
 
-> From `examples/streamlit`, activate the UI environment with `source .venv/bin/activate` on macOS or `.\.venv\Scripts\Activate.ps1` in PowerShell, then run `streamlit run app.py --server.address 127.0.0.1`. Keep the reference service running separately on port `8001`, as described in the Streamlit kit. Select `Local service`. Its private `.env.local` must target that reference, using the paired caller key. Send the supported synthetic question and `EQ-FC-1002`. In fixture mode expect labelled fixed text and a request ID, not model output.
+> From `examples/streamlit`, run the saved UI with its UI environment: `.venv/bin/python -m streamlit run app.py --server.address 127.0.0.1` on macOS, or `.\.venv\Scripts\python.exe -m streamlit run app.py --server.address 127.0.0.1` in PowerShell. Keep the reference service running separately on port `8001`, as described in the Streamlit kit. Select `Local service`. Its private `.env.local` must target that reference, using the paired caller key. Send the supported synthetic question and `EQ-FC-1002`. In fixture mode expect labelled fixed text and a request ID, not model output.
 
 Why it helps: the reader knows the working directory, interpreter, process dependency, configuration owner, action and expected state. It also explains the limit of the evidence. Your handoff should use the equivalent **project** target, normally `8000`, and link to the configuration/setup you verified.
 

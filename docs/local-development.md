@@ -4,7 +4,7 @@ Welcome! You’ll bring FieldCare to life on your own computer, with the service
 
 ## Install the tools
 
-Install [Python **3.12**](https://www.python.org/downloads/), [Git](https://git-scm.com/downloads), and [VS Code](https://code.visualstudio.com/download). In VS Code, install Microsoft's Python extension. The steps below work in Windows PowerShell and macOS Terminal.
+Install [Python **3.12**](https://www.python.org/downloads/), [Git](https://git-scm.com/downloads), and [VS Code](https://code.visualstudio.com/download). In VS Code, install Microsoft's Python extension. The commands below cover Windows PowerShell and macOS Terminal.
 
 ## Clone the course repository
 
@@ -35,7 +35,12 @@ python3.12 -m venv .venv
 
 `-e .` means Python imports the files in this folder, so changes you save under `service/fieldcare/` are the code the service runs. `-c requirements.lock` keeps the installed dependency versions aligned with the course.
 
-In VS Code, open the Command Palette and run **Python: Select Interpreter**. Choose this project's `.venv`. Close the setup terminal and open two new terminals. In each, check the selected interpreter:
+In VS Code, open the Command Palette and run **Python: Select Interpreter**. Choose this project's `.venv`. Open separate server and client terminals. In **every new terminal**, activate the project environment from the repository root if it is not already active:
+
+- **Windows PowerShell:** `.\.venv\Scripts\Activate.ps1`
+- **macOS:** `source .venv/bin/activate`
+
+If activation is unavailable or blocked, use the explicit environment executable described below instead. Check the selected interpreter:
 
 ```text
 python -c "import sys; print(sys.executable)"

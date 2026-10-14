@@ -19,7 +19,7 @@ The ZIP contains your service, clients, supplied synthetic data, selected eviden
 ## Run the checkpoint in Colab
 
 1. Open the notebook and choose **File → Save a copy in Drive**. Upload the ZIP through Colab's **Files** panel.
-2. In setup, set `ARCHIVE` to the uploaded path and enter the locally recorded `SOURCE_REVISION` and `ARCHIVE_SHA256`. Set `CHECKPOINT_MODEL` to the same approved `OPENROUTER_MODEL` used locally. The ZIP correctly excludes your private `.env`, so model configuration must be selected explicitly.
+2. In setup, set `ARCHIVE` to the uploaded path and enter the locally recorded `SOURCE_REVISION` and `ARCHIVE_SHA256`. Set `CHECKPOINT_MODEL` to the approved `OPENROUTER_MODEL` and `CHECKPOINT_MODEL_V2` to the approved `OPENROUTER_MODEL_V2` used locally. Enter both explicitly, even if they select the same model. The ZIP correctly excludes your private `.env`, so model configuration must be selected explicitly.
 3. Run setup. It clones current `main`, installs the locked dependencies, checks the digest and dependency metadata, and restores allowed files into that fresh runtime clone. It prints the runner revision separately. Your laptop source is untouched.
 4. Predict and run the contract observations. They test both versioned paths, including accepted `1000`-character and rejected `1001`-character v2 inputs, without calling the provider. Read actual results against the brief; the notebook is not an automatic grader.
 5. When ready to use provider quota, set `RUN_GENERATION = True`. Enter the provider key only in the hidden prompt. Index preparation and supported generation use quota; compare an actual generated claim with its cited document. If access is unavailable, keep the generated-answer evidence marked as outstanding.

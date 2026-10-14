@@ -3,16 +3,21 @@
 FieldCare is a FastAPI application that exposes AI-assisted equipment guidance through HTTP. You develop it in `service/fieldcare/` and call it from small Python programs in `clients/` or the Streamlit interface you build. Lovable is an optional mock-design exploration and does not connect to FieldCare.
 
 ```text
-Caller
-  → service authentication and allowance
-  → FastAPI request validation
-  → deterministic clarification when context is missing
-  → ChromaDB retrieval → LangGraph orchestration → OpenRouter generation
-  → JSON response or NDJSON stream
-  → minimized request record
+clients/request.py or clients/stream.py
+    → observation middleware (once attached)
+    → authentication and caller allowance (once attached)
+    → FastAPI input validation
+    → route and deterministic clarification
+    → prepared Chroma index + LangGraph + OpenRouter, when needed
+    → JSON response or incremental NDJSON events
+    → one minimized terminal record, when observation is attached
 ```
 
 Not every request follows every step. Invalid input stops at validation. An unrecognized key stops at authentication. A valid question without required context can receive a clarification before retrieval or generation. A supported question with a prepared index can use the model path.
+
+`main.py` owns registration. Register routers before the guard inventories their paths. Attach observation last so it surrounds authentication rejections as well as admitted requests.
+
+Startup creates a resource manager; it does not prepare embeddings. Deterministic clarification does not open the prepared index or call the provider.
 
 ## Where each part lives
 

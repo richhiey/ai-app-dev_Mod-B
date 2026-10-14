@@ -1,4 +1,6 @@
 """Worked chat reference. Hand-authored support, not a student's AI output."""
+import json
+from pathlib import Path
 from time import perf_counter
 import streamlit as st
 from fieldcare_client import FieldCareError, load_settings, make_input, stream_diagnosis
@@ -7,6 +9,33 @@ from mock_client import stream_demo
 st.set_page_config(page_title="FieldCare chat", page_icon="🔧", layout="centered")
 st.session_state.setdefault("turns", [])
 st.session_state.setdefault("input_error", "")
+
+
+def load_reference_catalog():
+    """Summarize the public starter records and current docs for dispatchers."""
+    data_dir = Path(__file__).resolve().parents[2] / "service" / "data"
+    try:
+        equipment = json.loads((data_dir / "equipment_records.json").read_text())
+        documents = json.loads((data_dir / "service_docs.json").read_text())
+    except (OSError, json.JSONDecodeError):
+        return None
+    current_docs = [row for row in documents if row.get("current")]
+    return [
+        {
+            "equipment_id": item["equipment_id"],
+            "model": item["model"],
+            "topics": list(dict.fromkeys(
+                topic
+                for document in current_docs
+                if item["model"] in document.get("applies_to_models", [])
+                for topic in document.get("topics", [])
+            )),
+        }
+        for item in equipment
+    ]
+
+
+reference_catalog = load_reference_catalog()
 # A widget rerun can interrupt an active script. Never leave that turn "replying".
 for saved_turn in st.session_state.turns:
     if saved_turn["result"]["status"] in ("Loading", "Receiving…"):
@@ -19,6 +48,19 @@ with st.sidebar:
     connection = st.radio("Connection", ["Demo", "Local service"], key="connection")
     scenario = st.selectbox("Demo scenario", ["Success", "Clarification", "Unavailable", "Interrupted"],
                             key="scenario", disabled=connection != "Demo")
+    with st.expander("Known equipment & topics"):
+        if reference_catalog is None:
+            st.caption("The reference knowledge catalog is unavailable in this checkout.")
+        else:
+            st.caption("Reference starter records and current service documents:")
+            for item in reference_catalog:
+                st.markdown(f'**{item["equipment_id"]} · {item["model"]}**')
+                if item["topics"]:
+                    st.caption("Ask about: " + ", ".join(item["topics"]))
+                else:
+                    st.caption("No current service topics are listed for this model.")
+            st.caption("No live ticket or maintenance history, warranty status, or repair approval is available.")
+            st.caption("For smoke, burning smells, electrical damage, or breaker trips, stop routine checks and escalate for safety review.")
     if st.button("New chat", use_container_width=True):
         st.session_state.turns = []
         st.session_state.input_error = ""
